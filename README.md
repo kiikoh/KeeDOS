@@ -1,8 +1,9 @@
 2019 Browser-based Operating System in TypeScript
 =================================================
 
-This is the Operating Systems class initial project.
+This is Alan's Operating Systems class initial project.
 See http://www.labouseur.com/courses/os/ for details.
+It was originally developed by Alan and then enhanced by Bob Nisco and Rebecca Murphy over the years.
 Fork this (or clone, but fork is probably better in case Alan changes anything about the initial project) into your own private repository. Or download it as a ZIP file. Then add Alan (userid Labouseur) as a collaborator.
 
 Setup TypeScript
