@@ -1,0 +1,1 @@
+{"version":3,"file":"shellCommand.js","sourceRoot":"","sources":["../../source/os/shellCommand.ts"],"names":[],"mappings":"AAAA,IAAO,IAAI,CAOV;AAPD,WAAO,IAAI;IACP,MAAa,YAAY;QACrB,YAAmB,IAAS,EACT,UAAkB,EAAE,EACpB,cAAsB,EAAE;YAFxB,SAAI,GAAJ,IAAI,CAAK;YACT,YAAO,GAAP,OAAO,CAAa;YACpB,gBAAW,GAAX,WAAW,CAAa;QAC3C,CAAC;KACJ;IALY,iBAAY,eAKxB,CAAA;AACL,CAAC,EAPM,IAAI,KAAJ,IAAI,QAOV"}

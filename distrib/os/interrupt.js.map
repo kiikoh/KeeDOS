@@ -1,0 +1,1 @@
+{"version":3,"file":"interrupt.js","sourceRoot":"","sources":["../../source/os/interrupt.ts"],"names":[],"mappings":"AAAA;;kBAEkB;AAElB,IAAO,IAAI,CAKV;AALD,WAAO,IAAI;IACP,MAAa,SAAS;QAClB,YAAmB,GAAW,EAAS,MAAa;YAAjC,QAAG,GAAH,GAAG,CAAQ;YAAS,WAAM,GAAN,MAAM,CAAO;QACpD,CAAC;KACJ;IAHY,cAAS,YAGrB,CAAA;AACL,CAAC,EALM,IAAI,KAAJ,IAAI,QAKV"}
