@@ -4,12 +4,11 @@
    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
    "version": "0.2.0",
    "configurations": [
-
       {
          "type": "chrome",
          "request": "launch",
          "name": "Launch Chrome",
-         "url": "file:///Users/Alan/Documents/Documents%20-%20Alans%20late%202017%20iMac/Teaching/Courses/current/Operating%20Systems/Initial%20Project/v7%20-%202019%20TSOS/index.html",
+         "url": "file:///Users/Alan/Documents/Documents%20-%20Alans%20late%202017%20iMac/Teaching/Courses/current/Operating%20Systems/Initial%20Project/TSOS-2019/index.html",
          "webRoot": "${workspaceFolder}"
       }
    ]

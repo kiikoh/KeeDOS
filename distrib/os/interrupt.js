@@ -3,12 +3,12 @@
    ------------ */
 var TSOS;
 (function (TSOS) {
-    var Interrupt = /** @class */ (function () {
-        function Interrupt(irq, params) {
+    class Interrupt {
+        constructor(irq, params) {
             this.irq = irq;
             this.params = params;
         }
-        return Interrupt;
-    }());
+    }
     TSOS.Interrupt = Interrupt;
 })(TSOS || (TSOS = {}));
+//# sourceMappingURL=interrupt.js.map

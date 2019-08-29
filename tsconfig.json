@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
-        "target"   : "es6",
-		"rootDir"  : "source",
-		"outDir"   : "distrib",
-        "sourceMap": true
+      "target"              : "ES2017",
+      "rootDir"             : "source",
+      "outDir"              : "distrib",
+      "sourceMap"           : true,
+		"extendedDiagnostics" : true
     },
 
     "include": [

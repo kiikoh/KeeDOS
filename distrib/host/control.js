@@ -19,10 +19,8 @@
 //
 var TSOS;
 (function (TSOS) {
-    var Control = /** @class */ (function () {
-        function Control() {
-        }
-        Control.hostInit = function () {
+    class Control {
+        static hostInit() {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = document.getElementById('display');
@@ -44,9 +42,8 @@ var TSOS;
                 _GLaDOS = new Glados();
                 _GLaDOS.init();
             }
-        };
-        Control.hostLog = function (msg, source) {
-            if (source === void 0) { source = "?"; }
+        }
+        static hostLog(msg, source = "?") {
             // Note the OS CLOCK.
             var clock = _OSclock;
             // Note the REAL clock in milliseconds since January 1, 1970.
@@ -57,11 +54,11 @@ var TSOS;
             var taLog = document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
             // TODO in the future: Optionally update a log database or some streaming service.
-        };
+        }
         //
         // Host Events
         //
-        Control.hostBtnStartOS_click = function (btn) {
+        static hostBtnStartOS_click(btn) {
             // Disable the (passed-in) start button...
             btn.disabled = true;
             // .. enable the Halt and Reset buttons ...
@@ -77,8 +74,8 @@ var TSOS;
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
-        };
-        Control.hostBtnHaltOS_click = function (btn) {
+        }
+        static hostBtnHaltOS_click(btn) {
             Control.hostLog("Emergency halt", "host");
             Control.hostLog("Attempting Kernel shutdown.", "host");
             // Call the OS shutdown routine.
@@ -86,15 +83,15 @@ var TSOS;
             // Stop the interval that's simulating our clock pulse.
             clearInterval(_hardwareClockID);
             // TODO: Is there anything else we need to do here?
-        };
-        Control.hostBtnReset_click = function (btn) {
+        }
+        static hostBtnReset_click(btn) {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload(true);
             // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
-        };
-        return Control;
-    }());
+        }
+    }
     TSOS.Control = Control;
 })(TSOS || (TSOS = {}));
+//# sourceMappingURL=control.js.map
