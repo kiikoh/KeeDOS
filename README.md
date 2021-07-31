@@ -1,39 +1,30 @@
-2019 Browser-based Operating System in TypeScript
-=================================================
+2019 - 2021 Browser-based Operating System in TypeScript
+========================================================
 
 This is Alan's Operating Systems class initial project.
 See https://www.labouseur.com/courses/os/ for details.
-It was originally developed by Alan and then enhanced by Bob Nisco and Rebecca Murphy over the years.
-Fork this (or clone, but fork is probably better in case Alan changes anything about the initial project) into your own private repository. Or download it as a ZIP file. Then add Alan (userid *Labouseur*) as a collaborator.
+It was originally developed by Alan and then enhanced by alums Bob Nisco and Rebecca Murphy over the years.
+Clone this into your own private repository. Better yet, download it as a ZIP file and use it to initialize your own repository for this class. 
+Then add Alan (userid *Labouseur*) as a collaborator.
 
 Setup TypeScript
 ================
 
 1. Install the [npm](https://www.npmjs.org/) package manager if you don't already have it.
-1. Run `npm install -g typescript` to get the TypeScript Compiler. (You may need to do this as root.)
+1. Run `npm install -g typescript` to get the TypeScript Compiler. (You probably need to do this as root.)
 
+-- or -- 
+
+1. [Download](https://www.typescriptlang.org/download) it from the TypeScript website.
+2. Execute the intstaller.
 
 Workflow
 =============
 
-Some IDEs (e.g., Visual Studio Code, IntelliJ, others) natively support TypeScript-to-JavaScript compilation 
-and have tools for debugging, syntax highlighting, and more.
-If your development environment lacks these then you'll need to automate the compilation process with something like Gulp.
-
-- Setup Gulp
-1. `npm install -g gulp` to get the Gulp Task Runner.
-1. `npm install -g gulp-tsc` to get the Gulp TypeScript plugin.
-
-Run `gulp` at the command line in the root directory of this project.
-Edit your TypeScript files in the source/scripts directory.
-
-Gulp will automatically:
-
-* Watch for changes in your source/scripts/ directory for changes to .ts files and run the TypeScript Compiler on them.
-* Watch for changes to your source/styles/ directory for changes to .css files and copy them to the distrib/ folder if you have them there.
-
-
-I find Gulp annoying, so consider use a compile script from the command line.
+Some IDEs (e.g., [Visual Studio Code](https://code.visualstudio.com), [IntelliJ IDEA](https://www.jetbrains.com/idea/), others) 
+natively support TypeScript-to-JavaScript compilation and have tools for debugging, syntax highlighting, and more.
+If your development environment lacks these then you'll have to compile your code from the command line, which is not a bad thing. 
+(In fact, I kind of like that option.) Just make sure you configure `tsconfig.json` correctly and test it out.
 
 A Few Notes
 ===========
