@@ -4,7 +4,8 @@
       "rootDir"             : "source",
       "outDir"              : "distrib",
       "sourceMap"           : true,
-      "extendedDiagnostics" : true
+      "extendedDiagnostics" : true,
+      "listEmittedFiles"    : true
     },
 
     "include": [
