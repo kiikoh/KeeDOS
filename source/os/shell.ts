@@ -73,6 +73,12 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
+            // date
+            sc = new ShellCommand(this.shellDate,
+                "date",
+                "- Display the current date");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -247,13 +253,17 @@ module TSOS {
                         _StdOut.putText("It's short for 'manual' do you want to read one?")
                         break;
                     case "trace":
-                        _StdOut.putText("Enable the trace feature")
+                        _StdOut.putText("Enable/disable the trace feature")
                         break;
                     case "rot13":
                         _StdOut.putText("13 Character caesar cipher ")
                         break;
                     case "prompt":
                         _StdOut.putText("<-- Change the prompt")
+                        break;
+                    case "date": 
+                        _StdOut.putText("Check the date")
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -303,5 +313,10 @@ module TSOS {
             }
         }
 
+        public shellDate(args: string[]) {
+            const now = new Date()
+
+            _StdOut.putText("It is " + now.toDateString())
+        }
     }
 }

@@ -45,6 +45,9 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            // date
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Display the current date");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -206,13 +209,17 @@ var TSOS;
                         _StdOut.putText("It's short for 'manual' do you want to read one?");
                         break;
                     case "trace":
-                        _StdOut.putText("Enable the trace feature");
+                        _StdOut.putText("Enable/disable the trace feature");
                         break;
                     case "rot13":
                         _StdOut.putText("13 Character caesar cipher ");
                         break;
                     case "prompt":
                         _StdOut.putText("<-- Change the prompt");
+                        break;
+                    case "date":
+                        _StdOut.putText("Check the date");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -262,6 +269,10 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        }
+        shellDate(args) {
+            const now = new Date();
+            _StdOut.putText("It is " + now.toDateString());
         }
     }
     TSOS.Shell = Shell;
