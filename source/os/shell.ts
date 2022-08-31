@@ -79,6 +79,12 @@ module TSOS {
                 "- Display the current date");
             this.commandList[this.commandList.length] = sc;
 
+            // whereami
+            sc = new ShellCommand(this.shellWhereAmI,
+                "whereami",
+                "- Figure out where you are");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -264,6 +270,9 @@ module TSOS {
                     case "date": 
                         _StdOut.putText("Check the date")
                         break;
+                    case "whereami": 
+                        _StdOut.putText("I will try to guess your location")
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -317,6 +326,13 @@ module TSOS {
             const now = new Date()
 
             _StdOut.putText("It is " + now.toDateString())
+        }
+
+        public shellWhereAmI(args: string[]) {
+            const places = ["the beach", "the mall", "your house", "the park", "the library"]
+            const i = Math.floor(places.length * Math.random())
+
+            _StdOut.putText("You are at " + places[i])
         }
     }
 }

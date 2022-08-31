@@ -48,6 +48,9 @@ var TSOS;
             // date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Display the current date");
             this.commandList[this.commandList.length] = sc;
+            // whereami
+            sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Figure out where you are");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -220,6 +223,9 @@ var TSOS;
                     case "date":
                         _StdOut.putText("Check the date");
                         break;
+                    case "whereami":
+                        _StdOut.putText("I will try to guess your location");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -273,6 +279,11 @@ var TSOS;
         shellDate(args) {
             const now = new Date();
             _StdOut.putText("It is " + now.toDateString());
+        }
+        shellWhereAmI(args) {
+            const places = ["the beach", "the mall", "your house", "the park", "the library"];
+            const i = Math.floor(places.length * Math.random());
+            _StdOut.putText("You are at " + places[i]);
         }
     }
     TSOS.Shell = Shell;
