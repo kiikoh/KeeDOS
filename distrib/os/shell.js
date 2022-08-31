@@ -51,6 +51,9 @@ var TSOS;
             // whereami
             sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Figure out where you are");
             this.commandList[this.commandList.length] = sc;
+            // roulette
+            sc = new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -226,6 +229,9 @@ var TSOS;
                     case "whereami":
                         _StdOut.putText("I will try to guess your location");
                         break;
+                    case "roulette":
+                        _StdOut.putText("Just play the game and see what happens, its better that way");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -284,6 +290,15 @@ var TSOS;
             const places = ["the beach", "the mall", "your house", "the park", "the library"];
             const i = Math.floor(places.length * Math.random());
             _StdOut.putText("You are at " + places[i]);
+        }
+        shellRoulette(args) {
+            const bullet = Math.floor(6 * Math.random());
+            if (bullet === 0) {
+                _StdOut.putText("BANG! Your dead!");
+            }
+            else {
+                _StdOut.putText("You live to see another day... for now");
+            }
         }
     }
     TSOS.Shell = Shell;

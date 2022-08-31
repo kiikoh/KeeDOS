@@ -85,6 +85,12 @@ module TSOS {
                 "- Figure out where you are");
             this.commandList[this.commandList.length] = sc;
 
+            // roulette
+            sc = new ShellCommand(this.shellRoulette,
+                "roulette",
+                "- Play a game");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -273,6 +279,9 @@ module TSOS {
                     case "whereami": 
                         _StdOut.putText("I will try to guess your location")
                         break;
+                    case "roulette": 
+                        _StdOut.putText("Just play the game and see what happens, its better that way")
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -333,6 +342,16 @@ module TSOS {
             const i = Math.floor(places.length * Math.random())
 
             _StdOut.putText("You are at " + places[i])
+        }
+
+        public shellRoulette(args: string[]) {
+            const bullet = Math.floor(6 * Math.random())
+
+            if(bullet === 0) {
+                _StdOut.putText("BANG! Your dead!")
+            } else {
+                _StdOut.putText("You live to see another day... for now")
+            }
         }
     }
 }
