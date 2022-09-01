@@ -13,7 +13,7 @@ module TSOS {
     export class Shell {
         // Properties
         public promptStr = ">";
-        public commandList = [];
+        public commandList: ShellCommand[] = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
 
@@ -21,75 +21,84 @@ module TSOS {
         }
 
         public init() {
-            var sc: ShellCommand;
-            //
             // Load the command list.
 
             // ver
-            sc = new ShellCommand(this.shellVer,
-                                  "ver",
-                                  "- Displays the current version data.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellVer,
+                "ver",
+                "- Displays the current version data."
+            ));
 
             // help
-            sc = new ShellCommand(this.shellHelp,
-                                  "help",
-                                  "- This is the help command. Seek help.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellHelp,
+                "help",
+                "- This is the help command. Seek help."
+            ))
 
             // shutdown
-            sc = new ShellCommand(this.shellShutdown,
-                                  "shutdown",
-                                  "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellShutdown,
+                "shutdown",
+                "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running."
+            ))
 
             // cls
-            sc = new ShellCommand(this.shellCls,
-                                  "cls",
-                                  "- Clears the screen and resets the cursor position.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellCls,
+                "cls",
+                "- Clears the screen and resets the cursor position."
+            ))
 
-            // man <topic>
-            sc = new ShellCommand(this.shellMan,
-                                  "man",
-                                  "<topic> - Displays the MANual page for <topic>.");
-            this.commandList[this.commandList.length] = sc;
+            // man <topic> 
+            this.commandList.push(new ShellCommand(
+                this.shellMan,
+                "man",
+                "<topic> - Displays the MANual page for <topic>."
+            ))
 
             // trace <on | off>
-            sc = new ShellCommand(this.shellTrace,
-                                  "trace",
-                                  "<on | off> - Turns the OS trace on or off.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellTrace,
+                "trace",
+                "<on | off> - Turns the OS trace on or off."
+            ))
 
             // rot13 <string>
-            sc = new ShellCommand(this.shellRot13,
-                                  "rot13",
-                                  "<string> - Does rot13 obfuscation on <string>.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellRot13,
+                "rot13",
+                "<string> - Does rot13 obfuscation on <string>."
+            ))
 
             // prompt <string>
-            sc = new ShellCommand(this.shellPrompt,
-                                  "prompt",
-                                  "<string> - Sets the prompt.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList.push(new ShellCommand(
+                this.shellPrompt,
+                "prompt",
+                "<string> - Sets the prompt."
+            ))
 
             // date
-            sc = new ShellCommand(this.shellDate,
+            this.commandList.push(new ShellCommand(
+                this.shellDate,
                 "date",
-                "- Display the current date");
-            this.commandList[this.commandList.length] = sc;
+                "- Display the current date"
+            ))
 
             // whereami
-            sc = new ShellCommand(this.shellWhereAmI,
+            this.commandList.push(new ShellCommand(
+                this.shellWhereAmI,
                 "whereami",
-                "- Figure out where you are");
-            this.commandList[this.commandList.length] = sc;
+                "- Figure out where you are"
+            ))
 
             // roulette
-            sc = new ShellCommand(this.shellRoulette,
+            this.commandList.push(new ShellCommand(
+                this.shellRoulette,
                 "roulette",
-                "- Play a game");
-            this.commandList[this.commandList.length] = sc;
+                "- Play a game"
+            ))
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
