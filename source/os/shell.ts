@@ -22,6 +22,9 @@ module TSOS {
 
         public init() {
             // Load the command list.
+            // I refactored this because I felt that it didn't make much sense to have the manual entries 
+            // and the rest of the commands in different places, I modified the ShellCommand class to handle this
+            // Further improvements would be to use a map for command lookups
 
             // ver
             this.commandList.push(new ShellCommand(
