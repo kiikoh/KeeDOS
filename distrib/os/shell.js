@@ -20,27 +20,27 @@ var TSOS;
         init() {
             // Load the command list.
             // ver
-            this.commandList.push(new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "Get the current version number of the OS"));
             // help
-            this.commandList.push(new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.", "Help displays a list of (hopefully) valid commands."));
             // shutdown
-            this.commandList.push(new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.", "Starve me of energy"));
             // cls
-            this.commandList.push(new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.", "Erase the screen"));
             // man <topic> 
-            this.commandList.push(new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.", "It's short for 'manual' do you want to read one?"));
             // trace <on | off>
-            this.commandList.push(new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off.", "Enable/disable the trace feature"));
             // rot13 <string>
-            this.commandList.push(new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>.", "13 Character caesar cipher"));
             // prompt <string>
-            this.commandList.push(new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt."));
+            this.commandList.push(new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.", "<-- Change the prompt"));
             // date
-            this.commandList.push(new TSOS.ShellCommand(this.shellDate, "date", "- Display the current date"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellDate, "date", "- Display the current date", "Check the date"));
             // whereami
-            this.commandList.push(new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Figure out where you are"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Figure out where you are", "I will try to guess your location"));
             // roulette
-            this.commandList.push(new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game", "Just play the game and see what happens, its better that way"));
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -183,45 +183,12 @@ var TSOS;
             _StdOut.resetXY();
         }
         shellMan(args) {
+            var _a;
             if (args.length > 0) {
-                var topic = args[0];
-                switch (topic) {
-                    case "help":
-                        _StdOut.putText("Help displays a list of (hopefully) valid commands.");
-                        break;
-                    case "ver":
-                        _StdOut.putText("Get the current version number of the OS");
-                        break;
-                    case "shutdown":
-                        _StdOut.putText("Starve me of energy");
-                        break;
-                    case "cls":
-                        _StdOut.putText("Erase the screen");
-                        break;
-                    case "man":
-                        _StdOut.putText("It's short for 'manual' do you want to read one?");
-                        break;
-                    case "trace":
-                        _StdOut.putText("Enable/disable the trace feature");
-                        break;
-                    case "rot13":
-                        _StdOut.putText("13 Character caesar cipher ");
-                        break;
-                    case "prompt":
-                        _StdOut.putText("<-- Change the prompt");
-                        break;
-                    case "date":
-                        _StdOut.putText("Check the date");
-                        break;
-                    case "whereami":
-                        _StdOut.putText("I will try to guess your location");
-                        break;
-                    case "roulette":
-                        _StdOut.putText("Just play the game and see what happens, its better that way");
-                        break;
-                    default:
-                        _StdOut.putText("No manual entry for " + args[0] + ".");
-                }
+                const topic = args[0];
+                // Get the manual entry, or if not found, say no manual entry
+                const manual = ((_a = _OsShell.commandList.find(cmd => cmd.command === topic)) === null || _a === void 0 ? void 0 : _a.manual) || "No manual entry for " + args[0] + ".";
+                _StdOut.putText(manual);
             }
             else {
                 _StdOut.putText("Usage: man <topic>  Please supply a topic.");
@@ -269,16 +236,16 @@ var TSOS;
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-        shellDate(args) {
+        shellDate() {
             const now = new Date();
             _StdOut.putText("It is " + now.toDateString());
         }
-        shellWhereAmI(args) {
+        shellWhereAmI() {
             const places = ["the beach", "the mall", "your house", "the park", "the library"];
             const i = Math.floor(places.length * Math.random());
             _StdOut.putText("You are at " + places[i]);
         }
-        shellRoulette(args) {
+        shellRoulette() {
             const bullet = Math.floor(6 * Math.random());
             if (bullet === 0) {
                 _StdOut.putText("BANG! Your dead!");
