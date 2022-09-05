@@ -16,6 +16,7 @@ var TSOS;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
+            this.history = [];
         }
         init() {
             // Load the command list.
@@ -57,6 +58,8 @@ var TSOS;
         }
         handleInput(buffer) {
             _Kernel.krnTrace("Shell Command~" + buffer);
+            //Add the input buffer to our history
+            _OsShell.history.push(buffer);
             //
             // Parse the input...
             //

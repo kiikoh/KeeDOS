@@ -32,7 +32,12 @@ var TSOS;
             // functionality relied on a deprecated API and was giving me problems
             // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/which is no longer being used
             // Do we want to process the key press?
-            if (key.length === 1 || key === "Enter" || key === "Backspace" || key === "Tab") {
+            if (key.length === 1 ||
+                key === "Enter" ||
+                key === "Backspace" ||
+                key === "Tab" ||
+                key === "ArrowUp" ||
+                key === "ArrowDown") {
                 _KernelInputQueue.enqueue(key);
             }
         }

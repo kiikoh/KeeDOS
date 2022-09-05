@@ -16,6 +16,7 @@ module TSOS {
         public commandList: ShellCommand[] = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
+        public history = [];
 
         constructor() {
         }
@@ -136,6 +137,10 @@ module TSOS {
 
         public handleInput(buffer) {
             _Kernel.krnTrace("Shell Command~" + buffer);
+
+            //Add the input buffer to our history
+            _OsShell.history.push(buffer)
+            
             //
             // Parse the input...
             //

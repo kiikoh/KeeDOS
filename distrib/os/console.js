@@ -13,6 +13,7 @@ var TSOS;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.historyIndex = 0;
         }
         init() {
             this.clearScreen();
@@ -27,6 +28,7 @@ var TSOS;
             document.getElementById('divConsole').scrollTop = 0;
         }
         handleInput() {
+            var _a, _b;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
@@ -37,6 +39,7 @@ var TSOS;
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
+                    this.historyIndex = 0;
                 }
                 else if (chr === "Backspace") {
                     const removed = this.buffer.charAt(this.buffer.length - 1);
@@ -54,6 +57,22 @@ var TSOS;
                     this.buffer += newText;
                     this.putText(newText);
                 }
+                else if (chr === "ArrowUp") {
+                    this.historyIndex++;
+                    if (this.historyIndex >= _OsShell.history.length)
+                        this.historyIndex = _OsShell.history.length; //protect against out of bounds
+                    // get the command to fill
+                    const newBuff = (_a = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _a !== void 0 ? _a : "";
+                    this.setBuffer(newBuff);
+                }
+                else if (chr === "ArrowDown") {
+                    this.historyIndex--;
+                    if (this.historyIndex < 0)
+                        this.historyIndex = 0; //protect against out of bounds
+                    // get the command to fill
+                    const newBuff = (_b = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _b !== void 0 ? _b : "";
+                    this.setBuffer(newBuff);
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -63,6 +82,19 @@ var TSOS;
                 }
                 // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }
+        }
+        setBuffer(text) {
+            //get the x position of the prompt
+            const promptOffset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, _OsShell.promptStr);
+            const lineHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
+            // clear the line of existing text
+            _DrawingContext.clearRect(promptOffset, this.currentYPosition - this.currentFontSize, //only count the ascent
+            _Canvas.width, lineHeight + 1 // for some reason need to overshoot still
+            );
+            this.currentXPosition = promptOffset;
+            //set the command
+            this.buffer = text;
+            this.putText(text);
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
