@@ -38,6 +38,14 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
+                else if (chr === "Backspace") {
+                    const removed = this.buffer.charAt(this.buffer.length - 1);
+                    this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                    const charWidth = _DrawingContext.measureText(this.currentFont, this.currentFontSize, removed);
+                    const charHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + 1;
+                    _DrawingContext.clearRect(this.currentXPosition - charWidth, this.currentYPosition - this.currentFontSize, charWidth, charHeight);
+                    this.currentXPosition -= charWidth;
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

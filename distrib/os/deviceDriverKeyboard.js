@@ -27,8 +27,12 @@ var TSOS;
             var key = params[0];
             var isShifted = params[1];
             _Kernel.krnTrace("Key: " + key + " shifted:" + isShifted);
+            // I ripped out alot of the logic here as there is now newer APIs 
+            // that can abstract this functionality away, also because the existing 
+            // functionality relied on a deprecated API and was giving me problems
+            // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/which is no longer being used
             // Do we want to process the key press?
-            if (key.length === 1 || key === "Enter") {
+            if (key.length === 1 || key === "Enter" || key === "Backspace") {
                 _KernelInputQueue.enqueue(key);
             }
         }
