@@ -24,6 +24,7 @@ var TSOS;
         resetXY() {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
+            document.getElementById('divConsole').scrollTop = 0;
         }
         handleInput() {
             while (_KernelInputQueue.getSize() > 0) {
@@ -73,7 +74,7 @@ var TSOS;
             this.currentYPosition += _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            // TODO: Handle scrolling. (iProject 1)
+            document.getElementById('divConsole').scrollTop = this.currentYPosition + this.currentFontSize - 500;
         }
     }
     TSOS.Console = Console;

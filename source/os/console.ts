@@ -28,6 +28,7 @@ module TSOS {
         public resetXY(): void {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
+            document.getElementById('divConsole').scrollTop = 0
         }
 
         public handleInput(): void {
@@ -80,7 +81,7 @@ module TSOS {
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
 
-            // TODO: Handle scrolling. (iProject 1)
+            document.getElementById('divConsole').scrollTop = this.currentYPosition + this.currentFontSize - 500;
         }
     }
  }
