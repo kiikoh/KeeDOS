@@ -71,6 +71,12 @@ var TSOS;
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
+            // Add a automatically updating time
+            _taskbarTimeID = setInterval(() => {
+                const now = new Date();
+                document.getElementById('time').innerText = `Time: ${now.toLocaleTimeString()}`;
+            }, 1000);
+            document.getElementById('date').innerText = "Date: " + new Date().toLocaleDateString();
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
@@ -83,6 +89,7 @@ var TSOS;
             // Stop the interval that's simulating our clock pulse.
             clearInterval(_hardwareClockID);
             // TODO: Is there anything else we need to do here?
+            clearInterval(_taskbarTimeID);
         }
         static hostBtnReset_click(btn) {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.

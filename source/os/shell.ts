@@ -114,11 +114,20 @@ module TSOS {
                 "Just play the game and see what happens, its better that way"
             ))
 
+            // status
+            this.commandList.push(new ShellCommand(
+                this.shellStatus,
+                "status",
+                "- Set the status displayed in the taskbar",
+                "Provide a status to set for the taskbar"
+            ))
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
             // Display the initial prompt.
             this.putPrompt();
+            this.shellStatus(["Content"])
         }
 
         public putPrompt() {
@@ -342,6 +351,14 @@ module TSOS {
                 _StdOut.putText("BANG! Your dead!")
             } else {
                 _StdOut.putText("You live to see another day... for now")
+            }
+        }
+
+        public shellStatus(args: string[]) {
+            if (args.length > 0) {
+                document.getElementById('status').innerText = `Status: ${args.join(" ")}`
+            } else {
+                _StdOut.putText("Usage: status <string> Please supply a string.");
             }
         }
     }

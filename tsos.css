@@ -46,3 +46,24 @@ h3 {
   font-size: 8pt;
   text-align: center;
 }
+
+#displayContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#taskbar {
+  display: flex;
+  align-content: space-between;
+  width: 500px;
+  background-color: grey;
+  margin-left: 4px;
+  padding: 2px;
+}
+
+#taskbar > span {
+  width: 100%;
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+  padding: 4px;
+}

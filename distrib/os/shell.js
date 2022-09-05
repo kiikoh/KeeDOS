@@ -44,10 +44,13 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Figure out where you are", "I will try to guess your location"));
             // roulette
             this.commandList.push(new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game", "Just play the game and see what happens, its better that way"));
+            // status
+            this.commandList.push(new TSOS.ShellCommand(this.shellStatus, "status", "- Set the status displayed in the taskbar", "Provide a status to set for the taskbar"));
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
             this.putPrompt();
+            this.shellStatus(["Content"]);
         }
         putPrompt() {
             _StdOut.putText(this.promptStr);
@@ -255,6 +258,14 @@ var TSOS;
             }
             else {
                 _StdOut.putText("You live to see another day... for now");
+            }
+        }
+        shellStatus(args) {
+            if (args.length > 0) {
+                document.getElementById('status').innerText = `Status: ${args.join(" ")}`;
+            }
+            else {
+                _StdOut.putText("Usage: status <string> Please supply a string.");
             }
         }
     }

@@ -67,13 +67,22 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
-      <canvas id="display"
-              width="500px"
-              height="500px"
-              tabindex="3">
-      </canvas>
+   <div id="displayContainer">
+      <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
+         <canvas id="display"
+               width="500px"
+               height="500px"
+               tabindex="3">
+         </canvas>
+      </div>
+      <div id="taskbar">
+         <span id="status">Status</span>
+         <span id="time">Time</span>
+         <span id="date">Date</span>
+      </div>
    </div>
+
+   
 
    <div id="divLog" style="margin-left:520px;">
       <label>

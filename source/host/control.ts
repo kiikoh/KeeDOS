@@ -90,6 +90,15 @@ module TSOS {
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
+
+            // Add a automatically updating time
+            _taskbarTimeID = setInterval(() => {
+                const now = new Date()
+                document.getElementById('time').innerText = `Time: ${now.toLocaleTimeString()}`
+            }, 1000)
+
+            document.getElementById('date').innerText = "Date: " + new Date().toLocaleDateString()
+
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new Kernel();
             _Kernel.krnBootstrap();  // _GLaDOS.afterStartup() will get called in there, if configured.
@@ -103,6 +112,7 @@ module TSOS {
             // Stop the interval that's simulating our clock pulse.
             clearInterval(_hardwareClockID);
             // TODO: Is there anything else we need to do here?
+            clearInterval(_taskbarTimeID)
         }
 
         public static hostBtnReset_click(btn): void {
