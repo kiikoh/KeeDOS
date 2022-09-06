@@ -8,7 +8,7 @@ module TSOS {
 
     export class Utils {
 
-        public static trim(str): string {
+        public static trim(str: string): string {
             // Use a regular expression to remove leading and trailing spaces.
             return str.replace(/^\s+ | \s+$/g, "");
             /*

@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
      Devices.ts
 
@@ -36,22 +37,20 @@ var TSOS;
             // Listen for key press (keydown, actually) events in the Document
             // and call the simulation processor, which will in turn call the
             // OS interrupt handler.
-            document.addEventListener("keydown", Devices.hostOnKeypress, false);
+            document.getElementById('display').addEventListener("keydown", Devices.hostOnKeypress, false);
         }
         static hostDisableKeyboardInterrupt() {
-            document.removeEventListener("keydown", Devices.hostOnKeypress, false);
+            document.getElementById('display').removeEventListener("keydown", Devices.hostOnKeypress, false);
         }
         static hostOnKeypress(event) {
             // The canvas element CAN receive focus if you give it a tab index, which we have.
             // Check that we are processing keystrokes only from the canvas's id (as set in index.html).
-            if (event.target.id === "display") {
-                event.preventDefault();
-                // Note the pressed key code in the params (Mozilla-specific).
-                // event.which has been deprecated and was giving me strange results... typing period would give me 190 for example
-                var params = new Array(event.key, event.shiftKey);
-                // Enqueue this interrupt on the kernel interrupt queue so that it gets to the Interrupt handler.
-                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
-            }
+            event.preventDefault();
+            // Note the pressed key code in the params (Mozilla-specific).
+            // event.which has been deprecated and was giving me strange results... typing period would give me 190 for example
+            var params = [event.key, event.shiftKey];
+            // Enqueue this interrupt on the kernel interrupt queue so that it gets to the Interrupt handler.
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
         }
     }
     TSOS.Devices = Devices;

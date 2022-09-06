@@ -16,7 +16,7 @@ module TSOS {
         public commandList: ShellCommand[] = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
-        public history = [];
+        public history: string[] = [];
 
         constructor() {
         }
@@ -135,7 +135,7 @@ module TSOS {
             _StdOut.putText(this.promptStr);
         }
 
-        public handleInput(buffer) {
+        public handleInput(buffer: string) {
             _Kernel.krnTrace("Shell Command~" + buffer);
 
             //Add the input buffer to our history
@@ -153,19 +153,24 @@ module TSOS {
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
             // command list in attempt to find a match. 
-            // TODO: Is there a better way? Probably. Someone work it out and tell me in class.
-            var index: number = 0;
-            var found: boolean = false;
-            var fn = undefined;
-            while (!found && index < this.commandList.length) {
-                if (this.commandList[index].command === cmd) {
-                    found = true;
-                    fn = this.commandList[index].func;
-                } else {
-                    ++index;
-                }
-            }
-            if (found) {
+            // TODO: Is there a better way? Probably. Someone work it out and tell me in class. Hey, I got the better solution here!
+
+            // var index: number = 0;
+            // var found: boolean = false;
+            // var fn = undefined;
+            // while (!found && index < this.commandList.length) {
+            //     if (this.commandList[index].command === cmd) {
+            //         found = true;
+            //         fn = this.commandList[index].func;
+            //     } else {
+            //         ++index;
+            //     }
+            // }
+
+            // Better version of the above
+            const fn = this.commandList.find(({command}) => command === cmd)?.func
+
+            if (fn) {
                 this.execute(fn, args);  // Note that args is always supplied, though it might be empty.
             } else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
@@ -180,7 +185,7 @@ module TSOS {
         }
 
         // Note: args is an optional parameter, ergo the ? which allows TypeScript to understand that.
-        public execute(fn, args?) {
+        public execute(fn: Function, args?: string[]) {
             // We just got a command, so advance the line...
             _StdOut.advanceLine();
             // ... call the command function passing in the args with some über-cool functional programming ...
@@ -208,7 +213,7 @@ module TSOS {
             // 4. Take the first (zeroth) element and use that as the command.
             var cmd = tempList.shift();  // Yes, you can do that to an array in JavaScript. See the Queue class.
             // 4.1 Remove any left-over spaces.
-            cmd = Utils.trim(cmd);
+            cmd = Utils.trim(cmd!);
             // 4.2 Record it in the return value.
             retVal.command = cmd;
 
@@ -361,7 +366,7 @@ module TSOS {
 
         public shellStatus(args: string[]) {
             if (args.length > 0) {
-                document.getElementById('status').innerText = `Status: ${args.join(" ")}`
+                document.getElementById('status')!.innerText = `Status: ${args.join(" ")}`
             } else {
                 _StdOut.putText("Usage: status <string> Please supply a string.");
             }

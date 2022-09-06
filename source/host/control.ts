@@ -73,7 +73,7 @@ module TSOS {
         //
         // Host Events
         //
-        public static hostBtnStartOS_click(btn): void {
+        public static hostBtnStartOS_click(btn: HTMLButtonElement): void {
             // Disable the (passed-in) start button...
             btn.disabled = true;
 
@@ -82,7 +82,7 @@ module TSOS {
             (<HTMLButtonElement>document.getElementById("btnReset")).disabled = false;
 
             // .. set focus on the OS console display ...
-            document.getElementById("display").focus();
+            document.getElementById("display")!.focus();
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
@@ -94,17 +94,17 @@ module TSOS {
             // Add a automatically updating time
             _taskbarTimeID = setInterval(() => {
                 const now = new Date()
-                document.getElementById('time').innerText = `Time: ${now.toLocaleTimeString()}`
+                document.getElementById('time')!.innerText = `Time: ${now.toLocaleTimeString()}`
             }, 1000)
 
-            document.getElementById('date').innerText = "Date: " + new Date().toLocaleDateString()
+            document.getElementById('date')!.innerText = "Date: " + new Date().toLocaleDateString()
 
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new Kernel();
             _Kernel.krnBootstrap();  // _GLaDOS.afterStartup() will get called in there, if configured.
         }
 
-        public static hostBtnHaltOS_click(btn): void {
+        public static hostBtnHaltOS_click(btn: HTMLButtonElement): void {
             Control.hostLog("Emergency halt", "host");
             Control.hostLog("Attempting Kernel shutdown.", "host");
             // Call the OS shutdown routine.
@@ -115,7 +115,7 @@ module TSOS {
             clearInterval(_taskbarTimeID)
         }
 
-        public static hostBtnReset_click(btn): void {
+        public static hostBtnReset_click(btn: HTMLButtonElement): void {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
             // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always

@@ -104,7 +104,7 @@ module TSOS {
             // Put more here.
         }
 
-        public krnInterruptHandler(irq, params) {
+        public krnInterruptHandler(irq: number, params: any[]) {
             // This is the Interrupt Handler Routine.  See pages 8 and 560.
             // Trace our entrance here so we can compute Interrupt Latency by analyzing the log file later on. Page 766.
             this.krnTrace("Handling IRQ~" + irq);
@@ -167,7 +167,7 @@ module TSOS {
              }
         }
 
-        public krnTrapError(msg) {
+        public krnTrapError(msg: string) {
             Control.hostLog("OS ERROR - TRAP: " + msg);
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
             this.krnShutdown();

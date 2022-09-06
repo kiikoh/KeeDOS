@@ -30,7 +30,7 @@ module TSOS {
         public resetXY(): void {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
-            document.getElementById('divConsole').scrollTop = 0
+            document.getElementById('divConsole')!.scrollTop = 0
         }
 
         public handleInput(): void {
@@ -62,7 +62,7 @@ module TSOS {
                 } else if(chr === "Tab") {
                     // command completion
                     // finds the first instance where the current text is the start of a command
-                    const reccomendation = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer)).command
+                    const reccomendation = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer))?.command ?? this.buffer
 
                     const newText = reccomendation.substring(this.buffer.length)
 
@@ -95,7 +95,7 @@ module TSOS {
             }
         }
 
-        public setBuffer(text) {
+        public setBuffer(text: string) {
             //get the x position of the prompt
             const promptOffset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, _OsShell.promptStr)
             const lineHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize)
@@ -114,7 +114,7 @@ module TSOS {
             this.putText(text)
         }
 
-        public putText(text): void {
+        public putText(text: string): void {
             /*  My first inclination here was to write two functions: putChar() and putString().
                 Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
                 between the two. (Although TypeScript would. But we're compiling to JavaScipt anyway.)
@@ -143,7 +143,7 @@ module TSOS {
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
 
-            document.getElementById('divConsole').scrollTop = this.currentYPosition + this.currentFontSize - 500;
+            document.getElementById('divConsole')!.scrollTop = this.currentYPosition + this.currentFontSize - 500;
         }
     }
  }

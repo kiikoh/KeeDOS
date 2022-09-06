@@ -41,13 +41,13 @@ var _Trace: boolean = true;              // Default the OS trace to be on.
 
 // The OS Kernel and its queues.
 var _Kernel: TSOS.Kernel;
-var _KernelInterruptQueue: TSOS.Queue = null;
-var _KernelInputQueue: TSOS.Queue = null; 
+var _KernelInterruptQueue: TSOS.Queue<TSOS.Interrupt>
+var _KernelInputQueue: TSOS.Queue<string>
 var _KernelBuffers = null; 
 
 // Standard input and output
-var _StdIn:  TSOS.Console = null; 
-var _StdOut: TSOS.Console = null;
+var _StdIn:  TSOS.Console
+var _StdOut: TSOS.Console
 
 // UI
 var _Console: TSOS.Console;
@@ -57,11 +57,11 @@ var _OsShell: TSOS.Shell;
 var _SarcasticMode: boolean = false;
 
 // Global Device Driver Objects - page 12
-var _krnKeyboardDriver: TSOS.DeviceDriverKeyboard  = null;
+var _krnKeyboardDriver: TSOS.DeviceDriverKeyboard
 
-var _hardwareClockID: number = null;
+var _hardwareClockID: number
 
-var _taskbarTimeID: number = null;
+var _taskbarTimeID: number
 
 // For testing (and enrichment)...
 var Glados: any = null;  // This is the function Glados() in glados-ip*.js http://alanclasses.github.io/TSOS/test/ .

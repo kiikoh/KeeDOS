@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
      Console.ts
 
@@ -28,7 +29,7 @@ var TSOS;
             document.getElementById('divConsole').scrollTop = 0;
         }
         handleInput() {
-            var _a, _b;
+            var _a, _b, _c, _d;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
@@ -52,7 +53,7 @@ var TSOS;
                 else if (chr === "Tab") {
                     // command completion
                     // finds the first instance where the current text is the start of a command
-                    const reccomendation = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer)).command;
+                    const reccomendation = (_b = (_a = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer))) === null || _a === void 0 ? void 0 : _a.command) !== null && _b !== void 0 ? _b : this.buffer;
                     const newText = reccomendation.substring(this.buffer.length);
                     this.buffer += newText;
                     this.putText(newText);
@@ -62,7 +63,7 @@ var TSOS;
                     if (this.historyIndex >= _OsShell.history.length)
                         this.historyIndex = _OsShell.history.length; //protect against out of bounds
                     // get the command to fill
-                    const newBuff = (_a = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _a !== void 0 ? _a : "";
+                    const newBuff = (_c = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _c !== void 0 ? _c : "";
                     this.setBuffer(newBuff);
                 }
                 else if (chr === "ArrowDown") {
@@ -70,7 +71,7 @@ var TSOS;
                     if (this.historyIndex < 0)
                         this.historyIndex = 0; //protect against out of bounds
                     // get the command to fill
-                    const newBuff = (_b = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _b !== void 0 ? _b : "";
+                    const newBuff = (_d = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _d !== void 0 ? _d : "";
                     this.setBuffer(newBuff);
                 }
                 else {

@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
      CPU.ts
 

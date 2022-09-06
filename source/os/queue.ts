@@ -9,7 +9,7 @@
    ------------ */
 
 module TSOS {
-    export class Queue {
+    export class Queue<T> {
         constructor(public q = new Array()) {
         }
 
@@ -17,15 +17,15 @@ module TSOS {
             return this.q.length;
         }
 
-        public isEmpty(){
+        public isEmpty(): boolean{
             return (this.q.length == 0);
         }
 
-        public enqueue(element) {
+        public enqueue(element: T) {
             this.q.push(element);
         }
 
-        public dequeue() {
+        public dequeue(): T {
             var retVal = null;
             if (this.q.length > 0) {
                 retVal = this.q.shift();

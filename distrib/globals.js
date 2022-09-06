@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
    Globals.ts
 
@@ -31,21 +32,21 @@ var _FontHeightMargin = 4; // Additional space added to font size when advancing
 var _Trace = true; // Default the OS trace to be on.
 // The OS Kernel and its queues.
 var _Kernel;
-var _KernelInterruptQueue = null;
-var _KernelInputQueue = null;
+var _KernelInterruptQueue;
+var _KernelInputQueue;
 var _KernelBuffers = null;
 // Standard input and output
-var _StdIn = null;
-var _StdOut = null;
+var _StdIn;
+var _StdOut;
 // UI
 var _Console;
 var _OsShell;
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12
-var _krnKeyboardDriver = null;
-var _hardwareClockID = null;
-var _taskbarTimeID = null;
+var _krnKeyboardDriver;
+var _hardwareClockID;
+var _taskbarTimeID;
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados-ip*.js http://alanclasses.github.io/TSOS/test/ .
 var _GLaDOS = null; // If the above is linked in, this is the instantiated instance of Glados.

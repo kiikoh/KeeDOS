@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
    Shell.ts
 
@@ -57,6 +58,7 @@ var TSOS;
             _StdOut.putText(this.promptStr);
         }
         handleInput(buffer) {
+            var _a;
             _Kernel.krnTrace("Shell Command~" + buffer);
             //Add the input buffer to our history
             _OsShell.history.push(buffer);
@@ -72,20 +74,21 @@ var TSOS;
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
             // command list in attempt to find a match. 
-            // TODO: Is there a better way? Probably. Someone work it out and tell me in class.
-            var index = 0;
-            var found = false;
-            var fn = undefined;
-            while (!found && index < this.commandList.length) {
-                if (this.commandList[index].command === cmd) {
-                    found = true;
-                    fn = this.commandList[index].func;
-                }
-                else {
-                    ++index;
-                }
-            }
-            if (found) {
+            // TODO: Is there a better way? Probably. Someone work it out and tell me in class. Hey, I got the better solution here!
+            // var index: number = 0;
+            // var found: boolean = false;
+            // var fn = undefined;
+            // while (!found && index < this.commandList.length) {
+            //     if (this.commandList[index].command === cmd) {
+            //         found = true;
+            //         fn = this.commandList[index].func;
+            //     } else {
+            //         ++index;
+            //     }
+            // }
+            // Better version of the above
+            const fn = (_a = this.commandList.find(({ command }) => command === cmd)) === null || _a === void 0 ? void 0 : _a.func;
+            if (fn) {
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
             }
             else {

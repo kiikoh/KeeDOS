@@ -27,7 +27,7 @@ module TSOS {
             // More?
         }
 
-        public krnKbdDispatchKeyPress(params) {
+        public krnKbdDispatchKeyPress(params: any[]) {
             // Parse the params.  TODO: Check that the params are valid and osTrapError if not.
             var key = params[0];
             var isShifted = params[1];
