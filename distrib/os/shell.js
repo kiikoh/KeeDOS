@@ -1,4 +1,3 @@
-"use strict";
 /* ------------
    Shell.ts
 

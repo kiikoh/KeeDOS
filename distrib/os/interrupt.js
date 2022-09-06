@@ -1,4 +1,3 @@
-"use strict";
 /* ------------
    Interrupt.ts
    ------------ */

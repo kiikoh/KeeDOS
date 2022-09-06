@@ -1,4 +1,3 @@
-"use strict";
 /* ------------
      Console.ts
 
@@ -34,7 +33,7 @@ var TSOS;
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
-                if (chr === "Enter") { // the Enter key
+                if (chr === "Enter" || chr === 13) { // the Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
@@ -74,7 +73,7 @@ var TSOS;
                     const newBuff = (_d = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _d !== void 0 ? _d : "";
                     this.setBuffer(newBuff);
                 }
-                else {
+                else if (typeof chr === "string") {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);

@@ -45,7 +45,8 @@ module TSOS {
                 key === "Backspace" || 
                 key === "Tab"       || 
                 key === "ArrowUp"   || 
-                key === "ArrowDown"
+                key === "ArrowDown" ||
+                key === 13 // Fix for GlaDOS testing due to how I changed this function 
             ) {
                 _KernelInputQueue.enqueue(key);
             }

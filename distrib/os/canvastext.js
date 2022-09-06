@@ -1,4 +1,3 @@
-"use strict";
 /* ----------------- *
  * CanvasText.ts   *
  *

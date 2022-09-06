@@ -1,4 +1,3 @@
-"use strict";
 var TSOS;
 (function (TSOS) {
     class UserCommand {
