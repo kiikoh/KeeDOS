@@ -37,42 +37,43 @@
 
 <body onload="onDocumentLoad()">
 
-<div id="divMain" style="width:100%;">
-
-   <div id="divButtonBar" style="margin:4px;">
+<div id="divMain">
+   <div id="tower">
+      <img src="images/tower.png" alt="Computer tower" style="position:absolute" width="300px">
       <input type="button"
-             id = "btnStartOS"
-             name="brnStartOS"
-             class="normal_button"
-             value="Start"
-             tabindex="0"
-             onclick="TSOS.Control.hostBtnStartOS_click(this);">
-
+               id = "btnStartOS"
+               name="brnStartOS"
+               class="normal_button"
+               tabindex="0"
+               onclick="TSOS.Control.hostBtnStartOS_click(this);"
+      >
       <input type="button"
-             id = "btnHaltOS"
-             name="brnHaltOS"
-             class="normal_button"
-             disabled="disabled"
-             value="Halt"
-             tabindex="1"
-             onclick="TSOS.Control.hostBtnHaltOS_click(this);">
-
+               id = "btnHaltOS"
+               name="brnHaltOS"
+               class="normal_button"
+               disabled="disabled"
+               value="Halt"
+               tabindex="1"
+               onclick="TSOS.Control.hostBtnHaltOS_click(this);"
+      >
       <input type="button"
-             id = "btnReset"
-             name="brnReset"
-             class="normal_button"
-             disabled="disabled"
-             value="Reset"
-             tabindex="2"
-             onclick="TSOS.Control.hostBtnReset_click(this);">
+               id = "btnReset"
+               name="brnReset"
+               class="normal_button"
+               disabled="disabled"
+               value="Reset"
+               tabindex="2"
+               onclick="TSOS.Control.hostBtnReset_click(this);"
+      >
    </div>
-
-   <div id="displayContainer">
-      <div id="divConsole" style="margin:4px; width:522px; height:500px; float:left; overflow:auto;">
+   <div id="monitor">
+      <img src="images/monitor.png" alt="Computer Monitor Display" width="732px" style="position: absolute;">
+      <div id="divConsole">
          <canvas id="display"
-               width="500px"
+               width="646px"
                height="5000px"
-               tabindex="3">
+               tabindex="3"
+         >
          </canvas>
       </div>
       <div id="taskbar">
@@ -81,41 +82,32 @@
          <span id="date">Date</span>
       </div>
    </div>
-
-   
-
-   <div id="divLog" style="margin-left:520px;">
-      <label>
-         Host Log
-         <br>
-         <textarea name="taHostLog"
-                   id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
-                   rows="8"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
+   <div id="userInputs">
+         <div id="divLog">
+            <label>
+               Host Log
+               <br>
+               <textarea name="taHostLog"
+                         id  ="taHostLog"
+                         rows="26"
+                         cols="48"
+               ></textarea>
+            </label>
+         </div>
+      
+         <div id="divUserProgramInput">
+            <label>
+               User Program Input
+               <br>
+               <textarea name="taProgramInput"
+                         id  ="taProgramInput"
+                         rows="8"
+                         cols="48"
+               ></textarea>
+            </label>
+         </div>
+      </div>   
 </div>
-
-<p class="footerText" style="clear:both;">
-   <br>
-   Copyright &copy; 2008 - 2019 No Rights Reserved.
-   <br>
-   Reproduction is inhibited without the express written consent of
-   Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
-</p>
 
 </body>
 </html>

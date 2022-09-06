@@ -31,8 +31,7 @@ h3 {
 }
 
 #display {
-  background-color:#DFDBC3;
-  border: 2px solid red;
+  background-color:#d8d4d4;
   cursor: default;
 }
 
@@ -55,10 +54,15 @@ h3 {
 #taskbar {
   display: flex;
   align-content: space-between;
-  width: 500px;
+  width: 660px;
   background-color: grey;
   margin-left: 4px;
   padding: 2px;
+  padding-top: 0;
+  margin-top: 0;
+  position: relative;
+  left: 32px;
+  top: 25px;
 }
 
 #taskbar > span {
@@ -66,4 +70,52 @@ h3 {
   border-left: solid 1px black;
   border-right: solid 1px black;
   padding: 4px;
+}
+
+#monitor {
+  margin: 0 auto;
+  display: relative;
+}
+
+#divLog { 
+  
+}
+
+#divUserProgramInput { 
+ 
+}
+
+#divMain {
+  display: flex;
+  flex-direction: row;
+}
+
+#tower {
+  width: 300px;
+}
+
+#divConsole {
+  margin: 4px;
+  margin-bottom: 0; 
+  width: 663px; 
+  height: 510px; 
+  overflow:auto;
+  position: relative;
+  top: 25px;
+  left: 32px
+}
+
+#btnStartOS {
+  border-radius: 100%;
+  width: 53px;
+  height: 53px;
+  background-color: rgba(0,0,0,0);
+  border: solid red 2px;
+  top: 183px;
+  left: 122px;
+  position: relative;
+}
+
+#btnStartOS:hover {
+  background-color: #22ff2288;
 }
