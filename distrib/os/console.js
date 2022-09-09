@@ -119,10 +119,16 @@ var TSOS;
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize +
+            const dY = _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            document.getElementById('divConsole').scrollTop = this.currentYPosition + this.currentFontSize - 500;
+            this.currentYPosition += dY;
+            if (this.currentYPosition > _Canvas.height) { // we need to scroll
+                const hist = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height); //pick up the data 
+                this.clearScreen();
+                _DrawingContext.putImageData(hist, 0, -dY); // and move it somewhere else
+                this.currentYPosition = _Canvas.height - this.currentFontSize; // the cursor should be at the bottom now
+            }
         }
     }
     TSOS.Console = Console;

@@ -54,9 +54,9 @@ h3 {
 #taskbar {
   display: flex;
   align-content: space-between;
-  width: 660px;
+  width: 662px;
   background-color: grey;
-  margin-left: 4px;
+  margin-left: 2px;
   padding: 2px;
   padding-top: 0;
   margin-top: 0;
@@ -95,11 +95,11 @@ h3 {
 }
 
 #divConsole {
-  margin: 4px;
+  margin: 2px;
   margin-bottom: 0; 
-  width: 663px; 
+  width: 666px; 
   height: 510px; 
-  overflow:auto;
+  /* overflow:auto; */
   position: relative;
   top: 25px;
   left: 32px
