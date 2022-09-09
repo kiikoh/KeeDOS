@@ -27,7 +27,7 @@ var TSOS;
             this.currentYPosition = this.currentYPosition = _Canvas.height - this.currentFontSize;
         }
         handleInput() {
-            var _a, _b, _c, _d;
+            var _a, _b;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
@@ -50,9 +50,15 @@ var TSOS;
                 }
                 else if (chr === "Tab") {
                     // command completion
-                    // finds the first instance where the current text is the start of a command
-                    const reccomendation = (_b = (_a = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer))) === null || _a === void 0 ? void 0 : _a.command) !== null && _b !== void 0 ? _b : this.buffer;
-                    const newText = reccomendation.substring(this.buffer.length);
+                    const recs = _OsShell.commandList
+                        .filter(cmd => cmd.command.startsWith(this.buffer)) // get all the options where the command matches the beginning
+                        .map(cmd => cmd.command); // take only the command field
+                    // if there is only one option use it, otherwise find the largest subset of it
+                    // roulette, rot13... r -> ro
+                    // load, loadimage... lo -> load.... loadi -> loadimage
+                    // something like that
+                    const rec = recs.length === 1 ? recs[0] : TSOS.Utils.greatestCommonSubstring(recs);
+                    const newText = rec.substring(this.buffer.length);
                     this.buffer += newText;
                     this.putText(newText);
                 }
@@ -61,7 +67,7 @@ var TSOS;
                     if (this.historyIndex >= _OsShell.history.length)
                         this.historyIndex = _OsShell.history.length; //protect against out of bounds
                     // get the command to fill
-                    const newBuff = (_c = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _c !== void 0 ? _c : "";
+                    const newBuff = (_a = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _a !== void 0 ? _a : "";
                     this.setBuffer(newBuff);
                 }
                 else if (chr === "ArrowDown") {
@@ -69,7 +75,7 @@ var TSOS;
                     if (this.historyIndex < 0)
                         this.historyIndex = 0; //protect against out of bounds
                     // get the command to fill
-                    const newBuff = (_d = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _d !== void 0 ? _d : "";
+                    const newBuff = (_b = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _b !== void 0 ? _b : "";
                     this.setBuffer(newBuff);
                 }
                 else if (typeof chr === "string") {

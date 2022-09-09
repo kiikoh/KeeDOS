@@ -60,10 +60,18 @@ module TSOS {
                     this.currentXPosition -= charWidth
                 } else if(chr === "Tab") {
                     // command completion
-                    // finds the first instance where the current text is the start of a command
-                    const reccomendation = _OsShell.commandList.find(cmd => cmd.command.startsWith(this.buffer))?.command ?? this.buffer
+                    const recs = _OsShell.commandList
+                        .filter(cmd => cmd.command.startsWith(this.buffer)) // get all the options where the command matches the beginning
+                        .map(cmd => cmd.command) // take only the command field
 
-                    const newText = reccomendation.substring(this.buffer.length)
+
+                    // if there is only one option use it, otherwise find the largest subset of it
+                    // roulette, rot13... r -> ro
+                    // load, loadimage... lo -> load.... loadi -> loadimage
+                    // something like that
+                    const rec = recs.length === 1 ? recs[0] : Utils.greatestCommonSubstring(recs) 
+
+                    const newText = rec.substring(this.buffer.length)
 
                     this.buffer += newText
                     this.putText(newText)

@@ -58,5 +58,22 @@ module TSOS {
                         validChars.includes(hexPair[1]); // the second character is valid
                 })
         }
+
+        public static greatestCommonSubstring(strings: string[]) {
+            let result = "";
+            const minLengthString = strings.reduce((min, string) => Math.min(min, string.length), 1000) // get the smallest string length
+
+            for(let i = 0; i < minLengthString; i++) {
+                const ltr = strings[0][i]
+
+                for(let j = 1;j < strings.length;j++) {
+                    if(strings[j][i] !== ltr) {
+                        return result
+                    }
+                }
+                result += ltr
+            }
+            return result;
+        }
     }
 }
