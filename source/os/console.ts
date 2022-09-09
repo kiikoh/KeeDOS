@@ -14,7 +14,7 @@ module TSOS {
         constructor(public currentFont = _DefaultFontFamily,
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
-                    public currentYPosition = _DefaultFontSize,
+                    public currentYPosition = _Canvas.height - currentFontSize,
                     public buffer = "") {
         }
 
@@ -29,8 +29,7 @@ module TSOS {
 
         public resetXY(): void {
             this.currentXPosition = 0;
-            this.currentYPosition = this.currentFontSize;
-            document.getElementById('divConsole')!.scrollTop = 0
+            this.currentYPosition = this.currentYPosition = _Canvas.height - this.currentFontSize;
         }
 
         public handleInput(): void {

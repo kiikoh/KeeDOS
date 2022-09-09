@@ -7,7 +7,7 @@
 var TSOS;
 (function (TSOS) {
     class Console {
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _Canvas.height - currentFontSize, buffer = "") {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
@@ -24,8 +24,7 @@ var TSOS;
         }
         resetXY() {
             this.currentXPosition = 0;
-            this.currentYPosition = this.currentFontSize;
-            document.getElementById('divConsole').scrollTop = 0;
+            this.currentYPosition = this.currentYPosition = _Canvas.height - this.currentFontSize;
         }
         handleInput() {
             var _a, _b, _c, _d;
