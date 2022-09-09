@@ -47,6 +47,8 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game", "Just play the game and see what happens, its better that way"));
             // status
             this.commandList.push(new TSOS.ShellCommand(this.shellStatus, "status", "- Set the status displayed in the taskbar", "Provide a status to set for the taskbar"));
+            // status
+            this.commandList.push(new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Trigger an error", "Causes an error to take place, used for testing the BSOD"));
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -272,6 +274,10 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: status <string> Please supply a string.");
             }
+        }
+        shellBSOD(args) {
+            var _a;
+            _Kernel.krnTrapError((_a = args === null || args === void 0 ? void 0 : args[0]) !== null && _a !== void 0 ? _a : "Successfully Failed");
         }
     }
     TSOS.Shell = Shell;

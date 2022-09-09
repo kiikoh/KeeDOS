@@ -164,12 +164,16 @@ module TSOS {
                 } else {
                     Control.hostLog(msg, "OS");
                 }
-             }
+            }
         }
 
         public krnTrapError(msg: string) {
             Control.hostLog("OS ERROR - TRAP: " + msg);
-            // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
+
+            // Just hide the diplay and taskbar, and instead show the pc screen, normally behind the canvas
+            // Image for BSOD was generated from DALL-E AI Image generator
+            document.getElementById('display')!.style.display = 'none';
+            document.getElementById('taskbar')!.style.display = 'none';
             this.krnShutdown();
         }
     }

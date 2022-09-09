@@ -123,6 +123,14 @@ module TSOS {
                 "Provide a status to set for the taskbar"
             ))
 
+            // status
+            this.commandList.push(new ShellCommand(
+                this.shellBSOD,
+                "bsod",
+                "- Trigger an error",
+                "Causes an error to take place, used for testing the BSOD"
+            ))
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -370,6 +378,12 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: status <string> Please supply a string.");
             }
+        }
+
+        public shellBSOD(args: string[]) {
+            
+            _Kernel.krnTrapError(args?.[0] ?? "Successfully Failed")
+            
         }
     }
 }
