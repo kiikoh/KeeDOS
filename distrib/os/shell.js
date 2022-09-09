@@ -47,8 +47,10 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellRoulette, "roulette", "- Play a game", "Just play the game and see what happens, its better that way"));
             // status
             this.commandList.push(new TSOS.ShellCommand(this.shellStatus, "status", "- Set the status displayed in the taskbar", "Provide a status to set for the taskbar"));
-            // status
+            // bsod
             this.commandList.push(new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Trigger an error", "Causes an error to take place, used for testing the BSOD"));
+            // load
+            this.commandList.push(new TSOS.ShellCommand(this.shellLoad, "load", "- Load the program in the user program area", "Validates and loads the program provided by the user in the input on the right"));
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -278,6 +280,16 @@ var TSOS;
         shellBSOD(args) {
             var _a;
             _Kernel.krnTrapError((_a = args === null || args === void 0 ? void 0 : args[0]) !== null && _a !== void 0 ? _a : "Successfully Failed");
+        }
+        shellLoad() {
+            const inputElm = document.getElementById("taProgramInput");
+            const userInput = inputElm.value;
+            if (TSOS.Utils.validateHexString(userInput)) {
+                _StdOut.putText("Program is valid");
+            }
+            else {
+                _StdOut.putText("Program is not valid");
+            }
         }
     }
     TSOS.Shell = Shell;

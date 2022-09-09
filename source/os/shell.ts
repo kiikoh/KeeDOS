@@ -123,12 +123,20 @@ module TSOS {
                 "Provide a status to set for the taskbar"
             ))
 
-            // status
+            // bsod
             this.commandList.push(new ShellCommand(
                 this.shellBSOD,
                 "bsod",
                 "- Trigger an error",
                 "Causes an error to take place, used for testing the BSOD"
+            ))
+
+            // load
+            this.commandList.push(new ShellCommand(
+                this.shellLoad,
+                "load",
+                "- Load the program in the user program area",
+                "Validates and loads the program provided by the user in the input on the right"
             ))
 
             // ps  - list the running processes and their IDs
@@ -384,6 +392,17 @@ module TSOS {
             
             _Kernel.krnTrapError(args?.[0] ?? "Successfully Failed")
             
+        }
+
+        public shellLoad() {
+            const inputElm = <HTMLInputElement>document.getElementById("taProgramInput")
+            const userInput = inputElm.value;
+
+            if(Utils.validateHexString(userInput)){
+                _StdOut.putText("Program is valid")
+            } else {
+                _StdOut.putText("Program is not valid")
+            }
         }
     }
 }

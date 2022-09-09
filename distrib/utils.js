@@ -42,6 +42,19 @@ var TSOS;
             }
             return retVal;
         }
+        static validateHexString(input) {
+            const validChars = "0123456789ABCDEF";
+            // begin validation pipeline
+            return input
+                .toUpperCase() // make all upper
+                .trim() // remove trailing whitespace
+                .split(/\s+/) //all remaing whitespace denotes a split
+                .every(hexPair => {
+                return hexPair.length === 2 && // the pair contains two characters
+                    validChars.includes(hexPair[0]) && //the first character is valid
+                    validChars.includes(hexPair[1]); // the second character is valid
+            });
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));
