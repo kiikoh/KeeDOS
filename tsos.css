@@ -36,7 +36,19 @@ h3 {
 }
 
 .normal_button {
-  width: 100px;
+  width: 75px;
+  position: relative;
+  display: block;
+}
+
+#btnHaltOS {
+  top: 180px;
+  left: 15px;
+}
+
+#btnReset {
+  top: 160px;
+  left: 210px;
 }
 
 .footerText {
@@ -113,7 +125,6 @@ h3 {
   border: solid red 2px;
   top: 183px;
   left: 122px;
-  position: relative;
 }
 
 #btnStartOS:hover {
