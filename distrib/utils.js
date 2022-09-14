@@ -45,15 +45,18 @@ var TSOS;
         static validateHexString(input) {
             const validChars = "0123456789ABCDEF";
             // begin validation pipeline
-            return input
+            const parsed = input
                 .toUpperCase() // make all upper
                 .trim() // remove trailing whitespace
-                .split(/\s+/) //all remaing whitespace denotes a split
-                .every(hexPair => {
-                return hexPair.length === 2 && // the pair contains two characters
-                    validChars.includes(hexPair[0]) && //the first character is valid
-                    validChars.includes(hexPair[1]); // the second character is valid
-            });
+                .replace(/\s+/g, '') //remove all whitespace
+                .split('');
+            if (!parsed.every(chr => validChars.includes(chr)))
+                return false;
+            const pairs = [];
+            for (let i = 0; i < parsed.length; i += 2) {
+                pairs.push(parsed[i] + parsed[i + 1]);
+            }
+            return pairs.join(" ");
         }
         static greatestCommonSubstring(strings) {
             let result = "";

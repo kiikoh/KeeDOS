@@ -271,7 +271,9 @@ var TSOS;
         shellLoad() {
             const inputElm = document.getElementById("taProgramInput");
             const userInput = inputElm.value;
-            if (TSOS.Utils.validateHexString(userInput)) {
+            const result = TSOS.Utils.validateHexString(userInput);
+            if (result) {
+                inputElm.value = result;
                 _StdOut.putText("Program is valid");
             }
             else {

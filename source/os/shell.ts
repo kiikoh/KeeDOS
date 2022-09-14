@@ -384,7 +384,10 @@ module TSOS {
             const inputElm = <HTMLInputElement>document.getElementById("taProgramInput")
             const userInput = inputElm.value;
 
-            if(Utils.validateHexString(userInput)){
+            const result = Utils.validateHexString(userInput)
+
+            if(result){
+                inputElm.value = result
                 _StdOut.putText("Program is valid")
             } else {
                 _StdOut.putText("Program is not valid")
