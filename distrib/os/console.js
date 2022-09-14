@@ -110,10 +110,39 @@ var TSOS;
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
+                // Get how big the text is to draw
+                let offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                // we cant write this line, need to wrap
+                if (this.currentXPosition + offset > _Canvas.width) {
+                    const words = text.split(" ");
+                    let numWords = 0;
+                    // loop while the words dont overflow the line
+                    while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, words.slice(0, numWords).join(" ")) + this.currentXPosition < _Canvas.width) {
+                        numWords++;
+                    }
+                    numWords--;
+                    // a word is too big, we need to split by letters
+                    if (numWords === 0) {
+                        const letters = words[0].split("");
+                        let numLetters = 0;
+                        // loop while the words dont overflow the line
+                        while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, letters.slice(0, numLetters).join("")) + this.currentXPosition < _Canvas.width) {
+                            numLetters++;
+                        }
+                        numLetters--;
+                        this.putText(letters.slice(0, numLetters).join("")); // print the letters on the first line
+                        this.advanceLine();
+                        this.putText(letters.slice(numLetters).join(" ")); // print the rest of the letters recursively
+                        return this.putText(words.slice(1).join(" ")); // print the rest of the line
+                    }
+                    // print the maximum number of words on the line, then print the rest recursively
+                    this.putText(words.slice(0, numWords).join(" "));
+                    this.advanceLine();
+                    return this.putText(words.slice(numWords).join(" "));
+                }
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
         }
