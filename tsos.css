@@ -31,7 +31,7 @@ h3 {
 }
 
 #display {
-  background-color:#d8d4d4;
+  background-color:#000000;
   cursor: default;
 }
 
@@ -66,9 +66,10 @@ h3 {
 #taskbar {
   display: flex;
   align-content: space-between;
-  width: 662px;
+  width: 665px;
+  height: 30px;
   background-color: grey;
-  margin-left: 2px;
+  margin-left: 1px;
   padding: 2px;
   padding-top: 0;
   margin-top: 0;
@@ -78,10 +79,11 @@ h3 {
 }
 
 #taskbar > span {
-  width: 100%;
+  /* width: 100%; */
+  flex: content;
   border-left: solid 1px black;
   border-right: solid 1px black;
-  padding: 4px;
+  padding: 5px;
 }
 
 #monitor {
@@ -107,9 +109,9 @@ h3 {
 }
 
 #divConsole {
-  margin: 2px;
+  margin: 0px;
   margin-bottom: 0; 
-  width: 666px; 
+  width: 670px; 
   height: 510px; 
   /* overflow:auto; */
   position: relative;
