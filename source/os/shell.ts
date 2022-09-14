@@ -215,32 +215,18 @@ module TSOS {
         }
 
         public parseInput(buffer: string): UserCommand {
-            var retVal = new UserCommand();
 
-            // 1. Remove leading and trailing spaces.
-            buffer = Utils.trim(buffer);
+            // trim and split the buffer
+            // get the first element as the cmd, and the rest as args
+            let [cmd, ...args] = buffer.trim().split(" "); 
 
-            // 2. Lower-case it.
-            buffer = buffer.toLowerCase();
+            // lowercase and remove leading and trailing whitespace
+            cmd = cmd.toLowerCase().trim()
 
-            // 3. Separate on spaces so we can determine the command and command-line args, if any.
-            var tempList = buffer.split(" ");
+            // trim each of the args in the list
+            args = args.map(arg => arg.trim())
 
-            // 4. Take the first (zeroth) element and use that as the command.
-            var cmd = tempList.shift();  // Yes, you can do that to an array in JavaScript. See the Queue class.
-            // 4.1 Remove any left-over spaces.
-            cmd = Utils.trim(cmd!);
-            // 4.2 Record it in the return value.
-            retVal.command = cmd;
-
-            // 5. Now create the args array from what's left.
-            for (var i in tempList) {
-                var arg = Utils.trim(tempList[i]);
-                if (arg != "") {
-                    retVal.args[retVal.args.length] = tempList[i];
-                }
-            }
-            return retVal;
+            return new UserCommand(cmd, args);
         }
 
         //
@@ -305,7 +291,7 @@ module TSOS {
 
         public shellMan(args: string[]) {
             if (args.length > 0) {
-                const topic = args[0];
+                const topic = args[0].toLowerCase();
 
                 // Get the manual entry, or if not found, say no manual entry
                 const manual = _OsShell.commandList.find(cmd => cmd.command === topic)?.manual || "No manual entry for " + args[0] + "."
@@ -318,7 +304,7 @@ module TSOS {
 
         public shellTrace(args: string[]) {
             if (args.length > 0) {
-                var setting = args[0];
+                var setting = args[0].toLowerCase();
                 switch (setting) {
                     case "on":
                         if (_Trace && _SarcasticMode) {
