@@ -43,6 +43,7 @@ var TSOS;
             return retVal;
         }
         static validateHexString(input) {
+            var _a;
             const validChars = "0123456789ABCDEF";
             // begin validation pipeline
             const parsed = input
@@ -54,7 +55,7 @@ var TSOS;
                 return false;
             const pairs = [];
             for (let i = 0; i < parsed.length; i += 2) {
-                pairs.push(parsed[i] + parsed[i + 1]);
+                pairs.push(parsed[i] + ((_a = parsed[i + 1]) !== null && _a !== void 0 ? _a : ""));
             }
             return pairs.join(" ");
         }

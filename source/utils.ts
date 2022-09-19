@@ -60,7 +60,7 @@ module TSOS {
 
             const pairs = []
             for(let i = 0; i < parsed.length; i+=2) {
-                pairs.push(parsed[i] + parsed[i+1])
+                pairs.push(parsed[i] + (parsed[i+1] ?? ""))
             }
 
             return pairs.join(" ");
