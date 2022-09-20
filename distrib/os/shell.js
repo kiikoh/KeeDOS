@@ -274,8 +274,9 @@ var TSOS;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
                 inputElm.value = result;
-                _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
-                _StdOut.putText("Program is valid");
+                const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
+                _Processes.set(pcb.PID, pcb);
+                _StdOut.putText("Process ID: " + pcb.PID);
             }
             else {
                 _StdOut.putText("Program is not valid");

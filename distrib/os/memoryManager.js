@@ -1,14 +1,14 @@
 var TSOS;
 (function (TSOS) {
     class MemoryManager {
-        constructor(id = 0) {
-            this.id = id;
+        constructor() {
         }
         load(data) {
             for (let i = 0; i < _Memory.length; i++) {
                 if (data[i])
                     _MemoryAccessor.write(i, data[i]);
             }
+            return new TSOS.PCB();
         }
     }
     TSOS.MemoryManager = MemoryManager;
