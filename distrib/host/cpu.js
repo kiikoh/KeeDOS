@@ -12,7 +12,7 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
-    class Cpu {
+    class CPU {
         constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false) {
             this.PC = PC;
             this.Acc = Acc;
@@ -35,6 +35,6 @@ var TSOS;
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }
     }
-    TSOS.Cpu = Cpu;
+    TSOS.CPU = CPU;
 })(TSOS || (TSOS = {}));
 //# sourceMappingURL=cpu.js.map

@@ -388,6 +388,7 @@ module TSOS {
 
             if(result){
                 inputElm.value = result
+                _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)))
                 _StdOut.putText("Program is valid")
             } else {
                 _StdOut.putText("Program is not valid")

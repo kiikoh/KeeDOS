@@ -13,7 +13,7 @@
 
 module TSOS {
 
-    export class Cpu {
+    export class CPU {
 
         constructor(public PC: number = 0,
                     public Acc: number = 0,

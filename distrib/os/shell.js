@@ -274,6 +274,7 @@ var TSOS;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
                 inputElm.value = result;
+                _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
                 _StdOut.putText("Program is valid");
             }
             else {

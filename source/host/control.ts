@@ -42,14 +42,45 @@ module TSOS {
             // Use the TypeScript cast to HTMLInputElement
             (<HTMLInputElement> document.getElementById("btnStartOS")).focus();
 
+            _CPU = new CPU();	
+            _CPU.init();
+            _Memory	=	new	Memory();
+            _Memory.init();
+            _MemoryAccessor	=	new	MemoryAccessor();
+
+            // create the memory table
+            const table = document.getElementById('memoryDisplay')
+
+            for(let i = 0x000;i <= 0x2F8;i+=8) {
+                const row = document.createElement('tr')
+                const address = document.createElement('th')
+                address.innerText = "0x" + i.toString(16).toUpperCase()
+                row.appendChild(address)
+
+                for(let j = 0;j < 8;j++) {
+                    const cell = document.createElement('td')
+                    cell.innerText = "00"
+                    row.appendChild(cell)
+                }
+                
+                table.appendChild(row)
+            }
+
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
                 // function Glados() is here, so instantiate Her into
                 // the global (and properly capitalized) _GLaDOS variable.
-                _GLaDOS = new Glados();
-                _GLaDOS.init();
+                // _GLaDOS = new Glados();
+                // _GLaDOS.init();
             }
+
+        }
+
+        public static updateMemory(address: number, value: number) {
+            const col = address % 8 + 2;
+            const row = Math.floor(address / 8) + 1;
+           (<HTMLDataElement>document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`)).innerText = value.toString(16).toUpperCase();
         }
 
         public static hostLog(msg: string, source: string = "?"): void {
@@ -85,7 +116,7 @@ module TSOS {
             document.getElementById("display")!.focus();
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
-            _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
+            _CPU = new CPU();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
             // ... then set the host clock pulse ...
