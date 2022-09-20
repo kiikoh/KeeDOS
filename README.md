@@ -1,3 +1,5 @@
+To Alan, use branch iProject1 for iProject1
+
 2019 - 2021 Browser-based Operating System in TypeScript
 ========================================================
 
