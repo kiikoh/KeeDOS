@@ -139,6 +139,14 @@ module TSOS {
                 "Validates and loads the program provided by the user in the input on the right"
             ))
 
+            // run
+            this.commandList.push(new ShellCommand(
+                this.shellRun,
+                "run",
+                "<number> - Run the program with a given pid",
+                "Makes the program loaded execute"
+            ))
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -394,6 +402,10 @@ module TSOS {
             } else {
                 _StdOut.putText("Program is not valid")
             }
+        }
+
+        public shellRun(args: string[]) {
+            _CPU.isExecuting = true;
         }
     }
 }

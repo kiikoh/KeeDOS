@@ -51,6 +51,8 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Trigger an error", "Causes an error to take place, used for testing the BSOD"));
             // load
             this.commandList.push(new TSOS.ShellCommand(this.shellLoad, "load", "- Load the program in the user program area", "Validates and loads the program provided by the user in the input on the right"));
+            // run
+            this.commandList.push(new TSOS.ShellCommand(this.shellRun, "run", "<number> - Run the program with a given pid", "Makes the program loaded execute"));
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -281,6 +283,9 @@ var TSOS;
             else {
                 _StdOut.putText("Program is not valid");
             }
+        }
+        shellRun(args) {
+            _CPU.isExecuting = true;
         }
     }
     TSOS.Shell = Shell;
