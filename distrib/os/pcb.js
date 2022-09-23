@@ -8,7 +8,7 @@ var TSOS;
             this.ACC = 0;
             this.X = 0;
             this.Y = 0;
-            this.Z = 0;
+            this.Z = false;
             console.log(this);
         }
     }

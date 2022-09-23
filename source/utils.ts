@@ -82,5 +82,16 @@ module TSOS {
             }
             return result;
         }
+
+        public static getCompliment(num: number): number {
+            return num < 128 ? num : -(256 - num)
+        };
+    
+        public static compAddition(num1: number, num2: number): number {
+            const result = this.getCompliment(num1) + this.getCompliment(num2);
+            if(result >= 256) throw new Error("Integer Overflow");
+            if(result < 0) throw new Error("Integer Underflow");
+            return result;
+        }
     }
 }

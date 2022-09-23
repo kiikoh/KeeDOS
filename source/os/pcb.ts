@@ -8,7 +8,7 @@ module TSOS {
         public ACC = 0
         public X = 0
         public Y = 0 
-        public Z = 0 
+        public Z = false
 
         constructor() {
             console.log(this)

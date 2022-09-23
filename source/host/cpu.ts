@@ -37,6 +37,14 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+
+            // get the instruction and run it
+            const state = _Processes.get(0)
+            state.IR = _MemoryAccessor.read(state.PC++)
+            const op = instructions.get(state.IR);
+
+            // set the PCB to the after state
+            _Processes.set(0, op(state));
         }
     }
 }

@@ -73,6 +73,18 @@ var TSOS;
             }
             return result;
         }
+        static getCompliment(num) {
+            return num < 128 ? num : -(256 - num);
+        }
+        ;
+        static compAddition(num1, num2) {
+            const result = this.getCompliment(num1) + this.getCompliment(num2);
+            if (result >= 256)
+                throw new Error("Integer Overflow");
+            if (result < 0)
+                throw new Error("Integer Underflow");
+            return result;
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));
