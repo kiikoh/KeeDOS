@@ -77,10 +77,12 @@ var TSOS;
         // Branch n bytes if Z flag = 0
         const bytesToBranch = _MemoryAccessor.read(state.PC++);
         if (state.Z === false) {
-            console.log(state.PC, bytesToBranch);
+            console.log(`Branching ${bytesToBranch} bytes from ${state.PC}`);
             state.PC += bytesToBranch;
-            state.PC %= 256;
-            state.PC++;
+            if (state.PC > 0xFF) {
+                state.PC -= 0x100;
+            }
+            console.log("to " + state.PC);
         }
         return state;
     });
