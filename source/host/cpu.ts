@@ -20,7 +20,7 @@ module TSOS {
                     public Acc: number = 0,
                     public Xreg: number = 0,
                     public Yreg: number = 0,
-                    public Zflag: number = 0,
+                    public Zflag: boolean = false,
                     public isExecuting: boolean = false) {
 
         }
@@ -30,7 +30,7 @@ module TSOS {
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;
-            this.Zflag = 0;
+            this.Zflag = false;
             this.isExecuting = false;
         }
 
@@ -40,12 +40,44 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecuting appropriately.
 
             // get the instruction and run it
-            const state = _Processes.get(0)
-            state.IR = _MemoryAccessor.read(state.PC++)
-            const op = instructions.get(state.IR);
+            this.IR = _MemoryAccessor.read(this.PC++)
+            const op = instructions.get(this.IR);
 
-            // set the PCB to the after state
-            _Processes.set(0, op(state));
+            if(!op) {
+                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR)
+                return
+            }
+
+            op(this);
+            console.log(this.IR.toString(16).toUpperCase())
+
+            this.writeCPUtoPCB()
+            TSOS.Control.updateCPU()
+        }
+
+        public writeCPUtoPCB(): void {
+            const pcb = _Processes.get(_activeProcess)
+
+            pcb.update({
+                Acc: this.Acc, 
+                IR: this.IR, 
+                PC: this.PC, 
+                Xreg: this.Xreg, 
+                Yreg: this.Yreg, 
+                Zflag: this.Zflag
+            })
+
+        }
+
+        public loadCPUfromPCB(pcb: PCB): void {
+            this.PC = pcb.PC
+            this.IR = pcb.IR
+            this.Acc = pcb.Acc
+            this.PC = pcb.PC
+            this.PC = pcb.PC
+            this.PC = pcb.PC
+            console.log(this)
+
         }
     }
 }

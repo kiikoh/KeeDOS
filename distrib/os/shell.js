@@ -275,9 +275,15 @@ var TSOS;
             const userInput = inputElm.value;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
+                // TODO: remove later
+                if (_CPU.isExecuting) {
+                    _StdOut.putText("A program is currently running... please wait");
+                    return;
+                }
                 inputElm.value = result;
                 const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
                 _Processes.set(pcb.PID, pcb);
+                TSOS.Control.updatePCBs();
                 _StdOut.putText("Process ID: " + pcb.PID);
             }
             else {
@@ -285,7 +291,25 @@ var TSOS;
             }
         }
         shellRun(args) {
-            _CPU.isExecuting = true;
+            const pid = parseInt(args[0]);
+            // validate input
+            if (args.length > 0 && !isNaN(pid)) {
+                if (_CPU.isExecuting) {
+                    _StdOut.putText("A program is currently running... please wait");
+                    return;
+                }
+                const pcb = _Processes.get(pid);
+                if (!pcb) {
+                    _StdOut.putText("Process ID does not exist");
+                    return;
+                }
+                _activeProcess = pid; // should be removed later when scheduler is added
+                _CPU.loadCPUfromPCB(pcb);
+                _CPU.isExecuting = true;
+            }
+            else {
+                _StdOut.putText("A process ID number must be provided");
+            }
         }
     }
     TSOS.Shell = Shell;

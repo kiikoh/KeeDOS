@@ -5,11 +5,19 @@ var TSOS;
             this.PID = PCB.numProcesses++;
             this.PC = 0;
             this.IR = 0;
-            this.ACC = 0;
-            this.X = 0;
-            this.Y = 0;
-            this.Z = false;
-            console.log(this);
+            this.Acc = 0;
+            this.Xreg = 0;
+            this.Yreg = 0;
+            this.Zflag = false;
+        }
+        update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
+            this.PC = PC;
+            this.IR = IR;
+            this.Acc = Acc;
+            this.Xreg = Xreg;
+            this.Yreg = Yreg;
+            this.Zflag = Zflag;
+            TSOS.Control.updatePCBs();
         }
     }
     PCB.numProcesses = 0;

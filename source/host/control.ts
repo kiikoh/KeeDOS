@@ -46,10 +46,12 @@ module TSOS {
             _CPU.init();
             _Memory	=	new	Memory();
             _Memory.init();
-            _MemoryAccessor	=	new	MemoryAccessor();
+            _MemoryAccessor	= new MemoryAccessor();
 
-            // create the memory table
-            const table = document.getElementById('memoryDisplay')
+            this.updateCPU()
+
+            // --------------------- MEMORY UI -------------------------
+            const memoryTable = document.getElementById('memoryDisplay')!
 
             for(let i = 0x000;i <= 0x2F8;i+=8) {
                 const row = document.createElement('tr')
@@ -63,16 +65,17 @@ module TSOS {
                     row.appendChild(cell)
                 }
                 
-                table.appendChild(row)
+                memoryTable.appendChild(row)
             }
+            // --------------------- MEMORY UI -------------------------
 
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
                 // function Glados() is here, so instantiate Her into
                 // the global (and properly capitalized) _GLaDOS variable.
-                // _GLaDOS = new Glados();
-                // _GLaDOS.init();
+                _GLaDOS = new Glados();
+                _GLaDOS.init();
             }
 
         }
@@ -81,6 +84,40 @@ module TSOS {
             const col = address % 8 + 2;
             const row = Math.floor(address / 8) + 1;
            (<HTMLDataElement>document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`)).innerText = value.toString(16).toUpperCase();
+        }
+
+        public static updatePCBs() {
+            const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#pcbDisplay > tbody"))
+            let pcbRows: HTMLTableRowElement[] = []
+            for(let pcb of _Processes.values()){
+                const row = document.createElement('tr')
+                row.innerHTML = `
+                    <td>${pcb.PID}</td>
+                    <td>${pcb.PC.toString(16).toUpperCase()}</td>
+                    <td>${pcb.IR.toString(16).toUpperCase()}</td>
+                    <td>${pcb.Acc.toString(16).toUpperCase()}</td>
+                    <td>${pcb.Xreg.toString(16).toUpperCase()}</td>
+                    <td>${pcb.Yreg.toString(16).toUpperCase()}</td>
+                    <td>${pcb.Zflag ? "1" : "0"}</td>
+                `
+                pcbRows.push(row)
+            }
+            pcbTableBody.replaceChildren(...pcbRows)
+        }
+
+        public static updateCPU() {
+            const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#cpuDisplay > tbody"))
+            const row = document.createElement('tr')
+            row.innerHTML = `
+                <td>${_CPU.PC.toString(16).toUpperCase()}</td>
+                <td>${_CPU.IR.toString(16).toUpperCase()}</td>
+                <td>${_CPU.Acc.toString(16).toUpperCase()}</td>
+                <td>${_CPU.Xreg.toString(16).toUpperCase()}</td>
+                <td>${_CPU.Yreg.toString(16).toUpperCase()}</td>
+                <td>${_CPU.Zflag ? "1" : "0"}</td>
+            `
+
+            pcbTableBody.replaceChildren(row)
         }
 
         public static hostLog(msg: string, source: string = "?"): void {

@@ -32,6 +32,8 @@ var _MemoryAccessor: TSOS.MemoryAccessor;
 var _MemoryManager: TSOS.MemoryManager;
 var _OSclock: number = 0;  // Page 23.
 const _Processes = new Map<number, TSOS.PCB>();
+// TODO: remove this after project 2
+let _activeProcess: number | null = null;
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 

@@ -4,7 +4,7 @@ var TSOS;
         constructor() {
         }
         load(data) {
-            for (let i = 0; i < _Memory.length; i++) {
+            for (let i = 0; i < 0x100; i++) {
                 if (data[i])
                     _MemoryAccessor.write(i, data[i]);
             }

@@ -13,7 +13,7 @@
 var TSOS;
 (function (TSOS) {
     class CPU {
-        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false) {
+        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = false, isExecuting = false) {
             this.PC = PC;
             this.IR = IR;
             this.Acc = Acc;
@@ -27,7 +27,7 @@ var TSOS;
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;
-            this.Zflag = 0;
+            this.Zflag = false;
             this.isExecuting = false;
         }
         cycle() {
@@ -35,11 +35,36 @@ var TSOS;
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             // get the instruction and run it
-            const state = _Processes.get(0);
-            state.IR = _MemoryAccessor.read(state.PC++);
-            const op = TSOS.instructions.get(state.IR);
-            // set the PCB to the after state
-            _Processes.set(0, op(state));
+            this.IR = _MemoryAccessor.read(this.PC++);
+            const op = TSOS.instructions.get(this.IR);
+            if (!op) {
+                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR);
+                return;
+            }
+            op(this);
+            console.log(this.IR.toString(16).toUpperCase());
+            this.writeCPUtoPCB();
+            TSOS.Control.updateCPU();
+        }
+        writeCPUtoPCB() {
+            const pcb = _Processes.get(_activeProcess);
+            pcb.update({
+                Acc: this.Acc,
+                IR: this.IR,
+                PC: this.PC,
+                Xreg: this.Xreg,
+                Yreg: this.Yreg,
+                Zflag: this.Zflag
+            });
+        }
+        loadCPUfromPCB(pcb) {
+            this.PC = pcb.PC;
+            this.IR = pcb.IR;
+            this.Acc = pcb.Acc;
+            this.PC = pcb.PC;
+            this.PC = pcb.PC;
+            this.PC = pcb.PC;
+            console.log(this);
         }
     }
     TSOS.CPU = CPU;

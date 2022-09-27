@@ -132,3 +132,41 @@ h3 {
 #btnStartOS:hover {
   background-color: #22ff2288;
 }
+
+#memoryContainer {
+  max-height: 176px;
+  width: 244px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  left: 25px;
+  top: 263px;
+  border: solid #345b74 2px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+#memoryDisplay {
+  background-color: #abc3cf;
+}
+
+tr:nth-child(even) {
+  background-color: #8aabbc;
+}
+
+#cpuDisplay {
+  position: relative;
+  border: solid #345b74 2px;
+  top: 263px;  
+  left: 25px;
+  width: 248px;
+
+}
+
+#pcbDisplay {
+  position: relative;
+  border: solid #345b74 2px;
+  left: 25px;
+  top: 263px;  
+  width: 248px;
+
+}
