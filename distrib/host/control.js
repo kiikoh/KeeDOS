@@ -45,7 +45,8 @@ var TSOS;
             for (let i = 0x000; i <= 0x2F8; i += 8) {
                 const row = document.createElement('tr');
                 const address = document.createElement('th');
-                address.innerText = "0x" + i.toString(16).toUpperCase();
+                address.innerText = "0x";
+                TSOS.Utils.toHexString(+i, 2);
                 row.appendChild(address);
                 for (let j = 0; j < 8; j++) {
                     const cell = document.createElement('td');
@@ -67,7 +68,7 @@ var TSOS;
         static updateMemory(address, value) {
             const col = address % 8 + 2;
             const row = Math.floor(address / 8) + 1;
-            document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`).innerText = value.toString(16).toUpperCase();
+            document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`).innerText = TSOS.Utils.toHexString(value, 2);
         }
         static updatePCBs() {
             const pcbTableBody = document.querySelector("#pcbDisplay > tbody");
@@ -76,11 +77,11 @@ var TSOS;
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${pcb.PID}</td>
-                    <td>${pcb.PC.toString(16).toUpperCase()}</td>
-                    <td>${pcb.IR.toString(16).toUpperCase()}</td>
-                    <td>${pcb.Acc.toString(16).toUpperCase()}</td>
-                    <td>${pcb.Xreg.toString(16).toUpperCase()}</td>
-                    <td>${pcb.Yreg.toString(16).toUpperCase()}</td>
+                    <td>${TSOS.Utils.toHexString(pcb.PC, 2)}</td>
+                    <td>${TSOS.Utils.toHexString(pcb.IR, 2)}</td>
+                    <td>${TSOS.Utils.toHexString(pcb.Acc, 2)}</td>
+                    <td>${TSOS.Utils.toHexString(pcb.Xreg, 2)}</td>
+                    <td>${TSOS.Utils.toHexString(pcb.Yreg, 2)}</td>
                     <td>${pcb.Zflag ? "1" : "0"}</td>
                 `;
                 pcbRows.push(row);
@@ -91,11 +92,11 @@ var TSOS;
             const pcbTableBody = document.querySelector("#cpuDisplay > tbody");
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${_CPU.PC.toString(16).toUpperCase()}</td>
-                <td>${_CPU.IR.toString(16).toUpperCase()}</td>
-                <td>${_CPU.Acc.toString(16).toUpperCase()}</td>
-                <td>${_CPU.Xreg.toString(16).toUpperCase()}</td>
-                <td>${_CPU.Yreg.toString(16).toUpperCase()}</td>
+                <td>${TSOS.Utils.toHexString(_CPU.PC, 2)}</td>
+                <td>${TSOS.Utils.toHexString(_CPU.IR, 2)}</td>
+                <td>${TSOS.Utils.toHexString(_CPU.Acc, 2)}</td>
+                <td>${TSOS.Utils.toHexString(_CPU.Xreg, 2)}</td>
+                <td>${TSOS.Utils.toHexString(_CPU.Yreg, 2)}</td>
                 <td>${_CPU.Zflag ? "1" : "0"}</td>
             `;
             pcbTableBody.replaceChildren(row);

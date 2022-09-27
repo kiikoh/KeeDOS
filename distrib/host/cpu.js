@@ -42,7 +42,6 @@ var TSOS;
                 return;
             }
             op(this);
-            console.log(this.IR.toString(16).toUpperCase());
             this.writeCPUtoPCB();
             TSOS.Control.updateCPU();
         }

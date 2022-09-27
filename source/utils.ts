@@ -93,5 +93,13 @@ module TSOS {
             if(result < 0) throw new Error("Integer Underflow");
             return result;
         }
+
+        public static toHexString(value: number, length?: number): string {
+            let str = value.toString(16).toUpperCase()
+            if(!length) {
+                return str
+            }
+            return str.padStart(length, "0")
+        }
     }
 }

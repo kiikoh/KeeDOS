@@ -85,7 +85,7 @@ var TSOS;
     TSOS.instructions.set(0xFF, state => {
         // System Call
         if (state.Xreg === 1) { // Print the integer in the Y register
-            _Console.putText(state.Yreg.toString(16));
+            _Console.putText(state.Yreg.toString());
         }
         else if (state.Xreg === 2) { // Print the 0x00 terminated string stored at address in the Y register
             let address = state.Yreg;

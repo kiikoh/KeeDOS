@@ -85,6 +85,13 @@ var TSOS;
                 throw new Error("Integer Underflow");
             return result;
         }
+        static toHexString(value, length) {
+            let str = value.toString(16).toUpperCase();
+            if (!length) {
+                return str;
+            }
+            return str.padStart(length, "0");
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));
