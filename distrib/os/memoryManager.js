@@ -4,9 +4,9 @@ var TSOS;
         constructor() {
         }
         load(data) {
+            var _a;
             for (let i = 0; i < 0x100; i++) {
-                if (data[i])
-                    _MemoryAccessor.write(i, data[i]);
+                _MemoryAccessor.write(i, (_a = data[i]) !== null && _a !== void 0 ? _a : 0);
             }
             return new TSOS.PCB();
         }

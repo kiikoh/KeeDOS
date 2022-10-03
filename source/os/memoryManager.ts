@@ -6,7 +6,7 @@ module TSOS {
 
         public load(data: number[]) {
             for(let i = 0; i < 0x100;i++) {
-                if(data[i]) _MemoryAccessor.write(i, data[i])
+                _MemoryAccessor.write(i, data[i] ?? 0)
             }
             return new TSOS.PCB();
         }

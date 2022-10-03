@@ -56,7 +56,7 @@ module TSOS {
             for(let i = 0x000;i <= 0x2F8;i+=8) {
                 const row = document.createElement('tr')
                 const address = document.createElement('th')
-                address.innerText = "0x"Utils.toHexString (+ i, 2)
+                address.innerText = "0x" + Utils.toHexString(i, 3)
                 row.appendChild(address)
 
                 for(let j = 0;j < 8;j++) {
