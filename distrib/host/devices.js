@@ -47,7 +47,7 @@ var TSOS;
             event.preventDefault();
             // Note the pressed key code in the params (Mozilla-specific).
             // event.which has been deprecated and was giving me strange results... typing period would give me 190 for example
-            var params = [event.key, event.shiftKey];
+            var params = [event.key, event.shiftKey, event.ctrlKey];
             // Enqueue this interrupt on the kernel interrupt queue so that it gets to the Interrupt handler.
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
         }

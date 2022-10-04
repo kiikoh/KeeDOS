@@ -70,6 +70,24 @@
                tabindex="2"
                onclick="TSOS.Control.hostBtnReset_click(this);"
       >
+      <input type="button"
+               id = "btnSingleStepToggle"
+               name="btnSingleStepToggle"
+               class="normal_button"
+               disabled="disabled"
+               value="Single Step"
+               tabindex="3"
+               onclick="TSOS.Control.hostBtnSingleStepEnable_click(this);"
+      >
+      <input type="button"
+               id = "btnSingleStepOnce"
+               name="btnSingleStepOnce"
+               class="normal_button"
+               disabled="disabled"
+               value=">"
+               tabindex="4"
+               onclick="TSOS.Control.hostBtnSingleStepOnce_click(this);"
+      >
       <div id="memoryContainer">
          <table id="memoryDisplay">
          </table>
@@ -108,7 +126,7 @@
          <canvas id="display"
                width="670px"
                height="510px"
-               tabindex="3"
+               tabindex="5"
          >
          </canvas>
       </div>

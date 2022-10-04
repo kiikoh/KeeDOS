@@ -31,7 +31,8 @@ module TSOS {
             // Parse the params.  TODO: Check that the params are valid and osTrapError if not.
             var key = params[0];
             var isShifted = params[1];
-            _Kernel.krnTrace("Key: " + key + " shifted:" + isShifted);   
+            var isCtrl = params[2];
+            _Kernel.krnTrace(`Key: ${key}, Shifted: ${isShifted}, Ctrled: ${isCtrl}`);   
 
             // I ripped out alot of the logic here as there is now newer APIs 
             // that can abstract this functionality away, also because the existing 
@@ -48,7 +49,11 @@ module TSOS {
                 key === "ArrowDown" ||
                 key === 13 // Fix for GlaDOS testing due to how I changed this function 
             ) {
-                _KernelInputQueue.enqueue(key);
+                if(key === 'c' && isCtrl) {
+                    _KernelInputQueue.enqueue("ctrl-c");
+                } else {
+                    _KernelInputQueue.enqueue(key);
+                }
             }
 
         }

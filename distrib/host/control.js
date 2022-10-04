@@ -45,8 +45,7 @@ var TSOS;
             for (let i = 0x000; i <= 0x2F8; i += 8) {
                 const row = document.createElement('tr');
                 const address = document.createElement('th');
-                address.innerText = "0x";
-                TSOS.Utils.toHexString(+i, 2);
+                address.innerText = "0x" + TSOS.Utils.toHexString(i, 3);
                 row.appendChild(address);
                 for (let j = 0; j < 8; j++) {
                     const cell = document.createElement('td');
@@ -119,9 +118,10 @@ var TSOS;
         static hostBtnStartOS_click(btn) {
             // Disable the (passed-in) start button...
             btn.disabled = true;
-            // .. enable the Halt and Reset buttons ...
+            // .. enable the Halt, Reset, and SingleStep buttons ...
             document.getElementById("btnHaltOS").disabled = false;
             document.getElementById("btnReset").disabled = false;
+            document.getElementById("btnSingleStepToggle").disabled = false;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
@@ -155,6 +155,21 @@ var TSOS;
             // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
+        }
+        static hostBtnSingleStepEnable_click(btn) {
+            const singleStepOnceBtn = document.getElementById('btnSingleStepOnce');
+            _singleStepEnabled = !_singleStepEnabled;
+            if (_singleStepEnabled) {
+                btn.style.backgroundColor = 'green';
+                singleStepOnceBtn.disabled = false;
+            }
+            else {
+                btn.style.backgroundColor = 'red';
+                singleStepOnceBtn.disabled = true;
+            }
+        }
+        static hostBtnSingleStepOnce_click(btn) {
+            _shouldStep = true;
         }
     }
     TSOS.Control = Control;

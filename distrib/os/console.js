@@ -78,6 +78,15 @@ var TSOS;
                     const newBuff = (_b = _OsShell.history[_OsShell.history.length - this.historyIndex]) !== null && _b !== void 0 ? _b : "";
                     this.setBuffer(newBuff);
                 }
+                else if (chr === "ctrl-c") {
+                    _CPU.isExecuting = false;
+                    this.advanceLine();
+                    this.putText("^C");
+                    this.advanceLine();
+                    this.buffer = "";
+                    _OsShell.putPrompt();
+                    this.historyIndex = 0;
+                }
                 else if (typeof chr === "string") {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -85,7 +94,6 @@ var TSOS;
                     // ... and add it to our buffer.
                     this.buffer += chr;
                 }
-                // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }
         }
         setBuffer(text) {

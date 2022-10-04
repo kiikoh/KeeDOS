@@ -35,6 +35,9 @@ const _Processes = new Map<number, TSOS.PCB>();
 // TODO: remove this after project 2
 let _activeProcess: number | null = null;
 
+let _singleStepEnabled = false;
+let _shouldStep = false;
+
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 
 var _Canvas: HTMLCanvasElement;          // Initialized in Control.hostInit().

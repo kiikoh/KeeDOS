@@ -91,14 +91,21 @@ module TSOS {
                     const newBuff = _OsShell.history[_OsShell.history.length - this.historyIndex] ?? ""
                     
                     this.setBuffer(newBuff)
+                } else if(chr === "ctrl-c") {
+                    _CPU.isExecuting = false;
+                    this.advanceLine()
+                    this.putText("^C")
+                    this.advanceLine()
+                    this.buffer = ""
+                    _OsShell.putPrompt()
+                    this.historyIndex = 0
                 } else if(typeof chr === "string") {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
                     // ... and add it to our buffer.
                     this.buffer += chr;
-                }
-                // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
+                } 
             }
         }
 
