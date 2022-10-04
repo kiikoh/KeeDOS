@@ -18,11 +18,6 @@ module TSOS {
     instructions.set(0xAD, state => {
         // Load the accumulator from memory
 
-
-        // const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)]
-        // // console.log(`hob: ${hob.toString(16)}, lob: ${lob.toString(16)}`)
-        // const address = hob << 8 | lob
-
         const address = readTwoByteEndian(state.PC)
         state.PC+=2
 
@@ -32,9 +27,8 @@ module TSOS {
     instructions.set(0x8D, state => {
         // Store the accumulator in memory
 
-        // get address to store at
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)]
-        const address = hob << 8 | lob
+        const address = readTwoByteEndian(state.PC)
+        state.PC+=2
 
         _MemoryAccessor.write(address, state.Acc)
     })
