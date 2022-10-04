@@ -1,29 +1,31 @@
 var TSOS;
 (function (TSOS) {
     TSOS.instructions = new Map();
+    const readTwoByteEndian = (pc) => {
+        const [lob, hob] = [_MemoryAccessor.read(pc), _MemoryAccessor.read(pc + 1)];
+        const address = hob << 8 | lob;
+        return address;
+    };
     TSOS.instructions.set(0xA9, state => {
         // Load the accumulator with a constant
         state.Acc = _MemoryAccessor.read(state.PC++);
     });
     TSOS.instructions.set(0xAD, state => {
         // Load the accumulator from memory
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        // console.log(`hob: ${hob.toString(16)}, lob: ${lob.toString(16)}`)
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         state.Acc = _MemoryAccessor.read(address);
     });
     TSOS.instructions.set(0x8D, state => {
         // Store the accumulator in memory
-        // get address to store at
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         _MemoryAccessor.write(address, state.Acc);
     });
     TSOS.instructions.set(0x6D, state => {
         // Add with carry
-        // get address to add
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         state.Acc = TSOS.Utils.compAddition(state.Acc, _MemoryAccessor.read(address));
     });
     TSOS.instructions.set(0xA2, state => {
@@ -32,9 +34,8 @@ var TSOS;
     });
     TSOS.instructions.set(0xAE, state => {
         // Load X from memory
-        // get address to add
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         state.Xreg = _MemoryAccessor.read(address);
     });
     TSOS.instructions.set(0xA0, state => {
@@ -43,9 +44,8 @@ var TSOS;
     });
     TSOS.instructions.set(0xAC, state => {
         // Load Y from memory
-        // get address to add
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         state.Yreg = _MemoryAccessor.read(address);
     });
     TSOS.instructions.set(0xEA, state => {
@@ -57,9 +57,8 @@ var TSOS;
     });
     TSOS.instructions.set(0xEC, state => {
         // Compare a byte in memory to the X reg, Sets the Z (zero) flag if equal
-        // get address to compare
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         state.Zflag = (state.Xreg === _MemoryAccessor.read(address));
     });
     TSOS.instructions.set(0xD0, state => {
@@ -76,9 +75,8 @@ var TSOS;
     });
     TSOS.instructions.set(0xEE, state => {
         // Increment the value of a byte
-        // get address to increment
-        const [lob, hob] = [_MemoryAccessor.read(state.PC++), _MemoryAccessor.read(state.PC++)];
-        const address = hob << 8 | lob;
+        const address = readTwoByteEndian(state.PC);
+        state.PC += 2;
         // safely add to byte and write it back
         _MemoryAccessor.write(address, TSOS.Utils.compAddition(1, _MemoryAccessor.read(address)));
     });
