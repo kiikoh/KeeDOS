@@ -106,7 +106,7 @@ module TSOS {
         }
 
         public static updateCPU() {
-            const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#cpuDisplay > tbody"))
+            const cpuTableBody = (<HTMLTableSectionElement>document.querySelector("#cpuDisplay > tbody"))
             const row = document.createElement('tr')
             row.innerHTML = `
                 <td>${Utils.toHexString(_CPU.PC, 2)}</td>
@@ -117,7 +117,7 @@ module TSOS {
                 <td>${_CPU.Zflag ? "1" : "0"}</td>
             `
 
-            pcbTableBody.replaceChildren(row)
+            cpuTableBody.replaceChildren(row)
         }
 
         public static hostLog(msg: string, source: string = "?"): void {
