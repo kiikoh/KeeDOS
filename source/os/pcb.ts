@@ -9,6 +9,8 @@ module TSOS {
         public Xreg = 0
         public Yreg = 0 
         public Zflag = false
+        public state: "Resident" | "Ready" | "Running" | "Terminated" = "Resident"
+        public segment: 0 | 1 | 2 = 0 // TODO: Make this dynamic
 
         constructor() {
             

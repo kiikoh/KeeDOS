@@ -82,13 +82,15 @@ var TSOS;
                     <td>${TSOS.Utils.toHexString(pcb.Xreg, 2)}</td>
                     <td>${TSOS.Utils.toHexString(pcb.Yreg, 2)}</td>
                     <td>${pcb.Zflag ? "1" : "0"}</td>
+                    <td>${pcb.segment}</td>
+                    <td>${pcb.state}</td>
                 `;
                 pcbRows.push(row);
             }
             pcbTableBody.replaceChildren(...pcbRows);
         }
         static updateCPU() {
-            const pcbTableBody = document.querySelector("#cpuDisplay > tbody");
+            const cpuTableBody = document.querySelector("#cpuDisplay > tbody");
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${TSOS.Utils.toHexString(_CPU.PC, 2)}</td>
@@ -98,7 +100,7 @@ var TSOS;
                 <td>${TSOS.Utils.toHexString(_CPU.Yreg, 2)}</td>
                 <td>${_CPU.Zflag ? "1" : "0"}</td>
             `;
-            pcbTableBody.replaceChildren(row);
+            cpuTableBody.replaceChildren(row);
         }
         static hostLog(msg, source = "?") {
             // Note the OS CLOCK.

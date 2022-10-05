@@ -80,12 +80,14 @@ var TSOS;
                 }
                 else if (chr === "ctrl-c") {
                     _CPU.isExecuting = false;
+                    _Processes.get(_activeProcess).state = "Terminated";
+                    TSOS.Control.updatePCBs();
+                    this.historyIndex = 0;
+                    this.buffer = "";
                     this.advanceLine();
                     this.putText("^C");
                     this.advanceLine();
-                    this.buffer = "";
                     _OsShell.putPrompt();
-                    this.historyIndex = 0;
                 }
                 else if (typeof chr === "string") {
                     // This is a "normal" character, so ...

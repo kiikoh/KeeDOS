@@ -396,14 +396,17 @@ module TSOS {
 
             if(result){
 
-                // TODO: remove later
-                if(_CPU.isExecuting) {
-                    _StdOut.putText("A program is currently running... please wait")
+                // Check if any processes are ready or running on segment 0
+                if(Array.from(_Processes).some(proc => 
+                    (proc[1].state === "Ready" || proc[1].state === "Running") && proc[1].segment === 0
+                )) {
+                    _StdOut.putText("A program is currently ready or running in this segment")
                     return
                 }
 
                 inputElm.value = result
                 const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)))
+                pcb.state = "Ready"
 
                 _Processes.set(pcb.PID, pcb)
                 TSOS.Control.updatePCBs();
@@ -418,7 +421,8 @@ module TSOS {
 
             // validate input
             if(args.length > 0 && !isNaN(pid)){
-                if(_CPU.isExecuting) {
+                // Odd way of looping over the processes, convert to array, the index 1 is the pcb
+                if(Array.from(_Processes).some(proc => proc[1].state === "Running")) {
                     _StdOut.putText("A program is currently running... please wait")
                     return
                 }
@@ -430,6 +434,9 @@ module TSOS {
                 }
 
                 _activeProcess = pid // should be removed later when scheduler is added
+                pcb.state = "Running"
+                Control.updatePCBs()
+                
                 _CPU.loadCPUfromPCB(pcb)
 
                 _CPU.isExecuting = true;

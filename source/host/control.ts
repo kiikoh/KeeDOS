@@ -99,6 +99,8 @@ module TSOS {
                     <td>${Utils.toHexString(pcb.Xreg, 2)}</td>
                     <td>${Utils.toHexString(pcb.Yreg, 2)}</td>
                     <td>${pcb.Zflag ? "1" : "0"}</td>
+                    <td>${pcb.segment}</td>
+                    <td>${pcb.state}</td>
                 `
                 pcbRows.push(row)
             }

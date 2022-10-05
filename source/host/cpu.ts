@@ -75,8 +75,6 @@ module TSOS {
             this.PC = pcb.PC
             this.PC = pcb.PC
             this.PC = pcb.PC
-            console.log(this)
-
         }
     }
 }

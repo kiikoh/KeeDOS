@@ -9,6 +9,8 @@ var TSOS;
             this.Xreg = 0;
             this.Yreg = 0;
             this.Zflag = false;
+            this.state = "Resident";
+            this.segment = 0; // TODO: Make this dynamic
         }
         update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
             this.PC = PC;

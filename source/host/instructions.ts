@@ -79,6 +79,7 @@ module TSOS {
     instructions.set(0x00, state => {
         // Break (which is really a system call)
         _CPU.isExecuting = false;
+        _Processes.get(_activeProcess).state = "Terminated"
     })
 
     instructions.set(0xEC, state => {

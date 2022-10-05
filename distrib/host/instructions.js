@@ -54,6 +54,7 @@ var TSOS;
     TSOS.instructions.set(0x00, state => {
         // Break (which is really a system call)
         _CPU.isExecuting = false;
+        _Processes.get(_activeProcess).state = "Terminated";
     });
     TSOS.instructions.set(0xEC, state => {
         // Compare a byte in memory to the X reg, Sets the Z (zero) flag if equal
