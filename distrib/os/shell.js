@@ -276,7 +276,7 @@ var TSOS;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
                 // Check if any processes are ready or running on segment 0
-                if (Array.from(_Processes).some(proc => (proc[1].state === "Ready" || proc[1].state === "Running") && proc[1].segment === 0)) {
+                if (Array.from(_Processes).some(([_, pcb]) => (pcb.state === "Ready" || pcb.state === "Running") && pcb.segment === 0)) {
                     _StdOut.putText("A program is currently ready or running in this segment");
                     return;
                 }
@@ -295,8 +295,8 @@ var TSOS;
             const pid = parseInt(args[0]);
             // validate input
             if (args.length > 0 && !isNaN(pid)) {
-                // Odd way of looping over the processes, convert to array, the index 1 is the pcb
-                if (Array.from(_Processes).some(proc => proc[1].state === "Running")) {
+                // Odd way of looping over the processes, convert to array, the index 1 is the actual pcb
+                if (Array.from(_Processes).some(([_, pcb]) => pcb.state === "Running")) {
                     _StdOut.putText("A program is currently running... please wait");
                     return;
                 }
