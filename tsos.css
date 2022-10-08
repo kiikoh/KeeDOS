@@ -107,6 +107,7 @@ h3 {
 #monitor {
   margin: 0 auto;
   display: relative;
+  width: 732px;
 }
 
 #divLog { 
