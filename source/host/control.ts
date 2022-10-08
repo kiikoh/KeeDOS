@@ -87,20 +87,20 @@ module TSOS {
         }
 
         public static updatePCBs() {
-            const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#pcbDisplay > tbody"))
+            const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#taskManager > tbody"))
             let pcbRows: HTMLTableRowElement[] = []
             for(let pcb of _Processes.values()){
                 const row = document.createElement('tr')
                 row.innerHTML = `
                     <td>${pcb.PID}</td>
+                    <td>${pcb.state}</td>
+                    <td>${pcb.segment}</td>
                     <td>${Utils.toHexString(pcb.PC, 2)}</td>
                     <td>${Utils.toHexString(pcb.IR, 2)}</td>
                     <td>${Utils.toHexString(pcb.Acc, 2)}</td>
                     <td>${Utils.toHexString(pcb.Xreg, 2)}</td>
                     <td>${Utils.toHexString(pcb.Yreg, 2)}</td>
                     <td>${pcb.Zflag ? "1" : "0"}</td>
-                    <td>${pcb.segment}</td>
-                    <td>${pcb.state}</td>
                 `
                 pcbRows.push(row)
             }
@@ -199,12 +199,11 @@ module TSOS {
 
             _singleStepEnabled = !_singleStepEnabled;
             if(_singleStepEnabled) {
-                btn.style.backgroundColor = 'green'
+                btn.className = "normal_button on"
                 singleStepOnceBtn.disabled = false;
             } else {
-                btn.style.backgroundColor = 'red'
+                btn.className = "normal_button off"
                 singleStepOnceBtn.disabled = true;
-
             }
         }
 

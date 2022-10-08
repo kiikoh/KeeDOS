@@ -36,7 +36,7 @@
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment the line below to enable GLaDOS testing. -->
-   <script type="text/javascript" src="http://alanclasses.github.io/TSOS/test/glados-ip2.js"></script>
+   <!-- <script type="text/javascript" src="http://alanclasses.github.io/TSOS/test/glados-ip2.js"></script> -->
    
 </head>
 
@@ -70,27 +70,25 @@
                tabindex="2"
                onclick="TSOS.Control.hostBtnReset_click(this);"
       >
-      <input type="button"
+      <div id="singleStepBtnGroup">
+         <input type="button"
                id = "btnSingleStepToggle"
                name="btnSingleStepToggle"
-               class="normal_button"
+               class="normal_button off"
                disabled="disabled"
-               value="Single Step"
+               value="1-Step"
                tabindex="3"
                onclick="TSOS.Control.hostBtnSingleStepEnable_click(this);"
-      >
-      <input type="button"
-               id = "btnSingleStepOnce"
-               name="btnSingleStepOnce"
-               class="normal_button"
-               disabled="disabled"
-               value=">"
-               tabindex="4"
-               onclick="TSOS.Control.hostBtnSingleStepOnce_click(this);"
-      >
-      <div id="memoryContainer">
-         <table id="memoryDisplay">
-         </table>
+         >
+         <input type="button"
+                  id = "btnSingleStepOnce"
+                  name="btnSingleStepOnce"
+                  class="normal_button"
+                  disabled="disabled"
+                  value=">"
+                  tabindex="4"
+                  onclick="TSOS.Control.hostBtnSingleStepOnce_click(this);"
+         >
       </div>
       <table id="cpuDisplay">
          <thead>
@@ -105,20 +103,11 @@
          </thead>
          <tbody></tbody>
       </table>
-      <table id="pcbDisplay">
-         <thead>
-            <tr>
-               <th>PID</th>
-               <th>PC</th>
-               <th>IR</th>
-               <th>A</th>
-               <th>X</th>
-               <th>Y</th>
-               <th>Z</th>
-            </tr>
-         </thead>
-         <tbody></tbody>
-      </table>
+      <div id="memoryContainer">
+         <table id="memoryDisplay">
+         </table>
+      </div>
+      
    </div>
    <div id="monitor">
       <img src="images/monitorwithcrash.png" alt="Computer Monitor Display" width="732px" style="position: absolute;">
@@ -137,32 +126,54 @@
       </div>
    </div>
    <div id="userInputs">
-         <div id="divLog">
-            <label>
-               Host Log
-               <br>
-               <textarea name="taHostLog"
-                         id  ="taHostLog"
-                         rows="26"
-                         cols="48"
-               ></textarea>
-            </label>
-         </div>
-      
-         <div id="divUserProgramInput">
-            <label>
-               User Program Input
-               <br>
-               <textarea name="taProgramInput"
-                         id  ="taProgramInput"
-                         rows="8"
-                         cols="48"
-               >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00
-            </textarea>
-            </label>
+      <div id="taskManagerContainer">
+         <div>
+            Task Manager
+            <table id="taskManager">
+               <thead>
+                  <tr>
+                     <th>PID</th>
+                     <th>State</th>
+                     <th>Segment</th>
+                     <th>PC</th>
+                     <th>IR</th>
+                     <th>A</th>
+                     <th>X</th>
+                     <th>Y</th>
+                     <th>Z</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  
+               </tbody>
+            </table>
          </div>
       </div>
-      
+      <div id="divLog">
+         <label>
+            Host Log
+            <br>
+            <textarea name="taHostLog"
+                        id  ="taHostLog"
+                        rows="26"
+                        cols="48"
+            ></textarea>
+         </label>
+      </div>
+   
+      <div id="divUserProgramInput">
+         <label>
+            User Program Input
+            <br>
+            <textarea name="taProgramInput"
+                        id  ="taProgramInput"
+                        rows="8"
+                        cols="48"
+            >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00
+         </textarea>
+         </label>
+      </div>
+   </div>
 </div>
 
 </body>

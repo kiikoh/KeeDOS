@@ -1,7 +1,9 @@
 /* TSOS.css */
 
 body {
-  background: #909193 url(distrib/images/linen.png) repeat;
+  background: #ff9966;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #ff5e62, #ff9966);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   font-family: Helvetica, Verdana, Arial, sans-serif;
   font-size: 12pt;
   font-weight: normal;
@@ -36,7 +38,7 @@ h3 {
 }
 
 .normal_button {
-  width: 75px;
+  width: 80px;
   position: relative;
   display: block;
 }
@@ -49,6 +51,22 @@ h3 {
 #btnReset {
   top: 160px;
   left: 210px;
+}
+
+#btnSingleStepToggle.on {
+  color: green
+}
+
+#btnSingleStepToggle.off:enabled {
+  color: red
+}
+
+#singleStepBtnGroup {
+  position: relative;
+  display: flex;
+  width: 80px;
+  top: 110px;
+  left: 15px;
 }
 
 .footerText {
@@ -140,33 +158,82 @@ h3 {
   overflow-x: hidden;
   position: relative;
   left: 25px;
-  top: 263px;
+  top: 242px;
   border: solid #345b74 2px;
   border-radius: 5px 5px 0px 0px;
+  font-family: monospace;
 }
 
 #memoryDisplay {
   background-color: #abc3cf;
+  border-collapse: collapse;
 }
 
 tr:nth-child(even) {
   background-color: #8aabbc;
 }
 
+#memoryDisplay > tr > td, #memoryDisplay > tr > th {
+  border: #3f5f6e solid 1px;
+  width: 100%;
+}
+
 #cpuDisplay {
   position: relative;
   border: solid #345b74 2px;
-  top: 263px;  
+  border-radius: 5px 5px 0px 0px;
+  top: 243px;  
   left: 25px;
   width: 248px;
-
+  border-collapse: collapse;
+  font-family: monospace;
+  text-align: center;
 }
 
-#pcbDisplay {
-  position: relative;
-  border: solid #345b74 2px;
-  left: 25px;
-  top: 263px;  
-  width: 248px;
+#cpuDisplay > tbody > tr > td {
+  border: #3f5f6e solid 1px;
+}
 
+#taskManagerContainer {
+  border: grey 2px solid;
+  background-color: darkgray;
+  height: 200px;
+  width: 425px;
+  overflow-y: auto;
+}
+
+#taskManagerContainer > div {
+  background-color: hsl(221, 87%, 45%);
+  padding: 8px 0 0 0;
+  text-align: center;
+  font-size: large;
+  color: white;
+  
+}
+
+#taskManager {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 5px;
+  background-color: hsl(221, 87%, 65%);
+  border-collapse: collapse;  
+  color: black;
+}
+
+#taskManager > thead > tr > th {
+  padding: 5px;
+  font-weight: 500;
+}
+
+#taskManager > tbody > tr:nth-child(odd) {
+  background-color: white;
+}
+
+#taskManager > tbody > tr:nth-child(even) {
+  background-color: lightgray;
+}
+
+#taskManager > tbody > tr > td {
+  text-align: center;
+  padding: 5px;
 }
