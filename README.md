@@ -1,6 +1,6 @@
 To Alan, 
 * use branch `iProject1` for iProject1
-* use branch `iProjectTwo` for iProject2, accidentally deleted the branch "iProject2" after I merged it 
+* use branch `iProject2` for iProject2
 
 2019 - 2021 Browser-based Operating System in TypeScript
 ========================================================
