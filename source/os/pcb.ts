@@ -10,7 +10,7 @@ module TSOS {
         public Yreg = 0 
         public Zflag = false
         public state: PCBState = "Resident"
-        public segment: Segment = 0 // TODO: Make this dynamic
+        public segment: Segment
 
         constructor(segment: Segment) {
             this.segment = segment;
