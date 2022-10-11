@@ -148,6 +148,14 @@ module TSOS {
             ))
 
             // ps  - list the running processes and their IDs
+            this.commandList.push(new ShellCommand(
+                this.shellPs,
+                "ps",
+                "- List the running processes and their IDs",
+                "Lists the running processes and their IDs"
+            ))
+
+
             // kill <id> - kills the specified process id.
 
             // Display the initial prompt.
@@ -442,6 +450,17 @@ module TSOS {
             } else {
                 _StdOut.putText("A process ID number must be provided")
             }
+        }
+
+        public shellPs() {
+
+            Array.from(_Processes)
+                .map(([pid, pcb]) => `PID: ${pid}        State: ${pcb.state}`)
+                .forEach(line => {
+                    _StdOut.putText(line)
+                    _StdOut.advanceLine()
+                })
+
         }
     }
 }

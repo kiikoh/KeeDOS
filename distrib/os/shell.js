@@ -54,6 +54,7 @@ var TSOS;
             // run
             this.commandList.push(new TSOS.ShellCommand(this.shellRun, "run", "<number> - Run the program with a given pid", "Makes the program loaded execute"));
             // ps  - list the running processes and their IDs
+            this.commandList.push(new TSOS.ShellCommand(this.shellPs, "ps", "- List the running processes and their IDs", "Lists the running processes and their IDs"));
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
             this.putPrompt();
@@ -314,6 +315,14 @@ var TSOS;
             else {
                 _StdOut.putText("A process ID number must be provided");
             }
+        }
+        shellPs() {
+            Array.from(_Processes)
+                .map(([pid, pcb]) => `PID: ${pid}        State: ${pcb.state}`)
+                .forEach(line => {
+                _StdOut.putText(line);
+                _StdOut.advanceLine();
+            });
         }
     }
     TSOS.Shell = Shell;
