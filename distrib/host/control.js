@@ -78,6 +78,8 @@ var TSOS;
                     <td>${pcb.PID}</td>
                     <td>${pcb.state}</td>
                     <td>${pcb.segment}</td>
+                    <td>${pcb.bounds[0]}</td>
+                    <td>${pcb.bounds[1]}</td>
                     <td>${TSOS.Utils.toHexString(pcb.PC, 2)}</td>
                     <td>${TSOS.Utils.toHexString(pcb.IR, 2)}</td>
                     <td>${TSOS.Utils.toHexString(pcb.Acc, 2)}</td>

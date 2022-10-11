@@ -283,10 +283,7 @@ var TSOS;
                     _StdOut.putText("There is no room in memory for this process");
                     return;
                 }
-                pcb.state = "Resident";
-                _Processes.set(pcb.PID, pcb);
-                TSOS.Control.updatePCBs();
-                _StdOut.putText("Process ID: " + pcb.PID);
+                _StdOut.putText("Process ID " + pcb.PID + " loaded successfully to segment " + pcb.segment);
             }
             else {
                 _StdOut.putText("Program is not valid");

@@ -219,11 +219,13 @@ tr:nth-child(even) {
   background-color: hsl(221, 87%, 65%);
   border-collapse: collapse;  
   color: black;
+  font-size: small;
+  font-weight: 600;
 }
 
 #taskManager > thead > tr > th {
   padding: 5px;
-  font-weight: 500;
+  font-weight: 800;
 }
 
 #taskManager > tbody > tr:nth-child(odd) {

@@ -10,7 +10,10 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = false;
             this.state = "Resident";
+            this.bounds = [0, 0];
             this.segment = segment;
+            this.bounds = [this.segment * 0x100, (this.segment + 1) * 0x100 - 1];
+            TSOS.Control.updatePCBs();
         }
         update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
             this.PC = PC;

@@ -31,23 +31,26 @@ module TSOS {
             return false;
         }
 
-        public load(data: number[]): PCB | false{
+        public load(data: number[]): PCB | false {
 
             const segment = this.getFirstOpenSegment();
-
-            console.log(segment)
 
             //can't use simple negation because segment can be 0
             if (segment === false) {
                 return false;
             }
 
-            const base = segment * 0x100;
+            const pcb = new PCB(segment);
 
-            for(let i = 0 + base; i < 0x100 + base;i++) {
-                _MemoryAccessor.write(i, data[i] ?? 0)
+            pcb.state = "Resident"
+            _Processes.set(pcb.PID, pcb)
+            Control.updatePCBs();
+
+            for(let i = 0; i < 0x100;i++) {
+                _MemoryAccessor.write(i, data[i] ?? 0, pcb.PID);
             }
-            return new TSOS.PCB(segment);
+
+            return pcb;
         }
     }
 

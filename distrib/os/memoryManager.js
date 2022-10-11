@@ -27,16 +27,18 @@ var TSOS;
         load(data) {
             var _a;
             const segment = this.getFirstOpenSegment();
-            console.log(segment);
             //can't use simple negation because segment can be 0
             if (segment === false) {
                 return false;
             }
-            const base = segment * 0x100;
-            for (let i = 0 + base; i < 0x100 + base; i++) {
-                _MemoryAccessor.write(i, (_a = data[i]) !== null && _a !== void 0 ? _a : 0);
+            const pcb = new TSOS.PCB(segment);
+            pcb.state = "Resident";
+            _Processes.set(pcb.PID, pcb);
+            TSOS.Control.updatePCBs();
+            for (let i = 0; i < 0x100; i++) {
+                _MemoryAccessor.write(i, (_a = data[i]) !== null && _a !== void 0 ? _a : 0, pcb.PID);
             }
-            return new TSOS.PCB(segment);
+            return pcb;
         }
     }
     TSOS.MemoryManager = MemoryManager;

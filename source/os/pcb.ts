@@ -11,9 +11,12 @@ module TSOS {
         public Zflag = false
         public state: PCBState = "Resident"
         public segment: Segment
+        public bounds: [number, number] = [0, 0]
 
         constructor(segment: Segment) {
             this.segment = segment;
+            this.bounds = [this.segment * 0x100, (this.segment + 1) * 0x100 - 1]
+            TSOS.Control.updatePCBs();
         }
 
         public update({PC, IR, Acc, Xreg, Yreg, Zflag}: {PC: number, IR: number, Acc: number, Xreg: number, Yreg: number, Zflag: boolean}): void {
