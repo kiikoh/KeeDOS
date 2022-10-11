@@ -396,17 +396,16 @@ module TSOS {
 
             if(result){
 
+                inputElm.value = result
+                const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)))
+
                 // Check if any processes are ready or running on segment 0
-                if(Array.from(_Processes).some(([_, pcb]) => 
-                    (pcb.state === "Ready" || pcb.state === "Running") && pcb.segment === 0
-                )) {
-                    _StdOut.putText("A program is currently ready or running in this segment")
+                if(!pcb) {
+                    _StdOut.putText("There is no room in memory for this process")
                     return
                 }
 
-                inputElm.value = result
-                const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)))
-                pcb.state = "Ready"
+                pcb.state = "Resident"
 
                 _Processes.set(pcb.PID, pcb)
                 TSOS.Control.updatePCBs();

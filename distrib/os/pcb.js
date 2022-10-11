@@ -1,7 +1,7 @@
 var TSOS;
 (function (TSOS) {
     class PCB {
-        constructor() {
+        constructor(segment) {
             this.PID = PCB.numProcesses++;
             this.PC = 0;
             this.IR = 0;
@@ -11,6 +11,7 @@ var TSOS;
             this.Zflag = false;
             this.state = "Resident";
             this.segment = 0; // TODO: Make this dynamic
+            this.segment = segment;
         }
         update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
             this.PC = PC;

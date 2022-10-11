@@ -10,10 +10,10 @@ module TSOS {
         public Yreg = 0 
         public Zflag = false
         public state: "Resident" | "Ready" | "Running" | "Terminated" = "Resident"
-        public segment: 0 | 1 | 2 = 0 // TODO: Make this dynamic
+        public segment: Segment = 0 // TODO: Make this dynamic
 
-        constructor() {
-            
+        constructor(segment: Segment) {
+            this.segment = segment;
         }
 
         public update({PC, IR, Acc, Xreg, Yreg, Zflag}: {PC: number, IR: number, Acc: number, Xreg: number, Yreg: number, Zflag: boolean}): void {

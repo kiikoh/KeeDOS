@@ -275,14 +275,14 @@ var TSOS;
             const userInput = inputElm.value;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
-                // Check if any processes are ready or running on segment 0
-                if (Array.from(_Processes).some(([_, pcb]) => (pcb.state === "Ready" || pcb.state === "Running") && pcb.segment === 0)) {
-                    _StdOut.putText("A program is currently ready or running in this segment");
-                    return;
-                }
                 inputElm.value = result;
                 const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
-                pcb.state = "Ready";
+                // Check if any processes are ready or running on segment 0
+                if (!pcb) {
+                    _StdOut.putText("There is no room in memory for this process");
+                    return;
+                }
+                pcb.state = "Resident";
                 _Processes.set(pcb.PID, pcb);
                 TSOS.Control.updatePCBs();
                 _StdOut.putText("Process ID: " + pcb.PID);
