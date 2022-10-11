@@ -9,7 +9,7 @@ module TSOS {
         public Xreg = 0
         public Yreg = 0 
         public Zflag = false
-        public state: "Resident" | "Ready" | "Running" | "Terminated" = "Resident"
+        public state: PCBState = "Resident"
         public segment: Segment = 0 // TODO: Make this dynamic
 
         constructor(segment: Segment) {
@@ -26,4 +26,6 @@ module TSOS {
             TSOS.Control.updatePCBs();
         }
     }
+
+    export type PCBState = "Resident" | "Ready" | "Running" | "Terminated";
 }
