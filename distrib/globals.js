@@ -28,6 +28,7 @@ var _MemoryAccessor;
 var _MemoryManager;
 var _OSclock = 0; // Page 23.
 let _Scheduler;
+let _Dispatcher;
 // TODO: remove this after project 2
 let _singleStepEnabled = false;
 let _shouldStep = false;

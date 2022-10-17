@@ -53,8 +53,7 @@ var TSOS;
     });
     TSOS.instructions.set(0x00, state => {
         // Break (which is really a system call)
-        _CPU.isExecuting = false;
-        _Scheduler.getActivePCB().state = "Terminated";
+        _Scheduler.schedule();
     });
     TSOS.instructions.set(0xEC, state => {
         // Compare a byte in memory to the X reg, Sets the Z (zero) flag if equal

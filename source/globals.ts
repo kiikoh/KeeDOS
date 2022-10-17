@@ -33,6 +33,7 @@ var _MemoryAccessor: TSOS.MemoryAccessor;
 var _MemoryManager: TSOS.MemoryManager;
 var _OSclock: number = 0;  // Page 23.
 let _Scheduler: TSOS.Scheduler
+let _Dispatcher: TSOS.Dispatcher
 // TODO: remove this after project 2
 
 let _singleStepEnabled = false;

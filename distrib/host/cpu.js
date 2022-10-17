@@ -47,22 +47,16 @@ var TSOS;
         }
         writeCPUtoPCB() {
             const pcb = _Scheduler.getActivePCB();
-            pcb.update({
-                Acc: this.Acc,
-                IR: this.IR,
-                PC: this.PC,
-                Xreg: this.Xreg,
-                Yreg: this.Yreg,
-                Zflag: this.Zflag
-            });
-        }
-        loadCPUfromPCB(pcb) {
-            this.PC = pcb.PC;
-            this.IR = pcb.IR;
-            this.Acc = pcb.Acc;
-            this.PC = pcb.PC;
-            this.PC = pcb.PC;
-            this.PC = pcb.PC;
+            if (pcb) {
+                pcb.update({
+                    Acc: this.Acc,
+                    IR: this.IR,
+                    PC: this.PC,
+                    Xreg: this.Xreg,
+                    Yreg: this.Yreg,
+                    Zflag: this.Zflag
+                });
+            }
         }
     }
     TSOS.CPU = CPU;

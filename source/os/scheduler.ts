@@ -19,9 +19,13 @@ module TSOS {
 
         // this should be called only when a process is readied or terminated
         public schedule(): void {
+            console.log(JSON.stringify(this))
 
             if(this.readyQueue.isEmpty()) {
-                
+                _CPU.isExecuting = false;
+                this.getActivePCB().state = "Terminated";
+                this.runningProcess = null;
+                TSOS.Control.updatePCBs();
                 return;
             }
 
@@ -32,8 +36,6 @@ module TSOS {
                 _CPU.isExecuting = true;
                 return;
             }
-
-            if(1===1) {}
             
         }
 
@@ -43,6 +45,7 @@ module TSOS {
                 case "RoundRobin":
                 case "FCFS":
                     _KernelInterruptQueue.enqueue(new Interrupt(CONTEXT_SWITCH_IRQ, [this.readyQueue.dequeue()]));
+                    break;
                 case "Priority":
                     //TODO: implement priority scheduling, enqueue the lowest priority process
                     _KernelInterruptQueue.enqueue(new Interrupt(CONTEXT_SWITCH_IRQ, [this.readyQueue.dequeue()]));
@@ -55,6 +58,15 @@ module TSOS {
             let pcb = this.residentList.get(this.runningProcess);
             if(pcb.quantumRemaining > 0) {
                 pcb.quantumRemaining--;
+            }
+
+            // if the quantum is 0, then we need to context switch
+            if(pcb.quantumRemaining === 0) {
+                pcb.quantumRemaining = this.quantum;
+                pcb.state = "Ready";
+                this.readyQueue.enqueue(pcb.PID);
+
+                _KernelInterruptQueue.enqueue(new Interrupt(CONTEXT_SWITCH_IRQ, [this.readyQueue.dequeue()]));
             }
         }
 

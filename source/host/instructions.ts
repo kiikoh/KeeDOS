@@ -78,8 +78,7 @@ module TSOS {
 
     instructions.set(0x00, state => {
         // Break (which is really a system call)
-        _CPU.isExecuting = false;
-        _Scheduler.getActivePCB().state = "Terminated"
+        _Scheduler.schedule()
     })
 
     instructions.set(0xEC, state => {

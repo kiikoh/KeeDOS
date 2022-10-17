@@ -25,7 +25,7 @@ var TSOS;
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = document.getElementById('display');
             // Get a global reference to the drawing context.
-            _DrawingContext = _Canvas.getContext("2d");
+            _DrawingContext = _Canvas.getContext("2d", { willReadFrequently: true });
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
             TSOS.CanvasTextFunctions.enable(_DrawingContext); // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
             // Clear the log text box.

@@ -293,11 +293,6 @@ var TSOS;
             const pid = parseInt(args[0]);
             // validate input
             if (args.length > 0 && !isNaN(pid)) {
-                // Odd way of looping over the processes, convert to array, the index 1 is the actual pcb
-                if (Array.from(_Scheduler.residentList).some(([_, pcb]) => pcb.state === "Running")) {
-                    _StdOut.putText("A program is currently running... please wait");
-                    return;
-                }
                 const pcb = _Scheduler.residentList.get(pid);
                 if (!pcb) {
                     _StdOut.putText("Process ID does not exist");
@@ -305,9 +300,8 @@ var TSOS;
                 }
                 pcb.state = "Ready";
                 _Scheduler.readyQueue.enqueue(pcb.PID);
+                _Scheduler.schedule();
                 TSOS.Control.updatePCBs();
-                _CPU.loadCPUfromPCB(pcb);
-                _CPU.isExecuting = true;
             }
             else {
                 _StdOut.putText("A process ID number must be provided");
