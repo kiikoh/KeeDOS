@@ -431,6 +431,11 @@ module TSOS {
                     return 
                 }
 
+                if(pcb.state !== "Resident") {
+                    _StdOut.putText("Process has already been run")
+                    return 
+                }
+
                 pcb.state = "Ready"
                 _Scheduler.readyQueue.enqueue(pcb.PID)
                 _Scheduler.schedule()
