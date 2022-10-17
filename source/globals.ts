@@ -19,6 +19,7 @@ const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 100
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
+const CONTEXT_SWITCH_IRQ: number = 2;
 
 
 //
@@ -31,9 +32,8 @@ var _MemoryAccessor: TSOS.MemoryAccessor;
 //	Software	(OS)
 var _MemoryManager: TSOS.MemoryManager;
 var _OSclock: number = 0;  // Page 23.
-const _Processes = new Map<number, TSOS.PCB>();
+let _Scheduler: TSOS.Scheduler
 // TODO: remove this after project 2
-let _activeProcess: number | null = null;
 
 let _singleStepEnabled = false;
 let _shouldStep = false;

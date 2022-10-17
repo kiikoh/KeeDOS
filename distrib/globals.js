@@ -16,6 +16,7 @@ const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 seco
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
+const CONTEXT_SWITCH_IRQ = 2;
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -26,9 +27,8 @@ var _MemoryAccessor;
 //	Software	(OS)
 var _MemoryManager;
 var _OSclock = 0; // Page 23.
-const _Processes = new Map();
+let _Scheduler;
 // TODO: remove this after project 2
-let _activeProcess = null;
 let _singleStepEnabled = false;
 let _shouldStep = false;
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.

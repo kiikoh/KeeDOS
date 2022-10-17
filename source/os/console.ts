@@ -94,7 +94,7 @@ module TSOS {
                 } else if(chr === "ctrl-c") {
                     
                     _CPU.isExecuting = false;
-                    _Processes.get(_activeProcess).state = "Terminated"
+                    _Scheduler.getActivePCB() && (_Scheduler.getActivePCB().state = "Terminated")
                     TSOS.Control.updatePCBs()
 
                     this.historyIndex = 0

@@ -425,19 +425,19 @@ module TSOS {
             // validate input
             if(args.length > 0 && !isNaN(pid)){
                 // Odd way of looping over the processes, convert to array, the index 1 is the actual pcb
-                if(Array.from(_Processes).some(([_, pcb]) => pcb.state === "Running")) {
+                if(Array.from(_Scheduler.residentList).some(([_, pcb]) => pcb.state === "Running")) {
                     _StdOut.putText("A program is currently running... please wait")
                     return
                 }
 
-                const pcb = _Processes.get(pid)
+                const pcb = _Scheduler.residentList.get(pid)
                 if(!pcb) {
                     _StdOut.putText("Process ID does not exist")
                     return 
                 }
 
-                _activeProcess = pid // should be removed later when scheduler is added
-                pcb.state = "Running"
+                pcb.state = "Ready"
+                _Scheduler.readyQueue.enqueue(pcb.PID)
                 Control.updatePCBs()
 
                 _CPU.loadCPUfromPCB(pcb)
@@ -450,7 +450,7 @@ module TSOS {
 
         public shellPs() {
 
-            Array.from(_Processes)
+            Array.from(_Scheduler.residentList)
                 .map(([pid, pcb]) => `PID: ${pid}        State: ${pcb.state}`)
                 .forEach(line => {
                     _StdOut.putText(line)

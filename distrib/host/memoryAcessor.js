@@ -5,8 +5,8 @@ var TSOS;
         }
         init() {
         }
-        read(address, pid = _activeProcess) {
-            const [base, limit] = _Processes.get(pid).bounds;
+        read(address, pid = _Scheduler.runningProcess) {
+            const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
             if (physicalAddress < base || physicalAddress > limit) {
                 _Kernel.krnTrapError("Memory Read Access Violation: " + address);
@@ -14,8 +14,8 @@ var TSOS;
             }
             return _Memory[physicalAddress];
         }
-        write(address, value, pid = _activeProcess) {
-            const [base, limit] = _Processes.get(pid).bounds;
+        write(address, value, pid = _Scheduler.runningProcess) {
+            const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
             if (physicalAddress < base || physicalAddress > limit) {
                 _Kernel.krnTrapError("Memory Write Access Violation: " + address);

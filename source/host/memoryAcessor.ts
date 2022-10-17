@@ -9,9 +9,9 @@ module TSOS {
             
         }
 
-        public read(address: number, pid: number = _activeProcess): number {
+        public read(address: number, pid: number = _Scheduler.runningProcess): number {
 
-            const [base, limit] = _Processes.get(pid).bounds;
+            const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
 
             if(physicalAddress < base || physicalAddress > limit) {
@@ -22,9 +22,9 @@ module TSOS {
             return _Memory[physicalAddress]
         }
 
-        public write(address: number, value: number, pid: number = _activeProcess): void  {
+        public write(address: number, value: number, pid: number = _Scheduler.runningProcess): void  {
 
-            const [base, limit] = _Processes.get(pid).bounds;
+            const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
 
             if(physicalAddress < base || physicalAddress > limit) {

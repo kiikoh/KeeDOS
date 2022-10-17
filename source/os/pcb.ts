@@ -12,6 +12,7 @@ module TSOS {
         public state: PCBState = "Resident"
         public segment: Segment
         public bounds: [number, number] = [0, 0]
+        public quantumRemaining = _Scheduler.quantum;
 
         constructor(segment: Segment) {
             this.segment = segment;

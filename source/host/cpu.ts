@@ -55,7 +55,7 @@ module TSOS {
         }
 
         public writeCPUtoPCB(): void {
-            const pcb = _Processes.get(_activeProcess)
+            const pcb = _Scheduler.getActivePCB()
 
             pcb.update({
                 Acc: this.Acc, 

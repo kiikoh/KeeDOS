@@ -72,7 +72,7 @@ var TSOS;
         static updatePCBs() {
             const pcbTableBody = document.querySelector("#taskManager > tbody");
             let pcbRows = [];
-            for (let pcb of _Processes.values()) {
+            for (let pcb of _Scheduler.residentList.values()) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${pcb.PID}</td>

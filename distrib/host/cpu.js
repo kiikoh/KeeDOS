@@ -46,7 +46,7 @@ var TSOS;
             TSOS.Control.updateCPU();
         }
         writeCPUtoPCB() {
-            const pcb = _Processes.get(_activeProcess);
+            const pcb = _Scheduler.getActivePCB();
             pcb.update({
                 Acc: this.Acc,
                 IR: this.IR,

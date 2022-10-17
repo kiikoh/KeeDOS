@@ -11,6 +11,7 @@ var TSOS;
             this.Zflag = false;
             this.state = "Resident";
             this.bounds = [0, 0];
+            this.quantumRemaining = _Scheduler.quantum;
             this.segment = segment;
             this.bounds = [this.segment * 0x100, (this.segment + 1) * 0x100 - 1];
             TSOS.Control.updatePCBs();

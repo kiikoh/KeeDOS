@@ -33,6 +33,8 @@ var TSOS;
             // ... more?
             //
             _MemoryManager = new TSOS.MemoryManager();
+            _Scheduler = new TSOS.Scheduler();
+            _Scheduler.init();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
@@ -52,7 +54,7 @@ var TSOS;
             this.krnTrace("Disabling the interrupts.");
             this.krnDisableInterrupts();
             _CPU.isExecuting = false;
-            Array.from(_Processes).forEach(([_, pcb]) => pcb.state = "Terminated");
+            Array.from(_Scheduler.residentList).forEach(([_, pcb]) => pcb.state = "Terminated");
             TSOS.Control.updatePCBs();
             //
             // Unload the Device Drivers?
