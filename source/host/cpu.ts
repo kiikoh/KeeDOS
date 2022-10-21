@@ -16,12 +16,12 @@ module TSOS {
     export class CPU {
 
         constructor(public PC: number = 0,
-                    public IR: number = 0,
-                    public Acc: number = 0,
-                    public Xreg: number = 0,
-                    public Yreg: number = 0,
-                    public Zflag: boolean = false,
-                    public isExecuting: boolean = false) {
+            public IR: number = 0,
+            public Acc: number = 0,
+            public Xreg: number = 0,
+            public Yreg: number = 0,
+            public Zflag: boolean = false,
+            public isExecuting: boolean = false) {
 
         }
 
@@ -43,8 +43,8 @@ module TSOS {
             this.IR = _MemoryAccessor.read(this.PC++)
             const op = instructions.get(this.IR);
 
-            if(!op) {
-                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR)
+            if (!op) {
+                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR + " at PC: " + this.PC)
                 return
             }
 
@@ -57,13 +57,13 @@ module TSOS {
         public writeCPUtoPCB(): void {
             const pcb = _Scheduler.getActivePCB()
 
-            if(pcb) {
+            if (pcb) {
                 pcb.update({
-                    Acc: this.Acc, 
-                    IR: this.IR, 
-                    PC: this.PC, 
-                    Xreg: this.Xreg, 
-                    Yreg: this.Yreg, 
+                    Acc: this.Acc,
+                    IR: this.IR,
+                    PC: this.PC,
+                    Xreg: this.Xreg,
+                    Yreg: this.Yreg,
                     Zflag: this.Zflag
                 })
             }

@@ -38,7 +38,7 @@ var TSOS;
             this.IR = _MemoryAccessor.read(this.PC++);
             const op = TSOS.instructions.get(this.IR);
             if (!op) {
-                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR);
+                _Kernel.krnTrapError("Invalid Op Code executed: " + this.IR + " at PC: " + this.PC);
                 return;
             }
             op(this);

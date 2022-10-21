@@ -9,7 +9,7 @@ var TSOS;
             this.quantum = 6;
             this.schedulingMode = "RoundRobin";
         }
-        // this should be called only when a process is readied or terminated
+        // this should be called only when a process is readied
         schedule() {
             console.log(JSON.stringify(this));
             if (this.readyQueue.isEmpty()) {
@@ -25,6 +25,19 @@ var TSOS;
                 this.enqueueProcess();
                 _CPU.isExecuting = true;
                 return;
+            }
+        }
+        readyProcess() {
+        }
+        terminateCurrProcess() {
+            this.getActivePCB().state = "Terminated";
+            this.runningProcess = null;
+            if (this.readyQueue.isEmpty()) {
+                TSOS.Control.updatePCBs();
+                _CPU.isExecuting = false;
+            }
+            else {
+                this.enqueueProcess();
             }
         }
         // Determine the next process to execute
