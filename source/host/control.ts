@@ -29,42 +29,42 @@ module TSOS {
             _Canvas = <HTMLCanvasElement>document.getElementById('display');
 
             // Get a global reference to the drawing context.
-            _DrawingContext = _Canvas.getContext("2d", {willReadFrequently: true});
+            _DrawingContext = _Canvas.getContext("2d", { willReadFrequently: true });
 
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
             CanvasTextFunctions.enable(_DrawingContext);   // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
 
             // Clear the log text box.
             // Use the TypeScript cast to HTMLInputElement
-            (<HTMLInputElement> document.getElementById("taHostLog")).value="";
+            (<HTMLInputElement>document.getElementById("taHostLog")).value = "";
 
             // Set focus on the start button.
             // Use the TypeScript cast to HTMLInputElement
-            (<HTMLInputElement> document.getElementById("btnStartOS")).focus();
+            (<HTMLInputElement>document.getElementById("btnStartOS")).focus();
 
-            _CPU = new CPU();	
+            _CPU = new CPU();
             _CPU.init();
-            _Memory	=	new	Memory();
+            _Memory = new Memory();
             _Memory.init();
-            _MemoryAccessor	= new MemoryAccessor();
+            _MemoryAccessor = new MemoryAccessor();
 
             this.updateCPU()
 
             // --------------------- MEMORY UI -------------------------
             const memoryTable = document.getElementById('memoryDisplay')!
 
-            for(let i = 0x000;i <= 0x2F8;i+=8) {
+            for (let i = 0x000; i <= 0x2F8; i += 8) {
                 const row = document.createElement('tr')
                 const address = document.createElement('th')
                 address.innerText = "0x" + Utils.toHexString(i, 3)
                 row.appendChild(address)
 
-                for(let j = 0;j < 8;j++) {
+                for (let j = 0; j < 8; j++) {
                     const cell = document.createElement('td')
                     cell.innerText = "00"
                     row.appendChild(cell)
                 }
-                
+
                 memoryTable.appendChild(row)
             }
             // --------------------- MEMORY UI -------------------------
@@ -83,13 +83,13 @@ module TSOS {
         public static updateMemory(address: number, value: number) {
             const col = address % 8 + 2;
             const row = Math.floor(address / 8) + 1;
-           (<HTMLDataElement>document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`)).innerText = Utils.toHexString(value, 2);
+            (<HTMLDataElement>document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`)).innerText = Utils.toHexString(value, 2);
         }
 
         public static updatePCBs() {
             const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#taskManager > tbody"))
             let pcbRows: HTMLTableRowElement[] = []
-            for(let pcb of _Scheduler.residentList.values()){
+            for (let pcb of _Scheduler.residentList.values()) {
                 const row = document.createElement('tr')
                 row.innerHTML = `
                     <td>${pcb.PID}</td>
@@ -132,20 +132,33 @@ module TSOS {
             var now: number = new Date().getTime();
 
             // Build the log string.
-            var str: string = "({ clock:" + clock + ", source:" + source + ", msg:" + msg + ", now:" + now  + " })"  + "\n";
+            var str: string = "({ clock:" + clock + ", source:" + source + ", msg:" + msg + ", now:" + now + " })" + "\n";
 
             // Update the log console.
-            var taLog = <HTMLInputElement> document.getElementById("taHostLog");
+            var taLog = <HTMLInputElement>document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
 
             // TODO in the future: Optionally update a log database or some streaming service.
+        }
+
+        public static async loadingAnimation(millis: number): Promise<void> {
+            const frog = document.getElementById("loading_frog");
+
+            frog.style.display = "block";
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    frog.style.display = "none"
+                    resolve();
+                }, millis);
+            })
         }
 
 
         //
         // Host Events
         //
-        public static hostBtnStartOS_click(btn: HTMLButtonElement): void {
+        public static async hostBtnStartOS_click(btn: HTMLButtonElement): Promise<void> {
             // Disable the (passed-in) start button...
             btn.disabled = true;
 
@@ -156,6 +169,9 @@ module TSOS {
 
             // .. set focus on the OS console display ...
             document.getElementById("display")!.focus();
+
+            // Display the loading screen
+            await this.loadingAnimation(2000);
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new CPU();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
@@ -197,10 +213,10 @@ module TSOS {
         }
 
         public static hostBtnSingleStepEnable_click(btn: HTMLButtonElement): void {
-            const singleStepOnceBtn = <HTMLButtonElement> document.getElementById('btnSingleStepOnce')
+            const singleStepOnceBtn = <HTMLButtonElement>document.getElementById('btnSingleStepOnce')
 
             _singleStepEnabled = !_singleStepEnabled;
-            if(_singleStepEnabled) {
+            if (_singleStepEnabled) {
                 btn.className = "normal_button on"
                 singleStepOnceBtn.disabled = false;
             } else {

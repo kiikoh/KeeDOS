@@ -33,7 +33,7 @@ h3 {
 }
 
 #display {
-  background-color:#000000;
+  background-color:#2f2d2f;
   cursor: default;
 }
 
@@ -239,4 +239,12 @@ tr:nth-child(even) {
 #taskManager > tbody > tr > td {
   text-align: center;
   padding: 5px;
+}
+
+#loading_frog {
+  position: absolute;
+  z-index: 100;
+  width: 500px;
+  margin: 116px;
+  display: none;
 }

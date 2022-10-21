@@ -116,10 +116,20 @@ var TSOS;
             taLog.value = str + taLog.value;
             // TODO in the future: Optionally update a log database or some streaming service.
         }
+        static async loadingAnimation(millis) {
+            const frog = document.getElementById("loading_frog");
+            frog.style.display = "block";
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    frog.style.display = "none";
+                    resolve();
+                }, millis);
+            });
+        }
         //
         // Host Events
         //
-        static hostBtnStartOS_click(btn) {
+        static async hostBtnStartOS_click(btn) {
             // Disable the (passed-in) start button...
             btn.disabled = true;
             // .. enable the Halt, Reset, and SingleStep buttons ...
@@ -128,6 +138,8 @@ var TSOS;
             document.getElementById("btnSingleStepToggle").disabled = false;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
+            // Display the loading screen
+            await this.loadingAnimation(2000);
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.CPU(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
