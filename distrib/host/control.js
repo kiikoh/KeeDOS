@@ -147,7 +147,7 @@ var TSOS;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             // Display the loading screen
-            await this.loadingAnimation(2000);
+            await this.loadingAnimation(1500);
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.CPU(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
