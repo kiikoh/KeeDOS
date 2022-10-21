@@ -42,8 +42,10 @@ var TSOS;
                 return;
             }
             op(this);
+            _Scheduler.quantumTick();
             this.writeCPUtoPCB();
             TSOS.Control.updateCPU();
+            console.count("CPU Cycles");
         }
         writeCPUtoPCB() {
             const pcb = _Scheduler.getActivePCB();

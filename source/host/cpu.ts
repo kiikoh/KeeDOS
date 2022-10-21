@@ -49,9 +49,11 @@ module TSOS {
             }
 
             op(this);
+            _Scheduler.quantumTick()
 
             this.writeCPUtoPCB()
             TSOS.Control.updateCPU()
+            console.count("CPU Cycles")
         }
 
         public writeCPUtoPCB(): void {
