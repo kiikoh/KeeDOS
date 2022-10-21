@@ -2,14 +2,14 @@ module TSOS {
     export class Dispatcher {
 
         constructor() {
-            
+
         }
 
         public contextSwitchToPID(pid: number): void {
 
             const pcb = _Scheduler.residentList.get(pid);
 
-            if(!pcb) {
+            if (!pcb) {
                 _Kernel.krnTrapError("Invalid PID: " + pid);
                 return;
             }

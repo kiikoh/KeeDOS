@@ -17,7 +17,7 @@ module TSOS {
             return this.q.length;
         }
 
-        public isEmpty(): boolean{
+        public isEmpty(): boolean {
             return (this.q.length == 0);
         }
 

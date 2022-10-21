@@ -12,10 +12,10 @@ module TSOS {
         private historyIndex = 0;
 
         constructor(public currentFont = _DefaultFontFamily,
-                    public currentFontSize = _DefaultFontSize,
-                    public currentXPosition = 0,
-                    public currentYPosition = _Canvas.height - currentFontSize,
-                    public buffer = "") {
+            public currentFontSize = _DefaultFontSize,
+            public currentXPosition = 0,
+            public currentYPosition = _Canvas.height - currentFontSize,
+            public buffer = "") {
         }
 
         public init(): void {
@@ -44,7 +44,7 @@ module TSOS {
                     // ... and reset our buffer.
                     this.buffer = "";
                     this.historyIndex = 0
-                } else if(chr === "Backspace") {
+                } else if (chr === "Backspace") {
                     const removed = this.buffer.charAt(this.buffer.length - 1)
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1)
 
@@ -52,13 +52,13 @@ module TSOS {
                     const charHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + 1
 
                     _DrawingContext.clearRect(
-                        this.currentXPosition - charWidth, 
-                        this.currentYPosition - this.currentFontSize, 
+                        this.currentXPosition - charWidth,
+                        this.currentYPosition - this.currentFontSize,
                         charWidth,
                         charHeight
                     )
                     this.currentXPosition -= charWidth
-                } else if(chr === "Tab") {
+                } else if (chr === "Tab") {
                     // command completion
                     const recs = _OsShell.commandList
                         .filter(cmd => cmd.command.startsWith(this.buffer)) // get all the options where the command matches the beginning
@@ -69,30 +69,30 @@ module TSOS {
                     // roulette, rot13... r -> ro
                     // load, loadimage... lo -> load.... loadi -> loadimage
                     // something like that
-                    const rec = recs.length === 1 ? recs[0] : Utils.greatestCommonSubstring(recs) 
+                    const rec = recs.length === 1 ? recs[0] : Utils.greatestCommonSubstring(recs)
 
                     const newText = rec.substring(this.buffer.length)
 
                     this.buffer += newText
                     this.putText(newText)
-                } else if(chr === "ArrowUp") {
+                } else if (chr === "ArrowUp") {
                     this.historyIndex++;
-                    if(this.historyIndex >= _OsShell.history.length) this.historyIndex = _OsShell.history.length; //protect against out of bounds
-                    
+                    if (this.historyIndex >= _OsShell.history.length) this.historyIndex = _OsShell.history.length; //protect against out of bounds
+
                     // get the command to fill
                     const newBuff = _OsShell.history[_OsShell.history.length - this.historyIndex] ?? ""
 
                     this.setBuffer(newBuff)
-                } else if(chr === "ArrowDown") {
+                } else if (chr === "ArrowDown") {
                     this.historyIndex--;
-                    if(this.historyIndex < 0) this.historyIndex = 0; //protect against out of bounds
-                    
+                    if (this.historyIndex < 0) this.historyIndex = 0; //protect against out of bounds
+
                     // get the command to fill
                     const newBuff = _OsShell.history[_OsShell.history.length - this.historyIndex] ?? ""
-                    
+
                     this.setBuffer(newBuff)
-                } else if(chr === "ctrl-c") {
-                    
+                } else if (chr === "ctrl-c") {
+
                     _CPU.isExecuting = false;
                     _Scheduler.getActivePCB() && (_Scheduler.getActivePCB().state = "Terminated")
                     TSOS.Control.updatePCBs()
@@ -104,13 +104,13 @@ module TSOS {
                     this.advanceLine()
                     _OsShell.putPrompt()
 
-                } else if(typeof chr === "string") {
+                } else if (typeof chr === "string") {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
                     // ... and add it to our buffer.
                     this.buffer += chr;
-                } 
+                }
             }
         }
 
@@ -121,7 +121,7 @@ module TSOS {
 
             // clear the line of existing text
             _DrawingContext.clearRect(
-                promptOffset, 
+                promptOffset,
                 this.currentYPosition - this.currentFontSize, //only count the ascent
                 _Canvas.width,
                 lineHeight + 1 // for some reason need to overshoot still
@@ -147,23 +147,23 @@ module TSOS {
                 let offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
 
                 // we cant write this line, need to wrap
-                if(this.currentXPosition + offset > _Canvas.width) {
+                if (this.currentXPosition + offset > _Canvas.width) {
                     const words = text.split(" ")
                     let numWords = 0;
-                    
+
                     // loop while the words dont overflow the line
-                    while(CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, words.slice(0, numWords).join(" ")) + this.currentXPosition < _Canvas.width) {
+                    while (CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, words.slice(0, numWords).join(" ")) + this.currentXPosition < _Canvas.width) {
                         numWords++;
                     }
                     numWords--;
 
                     // a word is too big, we need to split by letters
-                    if(numWords === 0) {
+                    if (numWords === 0) {
                         const letters = words[0].split("")
                         let numLetters = 0;
-                        
+
                         // loop while the words dont overflow the line
-                        while(CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, letters.slice(0, numLetters).join("")) + this.currentXPosition < _Canvas.width) {
+                        while (CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, letters.slice(0, numLetters).join("")) + this.currentXPosition < _Canvas.width) {
                             numLetters++;
                         }
                         numLetters--;
@@ -185,7 +185,7 @@ module TSOS {
                 // Move the current X position.
                 this.currentXPosition = this.currentXPosition + offset;
             }
-        
+
         }
 
         public advanceLine(): void {
@@ -197,13 +197,13 @@ module TSOS {
              */
 
 
-            const dY: number = _DefaultFontSize + 
+            const dY: number = _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin
 
             this.currentYPosition += dY;
 
-            if(this.currentYPosition > _Canvas.height){ // we need to scroll
+            if (this.currentYPosition > _Canvas.height) { // we need to scroll
                 const hist = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height) //pick up the data 
                 this.clearScreen()
                 _DrawingContext.putImageData(hist, 0, -dY) // and move it somewhere else
@@ -212,4 +212,4 @@ module TSOS {
 
         }
     }
- }
+}

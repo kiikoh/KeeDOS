@@ -53,14 +53,14 @@ module TSOS {
                 .trim() // remove trailing whitespace
                 .replace(/\s+/g, '') //remove all whitespace
                 .split('')
-                
 
-            if(!parsed.every(chr => validChars.includes(chr))) 
+
+            if (!parsed.every(chr => validChars.includes(chr)))
                 return false;
 
             const pairs = []
-            for(let i = 0; i < parsed.length; i+=2) {
-                pairs.push(parsed[i] + (parsed[i+1] ?? ""))
+            for (let i = 0; i < parsed.length; i += 2) {
+                pairs.push(parsed[i] + (parsed[i + 1] ?? ""))
             }
 
             return pairs.join(" ");
@@ -70,11 +70,11 @@ module TSOS {
             let result = "";
             const minLengthString = strings.reduce((min, string) => Math.min(min, string.length), 1000) // get the smallest string length
 
-            for(let i = 0; i < minLengthString; i++) {
+            for (let i = 0; i < minLengthString; i++) {
                 const ltr = strings[0][i]
 
-                for(let j = 1;j < strings.length;j++) {
-                    if(strings[j][i] !== ltr) {
+                for (let j = 1; j < strings.length; j++) {
+                    if (strings[j][i] !== ltr) {
                         return result
                     }
                 }
@@ -86,17 +86,17 @@ module TSOS {
         public static getCompliment(num: number): number {
             return num < 128 ? num : -(256 - num)
         };
-    
+
         public static compAddition(num1: number, num2: number): number {
             const result = this.getCompliment(num1) + this.getCompliment(num2);
-            if(result >= 256) throw new Error("Integer Overflow");
-            if(result < 0) throw new Error("Integer Underflow");
+            if (result >= 256) throw new Error("Integer Overflow");
+            if (result < 0) throw new Error("Integer Underflow");
             return result;
         }
 
         public static toHexString(value: number, length?: number): string {
             let str = value.toString(16).toUpperCase()
-            if(!length) {
+            if (!length) {
                 return str
             }
             return str.padStart(length, "0")

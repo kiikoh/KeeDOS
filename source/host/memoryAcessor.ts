@@ -6,7 +6,7 @@ module TSOS {
         }
 
         public init(): void {
-            
+
         }
 
         public read(address: number, pid: number = _Scheduler.runningProcess): number {
@@ -14,7 +14,7 @@ module TSOS {
             const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
 
-            if(physicalAddress < base || physicalAddress > limit) {
+            if (physicalAddress < base || physicalAddress > limit) {
                 _Kernel.krnTrapError("Memory Read Access Violation: " + address)
                 return -1;
             }
@@ -22,12 +22,12 @@ module TSOS {
             return _Memory[physicalAddress]
         }
 
-        public write(address: number, value: number, pid: number = _Scheduler.runningProcess): void  {
+        public write(address: number, value: number, pid: number = _Scheduler.runningProcess): void {
 
             const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
 
-            if(physicalAddress < base || physicalAddress > limit) {
+            if (physicalAddress < base || physicalAddress > limit) {
                 _Kernel.krnTrapError("Memory Write Access Violation: " + address)
                 return;
             }
@@ -38,4 +38,3 @@ module TSOS {
 
     }
 }
-    

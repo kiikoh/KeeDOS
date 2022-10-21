@@ -3,11 +3,11 @@ module TSOS {
 
         static numProcesses = 0;
         public PID = PCB.numProcesses++;
-        public PC = 0 
+        public PC = 0
         public IR = 0
         public Acc = 0
         public Xreg = 0
-        public Yreg = 0 
+        public Yreg = 0
         public Zflag = false
         public state: PCBState = "Resident"
         public segment: Segment
@@ -20,7 +20,7 @@ module TSOS {
             TSOS.Control.updatePCBs();
         }
 
-        public update({PC, IR, Acc, Xreg, Yreg, Zflag}: {PC: number, IR: number, Acc: number, Xreg: number, Yreg: number, Zflag: boolean}): void {
+        public update({ PC, IR, Acc, Xreg, Yreg, Zflag }: { PC: number, IR: number, Acc: number, Xreg: number, Yreg: number, Zflag: boolean }): void {
             this.PC = PC;
             this.IR = IR;
             this.Acc = Acc;

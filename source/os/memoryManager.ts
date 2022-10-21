@@ -9,11 +9,11 @@ module TSOS {
 
                 //Return true if the pcb is not in conflict with the segment
 
-                if(pcb.segment !== segment) {
+                if (pcb.segment !== segment) {
                     return true;
                 }
 
-                if(pcb.state === "Terminated") {
+                if (pcb.state === "Terminated") {
                     return true;
                 }
 
@@ -22,11 +22,11 @@ module TSOS {
         }
 
         public getFirstOpenSegment(): Segment | false {
-            if(this.isSegmentOpen(0))
+            if (this.isSegmentOpen(0))
                 return 0;
-            if(this.isSegmentOpen(1))
+            if (this.isSegmentOpen(1))
                 return 1;
-            if(this.isSegmentOpen(2))
+            if (this.isSegmentOpen(2))
                 return 2;
             return false;
         }
@@ -46,7 +46,7 @@ module TSOS {
             _Scheduler.residentList.set(pcb.PID, pcb)
             Control.updatePCBs();
 
-            for(let i = 0; i < 0x100;i++) {
+            for (let i = 0; i < 0x100; i++) {
                 _MemoryAccessor.write(i, data[i] ?? 0, pcb.PID);
             }
 

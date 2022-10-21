@@ -32,24 +32,24 @@ module TSOS {
             var key = params[0];
             var isShifted = params[1];
             var isCtrl = params[2];
-            _Kernel.krnTrace(`Key: ${key}, Shifted: ${isShifted}, Ctrled: ${isCtrl}`);   
+            _Kernel.krnTrace(`Key: ${key}, Shifted: ${isShifted}, Ctrled: ${isCtrl}`);
 
             // I ripped out alot of the logic here as there is now newer APIs 
             // that can abstract this functionality away, also because the existing 
             // functionality relied on a deprecated API and was giving me problems
             // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/which is no longer being used
-            
+
             // Do we want to process the key press?
-            if(
-                key.length === 1    || 
-                key === "Enter"     || 
-                key === "Backspace" || 
-                key === "Tab"       || 
-                key === "ArrowUp"   || 
+            if (
+                key.length === 1 ||
+                key === "Enter" ||
+                key === "Backspace" ||
+                key === "Tab" ||
+                key === "ArrowUp" ||
                 key === "ArrowDown" ||
                 key === 13 // Fix for GlaDOS testing due to how I changed this function 
             ) {
-                if(key === 'c' && isCtrl) {
+                if (key === 'c' && isCtrl) {
                     _KernelInputQueue.enqueue("ctrl-c");
                 } else {
                     _KernelInputQueue.enqueue(key);
