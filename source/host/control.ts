@@ -142,16 +142,27 @@ module TSOS {
         }
 
         public static async loadingAnimation(millis: number): Promise<void> {
-            const frog = document.getElementById("loading_frog");
+            const loading = <HTMLDivElement>document.getElementById("loading");
+            const progressBar = <HTMLProgressElement>document.getElementById("loading_bar");
 
-            frog.style.display = "block";
+            loading.style.display = "block";
 
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    frog.style.display = "none"
-                    resolve();
-                }, millis);
-            })
+            const timePerFrame = millis / 100;
+
+            const frames = [];
+
+            for (let i = 0; i < 100; i++) {
+                frames.push(new Promise<void>(resolve => {
+                    setTimeout(() => {
+                        progressBar.value = i;
+                        resolve();
+                    }, timePerFrame * i);
+                }));
+            }
+
+            return Promise.all(frames).then(() => {
+                loading.style.display = "none";
+            });
         }
 
 

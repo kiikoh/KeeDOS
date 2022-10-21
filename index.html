@@ -113,7 +113,11 @@
    </div>
    <div id="monitor">
       <img src="images/monitorwithcrash.png" alt="Computer Monitor Display" width="732px" style="position: absolute;">
-      <img id="loading_frog" src="./images/loading_spinner.gif" alt="Booting OS...">
+      <div id="loading">
+         <img id="loading_frog" src="./images/loading_spinner.gif" alt="Booting OS...">
+         <progress id="loading_bar" value="0" max="100"></progress>
+         <span id="loading_text">Loading...</span>
+      </div>
       <div id="divConsole">
          <canvas id="display"
                width="670px"

@@ -117,13 +117,21 @@ var TSOS;
             // TODO in the future: Optionally update a log database or some streaming service.
         }
         static async loadingAnimation(millis) {
-            const frog = document.getElementById("loading_frog");
-            frog.style.display = "block";
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    frog.style.display = "none";
-                    resolve();
-                }, millis);
+            const loading = document.getElementById("loading");
+            const progressBar = document.getElementById("loading_bar");
+            loading.style.display = "block";
+            const timePerFrame = millis / 100;
+            const frames = [];
+            for (let i = 0; i < 100; i++) {
+                frames.push(new Promise(resolve => {
+                    setTimeout(() => {
+                        progressBar.value = i;
+                        resolve();
+                    }, timePerFrame * i);
+                }));
+            }
+            return Promise.all(frames).then(() => {
+                loading.style.display = "none";
             });
         }
         //

@@ -241,10 +241,35 @@ tr:nth-child(even) {
   padding: 5px;
 }
 
+#loading {
+  display: none;
+}
+
 #loading_frog {
   position: absolute;
   z-index: 100;
   width: 500px;
   margin: 116px;
-  display: none;
+}
+
+#loading_bar {
+  position: absolute;
+  z-index: 100;
+  width: 200px;
+  margin: 0 266px;
+  top: 420px;
+  accent-color: white;
+  color: black;
+  height: 30px;
+}
+
+#loading_text {
+  position: absolute;
+  z-index: 100;
+  width: 200px;
+  margin: 0 266px;
+  top: 450px;
+  color: white;
+  text-align: center;
+  font-weight: lighter;
 }
