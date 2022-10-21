@@ -55,6 +55,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellRun, "run", "<number> - Run the program with a given pid", "Makes the program loaded execute"));
             // ps  - list the running processes and their IDs
             this.commandList.push(new TSOS.ShellCommand(this.shellPs, "ps", "- List the running processes and their IDs", "Lists the running processes and their IDs"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all programs in memory", "Runs all programs in memory"));
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
             this.putPrompt();
@@ -318,6 +319,16 @@ var TSOS;
                 _StdOut.putText(line);
                 _StdOut.advanceLine();
             });
+        }
+        shellRunAll() {
+            Array.from(_Scheduler.residentList)
+                .forEach(([pid, pcb]) => {
+                if (pcb.state === "Resident") {
+                    pcb.state = "Ready";
+                    _Scheduler.readyQueue.enqueue(pid);
+                }
+            });
+            _Scheduler.schedule();
         }
     }
     TSOS.Shell = Shell;

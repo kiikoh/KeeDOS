@@ -155,6 +155,12 @@ module TSOS {
                 "Lists the running processes and their IDs"
             ))
 
+            this.commandList.push(new ShellCommand(
+                this.shellRunAll,
+                "runall",
+                "- Runs all programs in memory",
+                "Runs all programs in memory"
+            ))
 
             // kill <id> - kills the specified process id.
 
@@ -172,7 +178,7 @@ module TSOS {
 
             //Add the input buffer to our history
             _OsShell.history.push(buffer)
-            
+
             //
             // Parse the input...
             //
@@ -200,7 +206,7 @@ module TSOS {
             // }
 
             // Better version of the above
-            const fn = this.commandList.find(({command}) => command === cmd)?.func
+            const fn = this.commandList.find(({ command }) => command === cmd)?.func
 
             if (fn) {
                 this.execute(fn, args);  // Note that args is always supplied, though it might be empty.
@@ -234,7 +240,7 @@ module TSOS {
 
             // trim and split the buffer
             // get the first element as the cmd, and the rest as args
-            let [cmd, ...args] = buffer.trim().split(" "); 
+            let [cmd, ...args] = buffer.trim().split(" ");
 
             // lowercase and remove leading and trailing whitespace
             cmd = cmd.toLowerCase().trim()
@@ -268,14 +274,14 @@ module TSOS {
         }
 
         public shellApology() {
-           if (_SarcasticMode) {
-              _StdOut.putText("I think we can put our differences behind us.");
-              _StdOut.advanceLine();
-              _StdOut.putText("For science . . . You monster.");
-              _SarcasticMode = false;
-           } else {
-              _StdOut.putText("For what?");
-           }
+            if (_SarcasticMode) {
+                _StdOut.putText("I think we can put our differences behind us.");
+                _StdOut.advanceLine();
+                _StdOut.putText("For science . . . You monster.");
+                _SarcasticMode = false;
+            } else {
+                _StdOut.putText("For what?");
+            }
         }
 
         // Although args is unused in some of these functions, it is always provided in the 
@@ -294,14 +300,14 @@ module TSOS {
         }
 
         public shellShutdown(args: string[]) {
-             _StdOut.putText("Shutting down...");
-             // Call Kernel shutdown routine.
+            _StdOut.putText("Shutting down...");
+            // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
             // TODO: Stop the final prompt from being displayed. If possible. Not a high priority. (Damn OCD!)
         }
 
-        public shellCls(args: string[]) {         
-            _StdOut.clearScreen();     
+        public shellCls(args: string[]) {
+            _StdOut.clearScreen();
             _StdOut.resetXY();
         }
 
@@ -311,7 +317,7 @@ module TSOS {
 
                 // Get the manual entry, or if not found, say no manual entry
                 const manual = _OsShell.commandList.find(cmd => cmd.command === topic)?.manual || "No manual entry for " + args[0] + "."
-                
+
                 _StdOut.putText(manual)
             } else {
                 _StdOut.putText("Usage: man <topic>  Please supply a topic.");
@@ -345,7 +351,7 @@ module TSOS {
         public shellRot13(args: string[]) {
             if (args.length > 0) {
                 // Requires Utils.ts for rot13() function.
-                _StdOut.putText(args.join(' ') + " = '" + Utils.rot13(args.join(' ')) +"'");
+                _StdOut.putText(args.join(' ') + " = '" + Utils.rot13(args.join(' ')) + "'");
             } else {
                 _StdOut.putText("Usage: rot13 <string>  Please supply a string.");
             }
@@ -375,7 +381,7 @@ module TSOS {
         public shellRoulette() {
             const bullet = Math.floor(6 * Math.random())
 
-            if(bullet === 0) {
+            if (bullet === 0) {
                 _StdOut.putText("BANG! Your dead!")
             } else {
                 _StdOut.putText("You live to see another day... for now")
@@ -391,9 +397,9 @@ module TSOS {
         }
 
         public shellBSOD(args: string[]) {
-            
+
             _Kernel.krnTrapError(args?.[0] ?? "Successfully Failed")
-            
+
         }
 
         public shellLoad() {
@@ -402,13 +408,13 @@ module TSOS {
 
             const result = Utils.validateHexString(userInput)
 
-            if(result){
+            if (result) {
 
                 inputElm.value = result
                 const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)))
 
                 // Check if any processes are ready or running on segment 0
-                if(!pcb) {
+                if (!pcb) {
                     _StdOut.putText("There is no room in memory for this process")
                     return
                 }
@@ -423,17 +429,17 @@ module TSOS {
             const pid = parseInt(args[0])
 
             // validate input
-            if(args.length > 0 && !isNaN(pid)){
+            if (args.length > 0 && !isNaN(pid)) {
 
                 const pcb = _Scheduler.residentList.get(pid)
-                if(!pcb) {
+                if (!pcb) {
                     _StdOut.putText("Process ID does not exist")
-                    return 
+                    return
                 }
 
-                if(pcb.state !== "Resident") {
+                if (pcb.state !== "Resident") {
                     _StdOut.putText("Process has already been run")
-                    return 
+                    return
                 }
 
                 pcb.state = "Ready"
@@ -454,6 +460,18 @@ module TSOS {
                     _StdOut.advanceLine()
                 })
 
+        }
+
+        public shellRunAll() {
+            Array.from(_Scheduler.residentList)
+                .forEach(([pid, pcb]) => {
+                    if (pcb.state === "Resident") {
+                        pcb.state = "Ready"
+                        _Scheduler.readyQueue.enqueue(pid)
+                    }
+                })
+
+            _Scheduler.schedule()
         }
     }
 }
