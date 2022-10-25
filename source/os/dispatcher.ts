@@ -17,9 +17,9 @@ module TSOS {
             _CPU.PC = pcb.PC
             _CPU.IR = pcb.IR
             _CPU.Acc = pcb.Acc
-            _CPU.PC = pcb.PC
-            _CPU.PC = pcb.PC
-            _CPU.PC = pcb.PC
+            _CPU.Xreg = pcb.Xreg
+            _CPU.Yreg = pcb.Yreg
+            _CPU.Zflag = pcb.Zflag
         }
 
     }

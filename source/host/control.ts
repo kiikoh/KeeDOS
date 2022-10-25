@@ -95,6 +95,7 @@ module TSOS {
                     <td>${pcb.PID}</td>
                     <td>${pcb.state}</td>
                     <td>${pcb.segment}</td>
+                    <td>${pcb.quantumRemaining}</td>
                     <td>${pcb.bounds[0]}</td>
                     <td>${pcb.bounds[1]}</td>
                     <td>${Utils.toHexString(pcb.PC, 2)}</td>
