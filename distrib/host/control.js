@@ -119,7 +119,9 @@ var TSOS;
         }
         static async loadingAnimation(millis) {
             const loading = document.getElementById("loading");
+            const frog = document.getElementById("loading_frog");
             const progressBar = document.getElementById("loading_bar");
+            const text = document.getElementById("loading_text");
             loading.style.display = "block";
             const timePerFrame = millis / 100;
             const frames = [];
@@ -127,6 +129,21 @@ var TSOS;
                 frames.push(new Promise(resolve => {
                     setTimeout(() => {
                         progressBar.value = i;
+                        // change the amount of dots after loading
+                        switch (Math.floor(i / 20) % 3) {
+                            case 0:
+                                text.innerText = "Loading.";
+                                break;
+                            case 1:
+                                text.innerText = "Loading..";
+                                break;
+                            case 2:
+                                text.innerText = "Loading...";
+                                break;
+                        }
+                        frog.style.paddingTop = `${3 * (100 - i) - 18}px`;
+                        frog.style.height = `${3 * i + 6}px`;
+                        text.innerText = `Loading ${i}%`;
                         resolve();
                     }, timePerFrame * i);
                 }));
@@ -148,7 +165,7 @@ var TSOS;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             // Display the loading screen
-            await this.loadingAnimation(1500);
+            await this.loadingAnimation(3000);
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.CPU(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.

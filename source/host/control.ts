@@ -144,7 +144,9 @@ module TSOS {
 
         public static async loadingAnimation(millis: number): Promise<void> {
             const loading = <HTMLDivElement>document.getElementById("loading");
+            const frog = <HTMLImageElement>document.getElementById("loading_frog");
             const progressBar = <HTMLProgressElement>document.getElementById("loading_bar");
+            const text = <HTMLParagraphElement>document.getElementById("loading_text");
 
             loading.style.display = "block";
 
@@ -156,6 +158,25 @@ module TSOS {
                 frames.push(new Promise<void>(resolve => {
                     setTimeout(() => {
                         progressBar.value = i;
+
+                        // change the amount of dots after loading
+                        switch (Math.floor(i / 20) % 3) {
+                            case 0:
+                                text.innerText = "Loading.";
+                                break;
+                            case 1:
+                                text.innerText = "Loading..";
+                                break;
+                            case 2:
+                                text.innerText = "Loading...";
+                                break;
+                        }
+
+                        frog.style.paddingTop = `${3 * (100 - i) - 18}px`;
+                        frog.style.height = `${3 * i + 6}px`;
+
+                        text.innerText = `Loading ${i}%`;
+
                         resolve();
                     }, timePerFrame * i);
                 }));
@@ -183,7 +204,7 @@ module TSOS {
             document.getElementById("display")!.focus();
 
             // Display the loading screen
-            await this.loadingAnimation(1500);
+            await this.loadingAnimation(3000);
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new CPU();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.

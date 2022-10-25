@@ -250,6 +250,10 @@ tr:nth-child(even) {
   z-index: 100;
   width: 500px;
   margin: 116px;
+  object-fit: cover;
+  object-position: 50% 0%;
+  height: 0;
+  padding-top: 300px;
 }
 
 #loading_bar {
