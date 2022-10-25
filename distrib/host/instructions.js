@@ -78,7 +78,7 @@ var TSOS;
         const address = readTwoByteEndian(state.PC);
         state.PC += 2;
         // safely add to byte and write it back
-        _MemoryAccessor.write(address, TSOS.Utils.compAddition(1, _MemoryAccessor.read(address)));
+        _MemoryAccessor.write(address, _MemoryAccessor.read(address) + 1);
     });
     TSOS.instructions.set(0xFF, state => {
         // System Call

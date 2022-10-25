@@ -113,7 +113,7 @@ module TSOS {
         state.PC += 2
 
         // safely add to byte and write it back
-        _MemoryAccessor.write(address, Utils.compAddition(1, _MemoryAccessor.read(address)))
+        _MemoryAccessor.write(address, _MemoryAccessor.read(address) + 1)
     })
 
     instructions.set(0xFF, state => {

@@ -27,6 +27,8 @@ module TSOS {
             const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;
 
+            console.log(address, value)
+
             if (physicalAddress < base || physicalAddress > limit) {
                 _Kernel.krnTrapError("Memory Write Access Violation: " + address)
                 return;
