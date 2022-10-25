@@ -44,148 +44,148 @@
 
 <body onload="onDocumentLoad()">
 
-<div id="divMain">
-   <div id="tower">
-      <img src="images/tower.png" alt="Computer tower" style="position:absolute" width="300px">
-      <input type="button"
-               id = "btnStartOS"
-               name="brnStartOS"
-               class="normal_button"
-               tabindex="0"
-               onclick="TSOS.Control.hostBtnStartOS_click(this);"
-      >
-      <input type="button"
-               id = "btnHaltOS"
-               name="brnHaltOS"
-               class="normal_button"
-               disabled="disabled"
-               value="Halt"
-               tabindex="1"
-               onclick="TSOS.Control.hostBtnHaltOS_click(this);"
-      >
-      <input type="button"
-               id = "btnReset"
-               name="brnReset"
-               class="normal_button"
-               disabled="disabled"
-               value="Reset"
-               tabindex="2"
-               onclick="TSOS.Control.hostBtnReset_click(this);"
-      >
-      <div id="singleStepBtnGroup">
+   <div id="divMain">
+      <div id="tower">
+         <img src="images/tower.png" alt="Computer tower" style="position:absolute" width="300px">
          <input type="button"
-               id = "btnSingleStepToggle"
-               name="btnSingleStepToggle"
-               class="normal_button off"
-               disabled="disabled"
-               value="1-Step"
-               tabindex="3"
-               onclick="TSOS.Control.hostBtnSingleStepEnable_click(this);"
+                  id = "btnStartOS"
+                  name="brnStartOS"
+                  class="normal_button"
+                  tabindex="0"
+                  onclick="TSOS.Control.hostBtnStartOS_click(this);"
          >
          <input type="button"
-                  id = "btnSingleStepOnce"
-                  name="btnSingleStepOnce"
+                  id = "btnHaltOS"
+                  name="brnHaltOS"
                   class="normal_button"
                   disabled="disabled"
-                  value=">"
-                  tabindex="4"
-                  onclick="TSOS.Control.hostBtnSingleStepOnce_click(this);"
+                  value="Halt"
+                  tabindex="1"
+                  onclick="TSOS.Control.hostBtnHaltOS_click(this);"
          >
-      </div>
-      <table id="cpuDisplay">
-         <thead>
-            <tr>
-               <th>PC</th>
-               <th>IR</th>
-               <th>Acc</th>
-               <th>X</th>
-               <th>Y</th>
-               <th>Z</th>
-            </tr>
-         </thead>
-         <tbody></tbody>
-      </table>
-      <div id="memoryContainer">
-         <table id="memoryDisplay">
+         <input type="button"
+                  id = "btnReset"
+                  name="brnReset"
+                  class="normal_button"
+                  disabled="disabled"
+                  value="Reset"
+                  tabindex="2"
+                  onclick="TSOS.Control.hostBtnReset_click(this);"
+         >
+         <div id="singleStepBtnGroup">
+            <input type="button"
+                  id = "btnSingleStepToggle"
+                  name="btnSingleStepToggle"
+                  class="normal_button off"
+                  disabled="disabled"
+                  value="1-Step"
+                  tabindex="3"
+                  onclick="TSOS.Control.hostBtnSingleStepEnable_click(this);"
+            >
+            <input type="button"
+                     id = "btnSingleStepOnce"
+                     name="btnSingleStepOnce"
+                     class="normal_button"
+                     disabled="disabled"
+                     value=">"
+                     tabindex="4"
+                     onclick="TSOS.Control.hostBtnSingleStepOnce_click(this);"
+            >
+         </div>
+         <table id="cpuDisplay">
+            <thead>
+               <tr>
+                  <th>PC</th>
+                  <th>IR</th>
+                  <th>Acc</th>
+                  <th>X</th>
+                  <th>Y</th>
+                  <th>Z</th>
+               </tr>
+            </thead>
+            <tbody></tbody>
          </table>
-      </div>
-      
-   </div>
-   <div id="monitor">
-      <img src="images/keedosmonitor.png" alt="Computer Monitor Display" width="732px" style="position: absolute;">
-      <div id="loading">
-         <img id="loading_frog" src="./images/loading_spinner.gif" alt="Booting OS...">
-         <progress id="loading_bar" value="0" max="100"></progress>
-         <span id="loading_text">Loading...</span>
-      </div>
-      <div id="divConsole">
-         <canvas id="display"
-               width="670px"
-               height="510px"
-               tabindex="5"
-         >
-         </canvas>
-      </div>
-      <div id="taskbar">
-         <span id="status">Status</span>
-         <span id="time">Time</span>
-         <span id="date">Date</span>
-      </div>
-      
-   </div>
-   <div id="userInputs">
-      <div id="taskManagerContainer">
-         <div>
-            Task Manager
-            <table id="taskManager">
-               <thead>
-                  <tr>
-                     <th>PID</th>
-                     <th>State</th>
-                     <th>Segment</th>
-                     <th>Q</th>
-                     <th>Base</th>
-                     <th>Limit</th>
-                     <th>PC</th>
-                     <th>IR</th>
-                     <th>A</th>
-                     <th>X</th>
-                     <th>Y</th>
-                     <th>Z</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  
-               </tbody>
+         <div id="memoryContainer">
+            <table id="memoryDisplay">
             </table>
          </div>
+         
       </div>
-      <div id="divLog">
-         <label>
-            Host Log
-            <br>
-            <textarea name="taHostLog"
-                        id  ="taHostLog"
-                        rows="26"
-                        cols="48"
-            ></textarea>
-         </label>
+      <div id="monitor">
+         <img src="images/keedosmonitor.png" alt="Computer Monitor Display" width="732px" style="position: absolute;">
+         <div id="loading">
+            <img id="loading_frog" src="./images/loading_spinner.gif" alt="Booting OS...">
+            <progress id="loading_bar" value="0" max="100"></progress>
+            <span id="loading_text">Loading...</span>
+         </div>
+         <div id="divConsole">
+            <canvas id="display"
+                  width="670px"
+                  height="510px"
+                  tabindex="5"
+            >
+            </canvas>
+         </div>
+         <div id="taskbar">
+            <span id="status">Status</span>
+            <span id="time">Time</span>
+            <span id="date">Date</span>
+         </div>
+         
       </div>
-   
-      <div id="divUserProgramInput">
-         <label>
-            User Program Input
-            <br>
-            <textarea name="taProgramInput"
-                        id  ="taProgramInput"
-                        rows="8"
-                        cols="48"
-            >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00
-         </textarea>
-         </label>
+      <div id="userInputs">
+         <div id="taskManagerContainer">
+            <div>
+               Task Manager
+               <table id="taskManager">
+                  <thead>
+                     <tr>
+                        <th>PID</th>
+                        <th>State</th>
+                        <th>Loc</th>
+                        <th>Q</th>
+                        <th>Base</th>
+                        <th>Limit</th>
+                        <th>PC</th>
+                        <th>IR</th>
+                        <th>A</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>Z</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="divLog">
+            <label>
+               Host Log
+               <br>
+               <textarea name="taHostLog"
+                           id  ="taHostLog"
+                           rows="26"
+                           cols="48"
+               ></textarea>
+            </label>
+         </div>
+      
+         <div id="divUserProgramInput">
+            <label>
+               User Program Input
+               <br>
+               <textarea name="taProgramInput"
+                           id  ="taProgramInput"
+                           rows="8"
+                           cols="48"
+               >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00
+            </textarea>
+            </label>
+         </div>
       </div>
    </div>
-</div>
 
 </body>
 </html>
