@@ -221,6 +221,7 @@ tr:nth-child(even) {
   color: black;
   font-size: small;
   font-weight: 600;
+  font-family: 'Courier New'
 }
 
 #taskManager > thead > tr > th {
