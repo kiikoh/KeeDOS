@@ -62,6 +62,8 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellKill, "kill", "<number> - Kills the process with the given pid", "Kills the process with the given pid"));
             // quantum 
             this.commandList.push(new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number> - Sets the quantum for round robin scheduling", "Sets the quantum for round robin scheduling"));
+            // clearmem
+            this.commandList.push(new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions", "Clears all memory partitions"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -380,6 +382,19 @@ var TSOS;
             else {
                 _StdOut.putText("A quantum number must be provided");
             }
+        }
+        shellClearMem() {
+            // only allow if nothing is running
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot clear memory while a process is running");
+                return;
+            }
+            Array.from(_Scheduler.residentList).forEach(([pid, pcb]) => {
+                if (pcb.state === "Resident" || pcb.state === "Ready") {
+                    _Scheduler.killProcess(pid);
+                }
+            });
+            TSOS.Control.updatePCBs();
         }
     }
     TSOS.Shell = Shell;

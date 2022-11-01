@@ -187,6 +187,14 @@ module TSOS {
                 "Sets the quantum for round robin scheduling"
             ))
 
+            // clearmem
+            this.commandList.push(new ShellCommand(
+                this.shellClearMem,
+                "clearmem",
+                "- Clears all memory partitions",
+                "Clears all memory partitions"
+            ))
+
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"])
@@ -550,6 +558,23 @@ module TSOS {
             } else {
                 _StdOut.putText("A quantum number must be provided")
             }
+        }
+
+        public shellClearMem() {
+
+            // only allow if nothing is running
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot clear memory while a process is running")
+                return
+            }
+
+            Array.from(_Scheduler.residentList).forEach(([pid, pcb]) => {
+                if (pcb.state === "Resident" || pcb.state === "Ready") {
+                    _Scheduler.killProcess(pid)
+                }
+            })
+
+            Control.updatePCBs()
         }
 
     }
