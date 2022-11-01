@@ -46,7 +46,7 @@ module TSOS {
         public killProcess(pid = this.runningProcess): void {
 
             // remove the process from the ready queue
-            this.readyQueue.q.filter((p) => p !== pid);
+            this.readyQueue.q = this.readyQueue.q.filter((p) => p !== pid);
 
             // set the process state to terminated
             this.residentList.get(pid).state = "Terminated";
@@ -56,6 +56,8 @@ module TSOS {
                 this.runningProcess = null;
                 this.schedule();
             }
+
+            Control.updatePCBs()
         }
 
         // Determine the next process to execute

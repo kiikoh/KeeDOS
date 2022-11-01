@@ -179,6 +179,14 @@ module TSOS {
                 "Kills the process with the given pid"
             ))
 
+            // quantum 
+            this.commandList.push(new ShellCommand(
+                this.shellQuantum,
+                "quantum",
+                "<number> - Sets the quantum for round robin scheduling",
+                "Sets the quantum for round robin scheduling"
+            ))
+
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"])
@@ -507,7 +515,6 @@ module TSOS {
                 }
 
                 _Scheduler.killProcess(pid)
-                Control.updatePCBs()
             } else {
                 _StdOut.putText("A process ID number must be provided")
             }
@@ -526,5 +533,24 @@ module TSOS {
 
             _Scheduler.schedule()
         }
+
+        public shellQuantum(args: string[]) {
+            const quantum = parseInt(args[0])
+
+            // validate input
+            if (args.length > 0 && !isNaN(quantum) && quantum > 1) {
+                _Scheduler.quantum = quantum
+                Array.from(_Scheduler.residentList).forEach(([pid, pcb]) => {
+                    if (pcb.state === "Resident" || pcb.state === "Ready") {
+                        pcb.quantumRemaining = quantum
+                        Control.updatePCBs()
+                    }
+                })
+
+            } else {
+                _StdOut.putText("A quantum number must be provided")
+            }
+        }
+
     }
 }

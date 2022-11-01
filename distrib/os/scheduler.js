@@ -32,7 +32,7 @@ var TSOS;
         }
         killProcess(pid = this.runningProcess) {
             // remove the process from the ready queue
-            this.readyQueue.q.filter((p) => p !== pid);
+            this.readyQueue.q = this.readyQueue.q.filter((p) => p !== pid);
             // set the process state to terminated
             this.residentList.get(pid).state = "Terminated";
             // if the process is running, then we need to context switch
@@ -40,6 +40,7 @@ var TSOS;
                 this.runningProcess = null;
                 this.schedule();
             }
+            TSOS.Control.updatePCBs();
         }
         // Determine the next process to execute
         enqueueProcess() {

@@ -93,9 +93,7 @@ module TSOS {
                     this.setBuffer(newBuff)
                 } else if (chr === "ctrl-c") {
 
-                    _CPU.isExecuting = false;
-                    _Scheduler.getActivePCB() && (_Scheduler.getActivePCB().state = "Terminated")
-                    TSOS.Control.updatePCBs()
+                    _Scheduler.killProcess()
 
                     this.historyIndex = 0
                     this.buffer = ""
