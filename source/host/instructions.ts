@@ -78,7 +78,7 @@ module TSOS {
 
     instructions.set(0x00, state => {
         // Break (which is really a system call)
-        _Scheduler.terminateCurrProcess()
+        _Scheduler.killProcess()
     })
 
     instructions.set(0xEC, state => {

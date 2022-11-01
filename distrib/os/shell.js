@@ -56,7 +56,10 @@ var TSOS;
             // ps  - list the running processes and their IDs
             this.commandList.push(new TSOS.ShellCommand(this.shellPs, "ps", "- List the running processes and their IDs", "Lists the running processes and their IDs"));
             this.commandList.push(new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all programs in memory", "Runs all programs in memory"));
+            // killall 
+            this.commandList.push(new TSOS.ShellCommand(this.shellKillAll, "killall", "- Kills all running processes", "Kills all running processes"));
             // kill <id> - kills the specified process id.
+            this.commandList.push(new TSOS.ShellCommand(this.shellKill, "kill", "<number> - Kills the process with the given pid", "Kills the process with the given pid"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -326,6 +329,37 @@ var TSOS;
                 if (pcb.state === "Resident") {
                     pcb.state = "Ready";
                     _Scheduler.readyQueue.enqueue(pid);
+                }
+            });
+            _Scheduler.schedule();
+        }
+        shellKill(args) {
+            const pid = parseInt(args[0]);
+            // validate input
+            if (args.length > 0 && !isNaN(pid)) {
+                const pcb = _Scheduler.residentList.get(pid);
+                if (!pcb) {
+                    _StdOut.putText("Process ID does not exist");
+                    return;
+                }
+                if (pcb.state === "Terminated") {
+                    _StdOut.putText("Process has already been terminated");
+                    return;
+                }
+                _Scheduler.killProcess(pid);
+                TSOS.Control.updatePCBs();
+            }
+            else {
+                _StdOut.putText("A process ID number must be provided");
+            }
+        }
+        shellKillAll() {
+            Array.from(_Scheduler.residentList)
+                .forEach(([pid, pcb]) => {
+                if (pcb.state !== "Terminated") {
+                    pcb.state = "Terminated";
+                    _Scheduler.readyQueue.q = [];
+                    _Scheduler.killProcess;
                 }
             });
             _Scheduler.schedule();

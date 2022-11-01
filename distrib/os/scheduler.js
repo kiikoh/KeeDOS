@@ -14,7 +14,8 @@ var TSOS;
             console.log(JSON.stringify(this));
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;
-                this.getActivePCB().state = "Terminated";
+                if (this.runningProcess)
+                    this.getActivePCB().state = "Terminated";
                 this.runningProcess = null;
                 TSOS.Control.updatePCBs();
                 return;
@@ -29,15 +30,15 @@ var TSOS;
         }
         readyProcess() {
         }
-        terminateCurrProcess() {
-            this.getActivePCB().state = "Terminated";
-            this.runningProcess = null;
-            if (this.readyQueue.isEmpty()) {
-                TSOS.Control.updatePCBs();
-                _CPU.isExecuting = false;
-            }
-            else {
-                this.enqueueProcess();
+        killProcess(pid = this.runningProcess) {
+            // remove the process from the ready queue
+            this.readyQueue.q.filter((p) => p !== pid);
+            // set the process state to terminated
+            this.residentList.get(pid).state = "Terminated";
+            // if the process is running, then we need to context switch
+            if (this.runningProcess === pid) {
+                this.runningProcess = null;
+                this.schedule();
             }
         }
         // Determine the next process to execute
@@ -56,11 +57,11 @@ var TSOS;
         quantumTick() {
             // get the quantum left on the running process
             let pcb = this.residentList.get(this.runningProcess);
-            if (pcb.quantumRemaining > 0) {
+            if ((pcb === null || pcb === void 0 ? void 0 : pcb.quantumRemaining) > 0) {
                 pcb.quantumRemaining--;
             }
             // if the quantum is 0, then we need to context switch
-            if (pcb.quantumRemaining === 0) {
+            if ((pcb === null || pcb === void 0 ? void 0 : pcb.quantumRemaining) === 0) {
                 pcb.quantumRemaining = this.quantum;
                 pcb.state = "Ready";
                 this.readyQueue.enqueue(pcb.PID);
