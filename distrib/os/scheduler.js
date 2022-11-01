@@ -61,8 +61,8 @@ var TSOS;
             if ((pcb === null || pcb === void 0 ? void 0 : pcb.quantumRemaining) > 0) {
                 pcb.quantumRemaining--;
             }
-            // if the quantum is 0, then we need to context switch
-            if ((pcb === null || pcb === void 0 ? void 0 : pcb.quantumRemaining) === 0) {
+            // if the quantum is 0 and there is something ready, then we need to context switch
+            if ((pcb === null || pcb === void 0 ? void 0 : pcb.quantumRemaining) === 0 && !this.readyQueue.isEmpty()) {
                 pcb.quantumRemaining = this.quantum;
                 pcb.state = "Ready";
                 this.readyQueue.enqueue(pcb.PID);
