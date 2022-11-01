@@ -36,5 +36,12 @@ module TSOS {
             TSOS.Control.updateMemory(physicalAddress, value); // update the UI
         }
 
+        public clearMemory() {
+            for (let i = 0; i < _Memory.length; i++) {
+                _Memory[i] = 0;
+                TSOS.Control.updateMemory(i, 0); // update the UI
+            }
+        }
+
     }
 }
