@@ -60,8 +60,8 @@ var TSOS;
             if (typeof Glados === "function") {
                 // function Glados() is here, so instantiate Her into
                 // the global (and properly capitalized) _GLaDOS variable.
-                // _GLaDOS = new Glados();
-                // _GLaDOS.init();
+                _GLaDOS = new Glados();
+                _GLaDOS.init();
             }
         }
         static updateMemory(address, value) {
@@ -71,8 +71,12 @@ var TSOS;
         }
         static updatePCBs() {
             const pcbTableBody = document.querySelector("#taskManager > tbody");
+            const removeTerminated = document.querySelector("#terminatedToggle > input").checked;
             let pcbRows = [];
             for (let pcb of _Scheduler.residentList.values()) {
+                // dont show the terminated processes if the toggle is off
+                if (removeTerminated && pcb.state === "Terminated")
+                    continue;
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${pcb.PID}</td>

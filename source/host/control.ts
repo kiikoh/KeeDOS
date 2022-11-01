@@ -74,8 +74,8 @@ module TSOS {
             if (typeof Glados === "function") {
                 // function Glados() is here, so instantiate Her into
                 // the global (and properly capitalized) _GLaDOS variable.
-                // _GLaDOS = new Glados();
-                // _GLaDOS.init();
+                _GLaDOS = new Glados();
+                _GLaDOS.init();
             }
 
         }
@@ -88,8 +88,13 @@ module TSOS {
 
         public static updatePCBs() {
             const pcbTableBody = (<HTMLTableSectionElement>document.querySelector("#taskManager > tbody"))
+            const removeTerminated = (<HTMLInputElement>document.querySelector("#terminatedToggle > input"))!.checked
             let pcbRows: HTMLTableRowElement[] = []
             for (let pcb of _Scheduler.residentList.values()) {
+
+                // dont show the terminated processes if the toggle is off
+                if (removeTerminated && pcb.state === "Terminated") continue
+
                 const row = document.createElement('tr')
                 row.innerHTML = `
                     <td>${pcb.PID}</td>
