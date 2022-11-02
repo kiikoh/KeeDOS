@@ -136,12 +136,20 @@
       <div id="userInputs">
          <div id="taskManagerContainer">
             <div>
-               Task Manager
+               <div id="taskManagerTitleBar">
+                  <div></div>
+                  <div id="taskManagerTitle">Task Manager</div>
+                  <label id="terminatedToggle" class="switch">
+                     <input checked type="checkbox" onclick="TSOS.Control.updatePCBs()">
+                     <span class="slider"></span>
+                  </label>
+               </div>
+               
                <table id="taskManager">
                   <thead>
                      <tr>
                         <th>PID</th>
-                        <th>State</th>
+                        <th>&nbspState&nbsp</th><!-- nbsp is an invisible character  -->
                         <th>Loc</th>
                         <th>Q</th>
                         <th>Base</th>

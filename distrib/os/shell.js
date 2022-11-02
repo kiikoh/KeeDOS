@@ -351,6 +351,7 @@ var TSOS;
                     return;
                 }
                 _Scheduler.killProcess(pid);
+                _StdOut.putText("Process " + pid + " has been terminated");
             }
             else {
                 _StdOut.putText("A process ID number must be provided");
@@ -360,11 +361,10 @@ var TSOS;
             Array.from(_Scheduler.residentList)
                 .forEach(([pid, pcb]) => {
                 if (pcb.state !== "Terminated") {
-                    pcb.state = "Terminated";
-                    _Scheduler.readyQueue.q = [];
-                    _Scheduler.killProcess;
+                    _Scheduler.killProcess(pid);
                 }
             });
+            _StdOut.putText("All processes have been terminated");
             _Scheduler.schedule();
         }
         shellQuantum(args) {
@@ -378,6 +378,7 @@ var TSOS;
                         TSOS.Control.updatePCBs();
                     }
                 });
+                _StdOut.putText("Quantum has been set to " + quantum);
             }
             else {
                 _StdOut.putText("A quantum number must be provided");
@@ -394,6 +395,8 @@ var TSOS;
                     _Scheduler.killProcess(pid);
                 }
             });
+            _MemoryAccessor.clearMemory();
+            _StdOut.putText("Memory cleared");
             TSOS.Control.updatePCBs();
         }
     }

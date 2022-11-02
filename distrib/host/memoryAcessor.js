@@ -24,6 +24,12 @@ var TSOS;
             _Memory[physicalAddress] = value;
             TSOS.Control.updateMemory(physicalAddress, value); // update the UI
         }
+        clearMemory() {
+            for (let i = 0; i < _Memory.length; i++) {
+                _Memory[i] = 0;
+                TSOS.Control.updateMemory(i, 0); // update the UI
+            }
+        }
     }
     TSOS.MemoryAccessor = MemoryAccessor;
 })(TSOS || (TSOS = {}));
