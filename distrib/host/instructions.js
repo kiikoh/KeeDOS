@@ -53,6 +53,7 @@ var TSOS;
     });
     TSOS.instructions.set(0x00, state => {
         // Break (which is really a system call)
+        _CPU.writeCPUtoPCB();
         _Scheduler.killProcess();
     });
     TSOS.instructions.set(0xEC, state => {

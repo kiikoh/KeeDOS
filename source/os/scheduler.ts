@@ -23,7 +23,7 @@ module TSOS {
 
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;
-                if (this.runningProcess) this.getActivePCB().state = "Terminated";
+                if (this.runningProcess !== null) this.getActivePCB().state = "Terminated";
                 this.runningProcess = null;
                 TSOS.Control.updatePCBs();
                 return;

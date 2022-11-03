@@ -14,7 +14,7 @@ var TSOS;
             console.log(JSON.stringify(this));
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;
-                if (this.runningProcess)
+                if (this.runningProcess !== null)
                     this.getActivePCB().state = "Terminated";
                 this.runningProcess = null;
                 TSOS.Control.updatePCBs();
