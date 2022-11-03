@@ -79,7 +79,8 @@ var TSOS;
                     this.setBuffer(newBuff);
                 }
                 else if (chr === "ctrl-c") {
-                    _Scheduler.killProcess();
+                    if (_CPU.isExecuting)
+                        _Scheduler.killProcess();
                     this.historyIndex = 0;
                     this.buffer = "";
                     this.advanceLine();
