@@ -1,6 +1,7 @@
 To Alan, 
 * use branch `iProject1` for iProject1
 * use branch `iProject2` for iProject2
+* use branch `iProject3` for iProject3
 
 2019 - 2021 Browser-based Operating System in TypeScript
 ========================================================
