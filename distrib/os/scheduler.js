@@ -10,7 +10,7 @@ var TSOS;
             this.schedulingMode = "RoundRobin";
         }
         // this should be called only when a process is readied
-        schedule() {
+        readyProcess() {
             console.log(JSON.stringify(this));
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;
@@ -28,8 +28,6 @@ var TSOS;
                 return;
             }
         }
-        readyProcess() {
-        }
         killProcess(pid = this.runningProcess) {
             // remove the process from the ready queue
             this.readyQueue.q = this.readyQueue.q.filter((p) => p !== pid);
@@ -37,8 +35,9 @@ var TSOS;
             this.residentList.get(pid).state = "Terminated";
             // if the process is running, then we need to context switch
             if (this.runningProcess === pid) {
+                _Kernel.krnTrace("Context Switch");
                 this.runningProcess = null;
-                this.schedule();
+                this.readyProcess();
             }
             TSOS.Control.updatePCBs();
         }
@@ -66,7 +65,8 @@ var TSOS;
                 pcb.quantumRemaining = this.quantum;
                 pcb.state = "Ready";
                 this.readyQueue.enqueue(pcb.PID);
-                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXT_SWITCH_IRQ, [this.readyQueue.dequeue()]));
+                _Kernel.krnTrace("Context Switch");
+                this.enqueueProcess();
             }
         }
         getActivePCB() {

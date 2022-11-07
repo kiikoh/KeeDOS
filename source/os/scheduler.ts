@@ -18,7 +18,7 @@ module TSOS {
         }
 
         // this should be called only when a process is readied
-        public schedule(): void {
+        public readyProcess(): void {
             console.log(JSON.stringify(this))
 
             if (this.readyQueue.isEmpty()) {
@@ -39,10 +39,6 @@ module TSOS {
 
         }
 
-        public readyProcess(): void {
-
-        }
-
         public killProcess(pid = this.runningProcess): void {
 
             // remove the process from the ready queue
@@ -53,8 +49,9 @@ module TSOS {
 
             // if the process is running, then we need to context switch
             if (this.runningProcess === pid) {
+                _Kernel.krnTrace("Context Switch")
                 this.runningProcess = null;
-                this.schedule();
+                this.readyProcess();
             }
 
             Control.updatePCBs()
@@ -87,7 +84,8 @@ module TSOS {
                 pcb.state = "Ready";
                 this.readyQueue.enqueue(pcb.PID);
 
-                _KernelInterruptQueue.enqueue(new Interrupt(CONTEXT_SWITCH_IRQ, [this.readyQueue.dequeue()]));
+                _Kernel.krnTrace("Context Switch")
+                this.enqueueProcess();
             }
         }
 

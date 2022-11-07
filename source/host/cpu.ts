@@ -53,7 +53,7 @@ module TSOS {
 
             this.writeCPUtoPCB()
             TSOS.Control.updateCPU()
-            console.count("CPU Cycles")
+            // console.count("CPU Cycles")
         }
 
         public writeCPUtoPCB(): void {

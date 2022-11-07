@@ -475,7 +475,7 @@ module TSOS {
 
                 pcb.state = "Ready"
                 _Scheduler.readyQueue.enqueue(pcb.PID)
-                _Scheduler.schedule()
+                _Scheduler.readyProcess()
                 Control.updatePCBs()
             } else {
                 _StdOut.putText("A process ID number must be provided")
@@ -502,7 +502,7 @@ module TSOS {
                     }
                 })
 
-            _Scheduler.schedule()
+            _Scheduler.readyProcess()
         }
 
         public shellKill(args: string[]) {
@@ -541,7 +541,7 @@ module TSOS {
 
             _StdOut.putText("All processes have been terminated")
 
-            _Scheduler.schedule()
+            _Scheduler.readyProcess()
         }
 
         public shellQuantum(args: string[]) {

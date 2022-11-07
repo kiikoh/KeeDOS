@@ -312,7 +312,7 @@ var TSOS;
                 }
                 pcb.state = "Ready";
                 _Scheduler.readyQueue.enqueue(pcb.PID);
-                _Scheduler.schedule();
+                _Scheduler.readyProcess();
                 TSOS.Control.updatePCBs();
             }
             else {
@@ -335,7 +335,7 @@ var TSOS;
                     _Scheduler.readyQueue.enqueue(pid);
                 }
             });
-            _Scheduler.schedule();
+            _Scheduler.readyProcess();
         }
         shellKill(args) {
             const pid = parseInt(args[0]);
@@ -365,7 +365,7 @@ var TSOS;
                 }
             });
             _StdOut.putText("All processes have been terminated");
-            _Scheduler.schedule();
+            _Scheduler.readyProcess();
         }
         shellQuantum(args) {
             const quantum = parseInt(args[0]);

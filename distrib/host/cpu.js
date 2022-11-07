@@ -45,7 +45,7 @@ var TSOS;
             _Scheduler.quantumTick();
             this.writeCPUtoPCB();
             TSOS.Control.updateCPU();
-            console.count("CPU Cycles");
+            // console.count("CPU Cycles")
         }
         writeCPUtoPCB() {
             const pcb = _Scheduler.getActivePCB();
