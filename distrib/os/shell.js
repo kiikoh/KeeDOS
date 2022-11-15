@@ -64,7 +64,10 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number> - Sets the quantum for round robin scheduling", "Sets the quantum for round robin scheduling"));
             // clearmem
             this.commandList.push(new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions", "Clears all memory partitions"));
+            // format
             this.commandList.push(new TSOS.ShellCommand(this.shellFormat, "format", "- Formats the disk", "Formats the disk"));
+            // create
+            this.commandList.push(new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - Creates a file", "Creates a file"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -407,6 +410,31 @@ var TSOS;
             }
             _krnDiskDriver.format();
             _StdOut.putText("Disk formatted");
+        }
+        shellCreate(args) {
+            // check if disk is formatted
+            if (!_krnDiskDriver.isFormatted) {
+                _StdOut.putText("Disk is not formatted");
+                return;
+            }
+            // check if a process is running
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot create file while a process is running");
+                return;
+            }
+            // check if a filename was provided
+            if (args.length === 0) {
+                _StdOut.putText("Usage: create <filename> Please supply a filename.");
+                return;
+            }
+            const filename = args[0];
+            // check if filename is valid
+            if (filename.length > 60) {
+                _StdOut.putText("Filename must be less than 60 characters");
+                return;
+            }
+            _krnDiskDriver.create(filename);
+            _StdOut.putText("File created successfully");
         }
     }
     TSOS.Shell = Shell;
