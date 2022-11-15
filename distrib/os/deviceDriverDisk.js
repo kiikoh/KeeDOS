@@ -42,16 +42,66 @@ var TSOS;
                     freeBlockData[4 + i] = charCode.toString(16);
                 }
                 sessionStorage.setItem(freeBlock, freeBlockData.join(" "));
+                return true;
             }
             else {
                 _Kernel.krnTrace("No storage available");
+                return false;
             }
         }
         write(fileName, data) {
+            const fatEntry = this.findFATEntry(fileName);
+            if (!fatEntry) {
+                return false;
+            }
+            const fatEntryData = sessionStorage.getItem(fatEntry).split(" ");
+            // the file hasn't been written to yet
+            if (fatEntryData[1] === "0" && fatEntryData[2] === "0" && fatEntryData[3] === "0") {
+                // find a location to a new data block
+                const freeBlock = this.findFirstDataBlock();
+                if (freeBlock) {
+                    //get the track, sector, and block of the free block
+                    const [t, s, b] = freeBlock.split(":");
+                    fatEntryData[1] = t;
+                    fatEntryData[2] = s;
+                    fatEntryData[3] = b;
+                    // update the FAT entry
+                    sessionStorage.setItem(fatEntry, fatEntryData.join(" "));
+                }
+                else {
+                    return false;
+                }
+            }
+            // get the data block
+            const dataBlockHead = this.tsb(parseInt(fatEntryData[1]), parseInt(fatEntryData[2]), parseInt(fatEntryData[3]));
+            const dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
+            //write out the data
+            let i = 0;
+            while (data[i]) {
+                const charCode = data.charCodeAt(i);
+                dataBlockData[4 + i] = charCode.toString(16);
+                i++;
+            }
+            dataBlockData[4 + i] = "0";
+            // set to active
+            dataBlockData[0] = "1";
+            sessionStorage.setItem(dataBlockHead, dataBlockData.join(" "));
+            return true;
         }
         delete(fileName) {
         }
         read(fileName) {
+            if (this.isFormatted) {
+                const fatEntry = this.findFATEntry(fileName);
+                if (fatEntry) {
+                    const fileData = sessionStorage.getItem(fatEntry).split(" ");
+                    const dataBlock = this.tsb(fileData[1], fileData[2], fileData[3]);
+                    const data = this.decodeData(sessionStorage.getItem(dataBlock).split(" "));
+                    console.log(data);
+                    return data;
+                }
+            }
+            return null;
         }
         tsb(track, sector, block) {
             return `${track}:${sector}:${block}`;
@@ -72,7 +122,7 @@ var TSOS;
             }
             return null;
         }
-        findFirstFreeDataBlock() {
+        findFirstDataBlock() {
             for (let t = 1; t < this.tracks; t++) {
                 for (let s = 0; s < this.sectors; s++) {
                     for (let b = 0; b < this.blocks; b++) {
@@ -84,6 +134,29 @@ var TSOS;
                 }
             }
             return null;
+        }
+        findFATEntry(fileName) {
+            for (let s = 0; s < this.sectors; s++) {
+                for (let b = 0; b < this.blocks; b++) {
+                    const block = sessionStorage.getItem(this.tsb(0, s, b)).split(" ");
+                    if (block[0] === "1") {
+                        const blockData = this.decodeData(block);
+                        if (blockData === fileName) {
+                            return this.tsb(0, s, b);
+                        }
+                    }
+                }
+            }
+        }
+        decodeData(data) {
+            let index = 4;
+            let decodedData = "";
+            while (data[index] !== "0") {
+                const charCode = parseInt(data[index], 16);
+                decodedData += String.fromCharCode(charCode);
+                index++;
+            }
+            return decodedData;
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;

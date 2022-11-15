@@ -211,6 +211,22 @@ module TSOS {
                 "Creates a file"
             ))
 
+            // write
+            this.commandList.push(new ShellCommand(
+                this.shellWrite,
+                "write",
+                "<filename> \"data\" - Writes data to a file",
+                "Writes data to a file"
+            ))
+
+            // read
+            this.commandList.push(new ShellCommand(
+                this.shellRead,
+                "read",
+                "<filename> - Reads data from a file",
+                "Reads data from a file"
+            ))
+
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"])
@@ -286,8 +302,8 @@ module TSOS {
         public parseInput(buffer: string): UserCommand {
 
             // trim and split the buffer
-            // get the first element as the cmd, and the rest as args
-            let [cmd, ...args] = buffer.trim().split(" ");
+            // split on spaces, but keep spaces in quotes
+            let [cmd, ...args] = buffer.trim().match(/(?:[^\s"]+|"[^"]*")+/g)
 
             // lowercase and remove leading and trailing whitespace
             cmd = cmd.toLowerCase().trim()
@@ -643,6 +659,77 @@ module TSOS {
             _StdOut.putText("File created successfully")
         
         }
+
+        public shellWrite(args: string[]): void {
+        
+            // check if disk is formatted
+            if(!_krnDiskDriver.isFormatted ) {
+                _StdOut.putText("Disk is not formatted")
+                return
+            }
+
+            // check if a process is running
+            if(_CPU.isExecuting) {
+                _StdOut.putText("Cannot write to file while a process is running")
+                return
+            }
+
+            console.log(args)
+
+            // check if a filename and data was provided in quotes
+            if (args.length !== 2 || args[1][0] !== "\"" || args[1][args[1].length - 1] !== "\"") {
+                _StdOut.putText("Usage: write <filename> \"data\"");
+                return 
+            }
+
+            // try to write to file
+            const filename = args[0]
+            const data = args[1].substring(1, args[1].length - 1)
+            
+            const isSuccess = _krnDiskDriver.write(filename, data)
+
+            if(isSuccess) {
+                _StdOut.putText("Data written successfully")
+            } else {
+                _StdOut.putText("Error writing to file")
+            }
+
+        }
+
+        public shellRead(args: string[]): void {
+
+            // check if disk is formatted
+            if(!_krnDiskDriver.isFormatted ) {
+                _StdOut.putText("Disk is not formatted")
+                return
+            }
+
+            // check if a process is running
+            if(_CPU.isExecuting) {
+                _StdOut.putText("Cannot read file while a process is running")
+                return
+            }
+
+            // check if a filename was provided
+            if (args.length === 0) {
+                _StdOut.putText("Usage: read <filename> Please supply a filename.");
+                return 
+            } 
+
+            const filename = args[0]
+
+            const data = _krnDiskDriver.read(filename)
+
+            if(data) {
+                _StdOut.putText(data)
+            } else {
+                _StdOut.putText("File not found")
+            }
+
+
+        }
+
+
         
 
     }
