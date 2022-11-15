@@ -195,6 +195,13 @@ module TSOS {
                 "Clears all memory partitions"
             ))
 
+            this.commandList.push(new ShellCommand(
+                this.shellFormat,
+                "format",
+                "- Formats the disk",
+                "Formats the disk"
+            ))
+
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"])
@@ -582,6 +589,17 @@ module TSOS {
             _StdOut.putText("Memory cleared")
 
             Control.updatePCBs()
+        }
+
+        public shellFormat(): void {
+
+            if(_CPU.isExecuting) {
+                _StdOut.putText("Cannot format disk while a process is running")
+                return
+            }
+
+            _krnDiskDriver.format()
+            _StdOut.putText("Disk formatted")
         }
 
     }

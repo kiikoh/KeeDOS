@@ -54,6 +54,7 @@ var _OsShell;
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver;
+let _krnDiskDriver;
 var _hardwareClockID;
 var _taskbarTimeID;
 // For testing (and enrichment)...

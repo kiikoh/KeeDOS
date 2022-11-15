@@ -68,6 +68,7 @@ var _SarcasticMode: boolean = false;
 
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver: TSOS.DeviceDriverKeyboard
+let _krnDiskDriver: TSOS.DeviceDriverDisk
 
 var _hardwareClockID: number
 

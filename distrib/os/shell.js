@@ -64,6 +64,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number> - Sets the quantum for round robin scheduling", "Sets the quantum for round robin scheduling"));
             // clearmem
             this.commandList.push(new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions", "Clears all memory partitions"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellFormat, "format", "- Formats the disk", "Formats the disk"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -398,6 +399,14 @@ var TSOS;
             _MemoryAccessor.clearMemory();
             _StdOut.putText("Memory cleared");
             TSOS.Control.updatePCBs();
+        }
+        shellFormat() {
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot format disk while a process is running");
+                return;
+            }
+            _krnDiskDriver.format();
+            _StdOut.putText("Disk formatted");
         }
     }
     TSOS.Shell = Shell;
