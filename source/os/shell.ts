@@ -227,6 +227,14 @@ module TSOS {
                 "Reads data from a file"
             ))
 
+            // ls
+            this.commandList.push(new ShellCommand(
+                this.shellLs,
+                "ls",
+                "- Lists all files",
+                "Lists all files"
+            ))
+
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"])
@@ -727,6 +735,23 @@ module TSOS {
             }
 
 
+        }
+
+        public shellLs(): void {
+                
+            // check if disk is formatted
+            if(!_krnDiskDriver.isFormatted ) {
+                _StdOut.putText("Disk is not formatted")
+                return
+            }
+
+            const filenames = _krnDiskDriver.ls()
+
+            if(filenames.length > 0) {
+                _StdOut.putText(filenames.join("   "))
+            } else {
+                _StdOut.putText("No files found")
+            }
         }
 
 

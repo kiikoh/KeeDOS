@@ -72,6 +72,8 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellWrite, "write", "<filename> \"data\" - Writes data to a file", "Writes data to a file"));
             // read
             this.commandList.push(new TSOS.ShellCommand(this.shellRead, "read", "<filename> - Reads data from a file", "Reads data from a file"));
+            // ls
+            this.commandList.push(new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files", "Lists all files"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -491,6 +493,20 @@ var TSOS;
             }
             else {
                 _StdOut.putText("File not found");
+            }
+        }
+        shellLs() {
+            // check if disk is formatted
+            if (!_krnDiskDriver.isFormatted) {
+                _StdOut.putText("Disk is not formatted");
+                return;
+            }
+            const filenames = _krnDiskDriver.ls();
+            if (filenames.length > 0) {
+                _StdOut.putText(filenames.join("   "));
+            }
+            else {
+                _StdOut.putText("No files found");
             }
         }
     }

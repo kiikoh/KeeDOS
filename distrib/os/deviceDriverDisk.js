@@ -103,6 +103,21 @@ var TSOS;
             }
             return null;
         }
+        ls() {
+            const files = [];
+            for (let s = 0; s < this.sectors; s++) {
+                for (let b = 0; b < this.blocks; b++) {
+                    //ignore the MBR
+                    if (s === 0 && b === 0)
+                        continue;
+                    const block = sessionStorage.getItem(this.tsb(0, s, b)).split(" ");
+                    if (block[0] === "1") {
+                        files.push(this.decodeData(block));
+                    }
+                }
+            }
+            return files;
+        }
         tsb(track, sector, block) {
             return `${track}:${sector}:${block}`;
         }
