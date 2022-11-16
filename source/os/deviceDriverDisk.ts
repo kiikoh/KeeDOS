@@ -37,6 +37,7 @@ module TSOS {
       }
 
       this.isFormatted = true;
+      Control.updateDisk()
     }
 
     public create(fileName: string): boolean {
@@ -57,6 +58,7 @@ module TSOS {
         }
 
         sessionStorage.setItem(freeBlock, freeBlockData.join(" "));
+        Control.updateDisk()
         return true
       } else {
         _Kernel.krnTrace("No storage available");
@@ -92,6 +94,7 @@ module TSOS {
         } else {
           return false;
         }
+        Control.updateDisk()
       }
 
       // get the data block
@@ -112,6 +115,7 @@ module TSOS {
 
       sessionStorage.setItem(dataBlockHead, dataBlockData.join(" "));
 
+      Control.updateDisk()
       return true
     }
 
@@ -128,8 +132,6 @@ module TSOS {
           const dataBlock = this.tsb(fileData[1], fileData[2], fileData[3]);
 
           const data = this.decodeData(sessionStorage.getItem(dataBlock).split(" "));
-
-          console.log(data)
 
           return data;
         }

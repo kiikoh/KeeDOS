@@ -117,6 +117,29 @@ var TSOS;
             `;
             cpuTableBody.replaceChildren(row);
         }
+        static updateDisk() {
+            if (!_krnDiskDriver.isFormatted)
+                return;
+            const diskTableBody = document.querySelector("#diskDisplay > tbody");
+            let diskRows = [];
+            for (let i = 0; i < _krnDiskDriver.tracks; i++) {
+                for (let j = 0; j < _krnDiskDriver.sectors; j++) {
+                    for (let k = 0; k < _krnDiskDriver.blocks; k++) {
+                        const row = document.createElement('tr');
+                        const loc = _krnDiskDriver.tsb(i, j, k);
+                        const rowData = sessionStorage.getItem(loc).split(" ");
+                        row.innerHTML = `
+                            <th>${loc}</th>
+                            <td>${rowData[0]}</td>
+                            <td>${rowData[1]} ${rowData[2]} ${rowData[3]}</td>
+                            <td>${rowData.slice(4, 64).join(" ")}</td>
+                        `;
+                        diskRows.push(row);
+                    }
+                }
+            }
+            diskTableBody.replaceChildren(...diskRows);
+        }
         static hostLog(msg, source = "?") {
             // Note the OS CLOCK.
             var clock = _OSclock;

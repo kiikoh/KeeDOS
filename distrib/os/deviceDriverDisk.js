@@ -27,6 +27,7 @@ var TSOS;
                 }
             }
             this.isFormatted = true;
+            TSOS.Control.updateDisk();
         }
         create(fileName) {
             const freeBlock = this.findFirstFATBlock();
@@ -42,6 +43,7 @@ var TSOS;
                     freeBlockData[4 + i] = charCode.toString(16);
                 }
                 sessionStorage.setItem(freeBlock, freeBlockData.join(" "));
+                TSOS.Control.updateDisk();
                 return true;
             }
             else {
@@ -71,6 +73,7 @@ var TSOS;
                 else {
                     return false;
                 }
+                TSOS.Control.updateDisk();
             }
             // get the data block
             const dataBlockHead = this.tsb(parseInt(fatEntryData[1]), parseInt(fatEntryData[2]), parseInt(fatEntryData[3]));
@@ -86,6 +89,7 @@ var TSOS;
             // set to active
             dataBlockData[0] = "1";
             sessionStorage.setItem(dataBlockHead, dataBlockData.join(" "));
+            TSOS.Control.updateDisk();
             return true;
         }
         delete(fileName) {
@@ -97,7 +101,6 @@ var TSOS;
                     const fileData = sessionStorage.getItem(fatEntry).split(" ");
                     const dataBlock = this.tsb(fileData[1], fileData[2], fileData[3]);
                     const data = this.decodeData(sessionStorage.getItem(dataBlock).split(" "));
-                    console.log(data);
                     return data;
                 }
             }

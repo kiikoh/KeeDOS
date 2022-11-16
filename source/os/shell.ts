@@ -682,8 +682,6 @@ module TSOS {
                 return
             }
 
-            console.log(args)
-
             // check if a filename and data was provided in quotes
             if (args.length !== 2 || args[1][0] !== "\"" || args[1][args[1].length - 1] !== "\"") {
                 _StdOut.putText("Usage: write <filename> \"data\"");
@@ -712,12 +710,6 @@ module TSOS {
                 return
             }
 
-            // check if a process is running
-            if(_CPU.isExecuting) {
-                _StdOut.putText("Cannot read file while a process is running")
-                return
-            }
-
             // check if a filename was provided
             if (args.length === 0) {
                 _StdOut.putText("Usage: read <filename> Please supply a filename.");
@@ -728,7 +720,7 @@ module TSOS {
 
             const data = _krnDiskDriver.read(filename)
 
-            if(data) {
+            if(data !== null) {
                 _StdOut.putText(data)
             } else {
                 _StdOut.putText("File not found")
