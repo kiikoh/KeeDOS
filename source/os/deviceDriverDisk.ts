@@ -41,7 +41,7 @@ module TSOS {
     }
 
     public create(fileName: string): boolean {
-      const freeBlock = this.findFirstFATBlock();
+      const freeBlock = this.findNextFATBlock();
       if(freeBlock) {
 
         const freeBlockData = sessionStorage.getItem(freeBlock).split(" ");
@@ -79,7 +79,7 @@ module TSOS {
       if(fatEntryData[1] === "0" && fatEntryData[2] === "0" && fatEntryData[3] === "0") {
 
         // find a location to a new data block
-        const freeBlock = this.findFirstDataBlock();
+        const freeBlock = this.findNextDataBlock();
 
         if(freeBlock) {
           //get the track, sector, and block of the free block
@@ -94,21 +94,42 @@ module TSOS {
         } else {
           return false;
         }
-        Control.updateDisk()
       }
 
       // get the data block
-      const dataBlockHead = this.tsb(parseInt(fatEntryData[1]), parseInt(fatEntryData[2]), parseInt(fatEntryData[3]));
-      const dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
+      let dataBlockHead = this.tsb(fatEntryData[1], fatEntryData[2], fatEntryData[3]);
+      let dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
 
       //write out the data
       let i = 0;
       while(data[i]) {
         const charCode = data.charCodeAt(i);
-        dataBlockData[4 + i] = charCode.toString(16);
+        dataBlockData[4 + (i % 60)] = charCode.toString(16);
         i++;
+        // if we are at the end of the block
+        if(i % 60 === 0 && i !== 0) {
+          // find a location to a new data block
+          const freeBlock = this.findNextDataBlock(1);
+
+          if(freeBlock) {
+            //get the track, sector, and block of the free block
+            const [t, s, b] = freeBlock.split(":");
+            
+            dataBlockData[0] = "1";
+            dataBlockData[1] = t;
+            dataBlockData[2] = s;
+            dataBlockData[3] = b;
+
+            // update the FAT entry
+            sessionStorage.setItem(dataBlockHead, dataBlockData.join(" "));
+
+            // change to the new data block
+            dataBlockHead = this.tsb(t, s, b);
+            dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
+          }
+        }
       }
-      dataBlockData[4 + i] = "0";
+      dataBlockData[4 + (i % 60)] = "0";
 
       // set to active
       dataBlockData[0] = "1";
@@ -169,7 +190,7 @@ module TSOS {
 
     }
 
-    public findFirstFATBlock(): string {
+    public findNextFATBlock(): string {
       for(let s = 0; s < this.sectors; s++) {
         for(let b = 0; b < this.blocks; b++) {
 
@@ -183,14 +204,17 @@ module TSOS {
       return null;
     }
 
-    public findFirstDataBlock(): string {
+    public findNextDataBlock(lookahead: number = 0): string {
+      let count = 0
       for(let t = 1; t < this.tracks; t++) {
         for(let s = 0; s < this.sectors; s++) {
           for(let b = 0; b < this.blocks; b++) {
 
             const block = sessionStorage.getItem(this.tsb(t, s, b)).split(" ");
-            if(block[0] === "0") {
+            if(block[0] === "0" && count === lookahead) {
               return this.tsb(t, s, b);
+            } else if(block[0] === "0") {
+              count++;
             }
           }
         }
@@ -221,6 +245,11 @@ module TSOS {
         const charCode = parseInt(data[index], 16);
         decodedData += String.fromCharCode(charCode);
         index++;
+        if(index === 64) {
+          const nextBlock = this.tsb(data[1], data[2], data[3]);
+          data = sessionStorage.getItem(nextBlock).split(" ");
+          index = 4;
+        }
       }
 
       return decodedData;

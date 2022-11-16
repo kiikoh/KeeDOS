@@ -439,6 +439,11 @@ var TSOS;
                 _StdOut.putText("Filename must be less than 60 characters");
                 return;
             }
+            // make sure no dupes
+            if (_krnDiskDriver.ls().includes(filename)) {
+                _StdOut.putText("Filename already in use");
+                return;
+            }
             _krnDiskDriver.create(filename);
             _StdOut.putText("File created successfully");
         }

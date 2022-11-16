@@ -662,6 +662,12 @@ module TSOS {
                 return
             }
 
+            // make sure no dupes
+            if(_krnDiskDriver.ls().includes(filename)) {
+                _StdOut.putText("Filename already in use");
+                return
+            }
+
             _krnDiskDriver.create(filename)
 
             _StdOut.putText("File created successfully")
