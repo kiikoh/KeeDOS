@@ -31,7 +31,6 @@ var TSOS;
         }
         create(fileName) {
             const freeBlock = this.findNextFATBlock();
-            console.log(freeBlock);
             if (!freeBlock) {
                 _Kernel.krnTrace("No storage available");
                 return false;
@@ -160,6 +159,19 @@ var TSOS;
             TSOS.Control.updateDisk();
             return true;
         }
+        copy(fileName, newFileName) {
+            const data = this.read(fileName);
+            // if the newFileName doesn't exist, create it
+            if (!this.findFATEntry(newFileName)) {
+                // make sure we can create the file
+                if (!this.create(newFileName))
+                    return false;
+            }
+            if (data) {
+                return this.write(newFileName, data);
+            }
+            return false;
+        }
         ls() {
             const files = [];
             for (let s = 0; s < this.sectors; s++) {
@@ -204,7 +216,6 @@ var TSOS;
                             return this.tsb(t, s, b);
                         }
                         else if (block[0] === "0") {
-                            console.log(block);
                             count++;
                         }
                     }

@@ -11,7 +11,6 @@ var TSOS;
         }
         // this should be called only when a process is readied
         readyProcess() {
-            console.log(JSON.stringify(this));
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;
                 if (this.runningProcess !== null)

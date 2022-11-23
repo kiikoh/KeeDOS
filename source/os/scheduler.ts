@@ -19,7 +19,6 @@ module TSOS {
 
         // this should be called only when a process is readied
         public readyProcess(): void {
-            console.log(JSON.stringify(this))
 
             if (this.readyQueue.isEmpty()) {
                 _CPU.isExecuting = false;

@@ -42,7 +42,6 @@ module TSOS {
 
     public create(fileName: string): boolean {
       const freeBlock = this.findNextFATBlock();
-      console.log(freeBlock)
       if(!freeBlock) {
         _Kernel.krnTrace("No storage available");
         return false
@@ -212,6 +211,24 @@ module TSOS {
       return true;
     }
 
+    public copy(fileName: string, newFileName: string): boolean {
+      const data = this.read(fileName);
+
+      // if the newFileName doesn't exist, create it
+      if(!this.findFATEntry(newFileName)) {
+
+        // make sure we can create the file
+        if(!this.create(newFileName))
+          return false;
+      }
+
+      if(data) {
+        return this.write(newFileName, data);
+      }
+
+      return false;
+    }
+
     public ls(): string[] {
       const files = [];
       for(let s = 0; s < this.sectors; s++) {
@@ -266,7 +283,6 @@ module TSOS {
             if(block[0] === "0" && count === lookahead) {
               return this.tsb(t, s, b);
             } else if(block[0] === "0") {
-              console.log(block)
               count++;
             }
           }

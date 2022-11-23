@@ -76,6 +76,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files", "Lists all files"));
             this.commandList.push(new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes a file", "Deletes a file"));
             this.commandList.push(new TSOS.ShellCommand(this.shellRename, "rename", "<filename> <newfilename> - Renames a file", "Renames a file"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellCopy, "copy", "<filename> <newfilename> - Copies a file", "Copies a file"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -557,6 +558,36 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Error renaming file");
+            }
+        }
+        shellCopy(args) {
+            //check if disk is formatted
+            if (!_krnDiskDriver.isFormatted) {
+                _StdOut.putText("Disk is not formatted");
+                return;
+            }
+            // check if a process is running
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot copy file while a process is running");
+                return;
+            }
+            // check if filenames were provided
+            if (args.length !== 2) {
+                _StdOut.putText("Usage: copy <filename> <new filename>");
+                return;
+            }
+            const filename = args[0];
+            const newFilename = args[1];
+            if (newFilename.length > 60 || filename.length > 60) {
+                _StdOut.putText("Filename must be less than 60 characters");
+                return;
+            }
+            const isSuccess = _krnDiskDriver.copy(filename, newFilename);
+            if (isSuccess) {
+                _StdOut.putText("File copied successfully");
+            }
+            else {
+                _StdOut.putText("Error copying file");
             }
         }
     }
