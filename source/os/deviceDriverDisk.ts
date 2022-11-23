@@ -189,6 +189,29 @@ module TSOS {
       return null;
     }
 
+    public rename(oldName: string, newName: string): boolean {
+      const fatEntry = this.findFATEntry(oldName);
+
+      if(!fatEntry || this.findFATEntry(newName)) {
+        return false;
+      }
+      // existing filename exists and new filename doesn't
+      
+      const fatEntryData = sessionStorage.getItem(fatEntry).split(" ");
+
+      for(let i = 0; i < newName.length; i++) {
+        const charCode = newName.charCodeAt(i);
+        fatEntryData[4 + i] = charCode.toString(16);
+      }
+
+      // terminate with a 0
+      fatEntryData[4 + newName.length] = "0";
+
+      sessionStorage.setItem(fatEntry, fatEntryData.join(" "));
+      Control.updateDisk()
+      return true;
+    }
+
     public ls(): string[] {
       const files = [];
       for(let s = 0; s < this.sectors; s++) {

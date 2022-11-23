@@ -242,6 +242,12 @@ module TSOS {
                 "Deletes a file"
             ))
 
+            this.commandList.push(new ShellCommand(
+                this.shellRename,
+                "rename",
+                "<filename> <newfilename> - Renames a file",
+                "Renames a file"
+            ))
 
             // Display the initial prompt.
             this.putPrompt();
@@ -782,6 +788,45 @@ module TSOS {
 
             const filename = args[0]
             _krnDiskDriver.delete(filename)
+
+        }
+
+        public shellRename(args: string[]): void {
+
+            //check if disk is formatted
+            if(!_krnDiskDriver.isFormatted ) {
+                _StdOut.putText("Disk is not formatted")
+                return
+            }
+
+            // check if a process is running
+            if(_CPU.isExecuting) {
+                _StdOut.putText("Cannot rename file while a process is running")
+                return
+            }
+
+            // check if a filename was provided
+            if (args.length !== 2) {
+                _StdOut.putText("Usage: rename <filename> <new filename>");
+                return 
+            }
+
+            const filename = args[0]
+            const newFilename = args[1]
+
+            if(newFilename.length > 60 || filename.length > 60) {
+                _StdOut.putText("Filename must be less than 60 characters")
+                return
+            }
+
+            const isSuccess = _krnDiskDriver.rename(filename, newFilename)
+
+            if(isSuccess) {
+                _StdOut.putText("File renamed successfully")
+            } else {
+                _StdOut.putText("Error renaming file")
+            }
+
 
         }
         
