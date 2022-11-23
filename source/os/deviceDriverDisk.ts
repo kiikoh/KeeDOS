@@ -42,28 +42,29 @@ module TSOS {
 
     public create(fileName: string): boolean {
       const freeBlock = this.findNextFATBlock();
-      if(freeBlock) {
-
-        const freeBlockData = sessionStorage.getItem(freeBlock).split(" ");
-        freeBlockData[0] = "1";
-
-        // point to 0 0 0 which means points to nothing, bcuz that is reserved for MBR
-        freeBlockData[1] = "0"
-        freeBlockData[2] = "0"
-        freeBlockData[3] = "0"
-
-        for(let i = 0; i < fileName.length; i++) {
-          const charCode = fileName.charCodeAt(i);
-          freeBlockData[4 + i] = charCode.toString(16); 
-        }
-
-        sessionStorage.setItem(freeBlock, freeBlockData.join(" "));
-        Control.updateDisk()
-        return true
-      } else {
+      console.log(freeBlock)
+      if(!freeBlock) {
         _Kernel.krnTrace("No storage available");
         return false
       }
+
+      const freeBlockData = sessionStorage.getItem(freeBlock).split(" ");
+      freeBlockData[0] = "1";
+
+      // point to 0 0 0 which means points to nothing, bcuz that is reserved for MBR
+      freeBlockData[1] = "0"
+      freeBlockData[2] = "0"
+      freeBlockData[3] = "0"
+
+      for(let i = 0; i < fileName.length; i++) {
+        const charCode = fileName.charCodeAt(i);
+        freeBlockData[4 + i] = charCode.toString(16); 
+      }
+
+      sessionStorage.setItem(freeBlock, freeBlockData.join(" "));
+      Control.updateDisk()
+      return true
+      
     }
 
     public write(fileName: string, data: string): boolean {
@@ -72,6 +73,8 @@ module TSOS {
       if(!fatEntry) {
         return false;
       }
+
+      // maybe delete old data first TODO
 
       const fatEntryData = sessionStorage.getItem(fatEntry).split(" ");
 
@@ -142,6 +145,32 @@ module TSOS {
 
     public delete(fileName: string) {
 
+      const fatEntryLoc = this.findFATEntry(fileName);
+
+      // the filename exists
+      if(fatEntryLoc) {
+        
+        // get the data block
+        const fatEntry = sessionStorage.getItem(fatEntryLoc).split(" ");
+        let dataBlockHead = this.tsb(fatEntry[1], fatEntry[2], fatEntry[3]);
+        let dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
+
+        // must be inactive, and not the MBR
+        while(dataBlockData[0] === "1" && dataBlockHead !== "0:0:0") {
+          const nextBlock = this.tsb(dataBlockData[1], dataBlockData[2], dataBlockData[3]);
+          dataBlockData[0] = "0";
+          sessionStorage.setItem(dataBlockHead, dataBlockData.join(" "));
+          dataBlockHead = nextBlock;
+          dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
+        }
+
+        // delete the FAT entry
+        const emptyBlock = this.getEmptyBlock();
+        sessionStorage.setItem(fatEntryLoc, emptyBlock.join(" "));
+
+      }
+
+      Control.updateDisk()
     }
 
     public read(fileName: string): string {
@@ -214,6 +243,7 @@ module TSOS {
             if(block[0] === "0" && count === lookahead) {
               return this.tsb(t, s, b);
             } else if(block[0] === "0") {
+              console.log(block)
               count++;
             }
           }
@@ -223,6 +253,7 @@ module TSOS {
       return null;
     }
 
+    // gets the FAT entry(t:s:b) for a filename
     public findFATEntry(fileName: string): string {
       for(let s = 0; s < this.sectors; s++) {
         for(let b = 0; b < this.blocks; b++) {

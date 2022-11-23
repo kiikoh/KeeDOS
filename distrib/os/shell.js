@@ -74,6 +74,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellRead, "read", "<filename> - Reads data from a file", "Reads data from a file"));
             // ls
             this.commandList.push(new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files", "Lists all files"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes a file", "Deletes a file"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -507,6 +508,25 @@ var TSOS;
             else {
                 _StdOut.putText("No files found");
             }
+        }
+        shellDelete(args) {
+            //check if disk is formatted
+            if (!_krnDiskDriver.isFormatted) {
+                _StdOut.putText("Disk is not formatted");
+                return;
+            }
+            // check if a process is running
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot delete file while a process is running");
+                return;
+            }
+            // check if a filename was provided
+            if (args.length === 0) {
+                _StdOut.putText("Usage: delete <filename> Please supply a filename.");
+                return;
+            }
+            const filename = args[0];
+            _krnDiskDriver.delete(filename);
         }
     }
     TSOS.Shell = Shell;
