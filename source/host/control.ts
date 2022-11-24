@@ -180,7 +180,7 @@ module TSOS {
 
                         dataCard.innerHTML = `
                             <div class="data-card-header">
-                                <span class="data-card-title">${loc}</span>
+                                <span class="data-card-title">Addr: ${loc}</span>
                             </div>
                             <div class="data-card-body">
                                 <div class="data-card-row">

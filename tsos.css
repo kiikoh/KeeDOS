@@ -153,7 +153,7 @@ h3 {
 }
 
 #memoryContainer {
-  max-height: 176px;
+  max-height: 312px;
   width: 244px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -161,8 +161,16 @@ h3 {
   left: 25px;
   top: 242px;
   border: solid #345b74 2px;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px;
   font-family: monospace;
+}
+
+#memoryContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+#memoryContainer::-webkit-scrollbar-thumb {
+  background-color: #345b74;
 }
 
 #memoryDisplay {
@@ -372,7 +380,8 @@ input:checked + .slider:before {
   position: absolute;
   top: 113px;
   left: 243px;
-  background-color: red;
+  background-color: #4d4d4d;
+  border: 2px solid #111!important;
   height: 12px;
   width: 38px;
   border: none;
@@ -414,10 +423,12 @@ input:checked + .slider:before {
 
 #diskDisplay > div > span .data-card {
   position: fixed;
-  background-color: #abc3cf;
+  background-color: #99bdcf;
   z-index: 101;
   display: none;
-  transform: translateY(10px);
+  padding: 6px;
+  border-radius: 12px;
+  border: solid 1px #3b3b3b;
 }
 
 #diskDisplay > div > span:hover .data-card {
