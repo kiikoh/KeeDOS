@@ -63,7 +63,7 @@ var TSOS;
                 _GLaDOS = new Glados();
                 _GLaDOS.init();
             }
-            // set up a mouse listener for the tooltip functionality
+            // set up a mouse listener for the tooltip functionality in the disk
             document.addEventListener('mousemove', (e) => {
                 const tooltips = Array.from(document.querySelectorAll('.data-card'));
                 for (let tooltip of tooltips) {

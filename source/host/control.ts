@@ -78,7 +78,7 @@ module TSOS {
                 _GLaDOS.init();
             }
 
-            // set up a mouse listener for the tooltip functionality
+            // set up a mouse listener for the tooltip functionality in the disk
             document.addEventListener('mousemove', (e) => {
                 const tooltips = <HTMLDivElement[]>Array.from(document.querySelectorAll('.data-card'))
                 for(let tooltip of tooltips) {
