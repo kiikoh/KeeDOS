@@ -63,6 +63,14 @@ var TSOS;
                 _GLaDOS = new Glados();
                 _GLaDOS.init();
             }
+            // set up a mouse listener for the tooltip functionality
+            document.addEventListener('mousemove', (e) => {
+                const tooltips = Array.from(document.querySelectorAll('.data-card'));
+                for (let tooltip of tooltips) {
+                    tooltip.style.left = e.pageX + 10 + 'px';
+                    tooltip.style.top = e.pageY + 10 + 'px';
+                }
+            });
         }
         static updateMemory(address, value) {
             const col = address % 8 + 2;
