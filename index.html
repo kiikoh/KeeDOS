@@ -48,6 +48,20 @@
    <div id="divMain">
       <div id="tower">
          <img src="images/tower.png" alt="Computer tower" style="position:absolute" width="300px">
+         <div id="diskContainer">
+            <div id="diskTableHolder">
+               <div id="diskDisplay">
+
+               </div>
+            </div>
+            <img id="trayImg" src="./images/disktray.png" alt="" onclick="TSOS.Control.hostBtnToggleDisk_click(this);">
+         </div>
+         <input 
+            type="button"
+            id="btnOpenDisk"
+            class="normal_button"
+            onclick="TSOS.Control.hostBtnToggleDisk_click(this);"
+         >
          <input type="button"
                   id = "btnStartOS"
                   name="brnStartOS"
@@ -193,11 +207,6 @@
             </textarea>
             </label>
          </div>
-         <table id="diskDisplay">
-            <tbody>
-
-            </tbody>
-         </table>
       </div>
    </div>
 

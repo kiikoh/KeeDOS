@@ -344,3 +344,86 @@ input:checked + .slider:before {
   -ms-transform: translateX(12px);
   transform: translateX(12px);
 }
+
+#diskContainer {
+  position: absolute;
+  transition: 1s all linear;
+  visibility: hidden;
+  background-color: #b3b3b3;
+  border-left: solid 2px #3b3b3b;
+  border-right: solid 2px #3b3b3b;
+  z-index: 100;
+
+  top: 67px;
+  left: 35px;
+  width: 241px;
+  height: 38px;
+  overflow-y: clip;
+}
+
+#diskContainer.open {
+  visibility: visible;
+  display: flex;
+  flex-direction: column;
+  height: 290px;
+}
+
+#btnOpenDisk {
+  position: absolute;
+  top: 113px;
+  left: 243px;
+  background-color: red;
+  height: 12px;
+  width: 38px;
+  border: none;
+}
+
+#trayImg {
+  
+}
+
+#diskDisplay > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+}
+
+#diskDisplay > div > span {
+  font-size: 18px;
+  padding: 2px 4px;
+}
+
+#diskDisplay > div > span.allocated{
+  background-color: #308dbb;
+}
+
+#diskTableHolder {
+  overflow-y: scroll;
+  height: calc(300px - 38px);
+}
+
+#diskTableHolder::-webkit-scrollbar {
+  width: 10px;
+}
+
+#diskTableHolder::-webkit-scrollbar-thumb {
+  background-color: #308dbb;
+}
+
+#diskDisplay > div > span .data-card {
+  position: fixed;
+  background-color: #abc3cf;
+  z-index: 101;
+  display: none;
+  transform: translateY(10px);
+}
+
+#diskDisplay > div > span:hover .data-card {
+  display: block;
+}
+
+.data-card:hover {
+  display: none;
+}

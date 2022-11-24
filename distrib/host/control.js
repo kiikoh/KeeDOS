@@ -120,22 +120,41 @@ var TSOS;
         static updateDisk() {
             if (!_krnDiskDriver.isFormatted)
                 return;
-            const diskTableBody = document.querySelector("#diskDisplay > tbody");
+            const diskTableBody = document.querySelector("#diskDisplay");
             let diskRows = [];
-            for (let i = 0; i < _krnDiskDriver.tracks; i++) {
-                for (let j = 0; j < _krnDiskDriver.sectors; j++) {
-                    for (let k = 0; k < _krnDiskDriver.blocks; k++) {
-                        const row = document.createElement('tr');
+            for (let j = 0; j < _krnDiskDriver.sectors; j++) {
+                for (let k = 0; k < _krnDiskDriver.blocks; k++) {
+                    const row = document.createElement('div');
+                    for (let i = 0; i < _krnDiskDriver.tracks; i++) {
                         const loc = _krnDiskDriver.tsb(i, j, k);
-                        const rowData = sessionStorage.getItem(loc).split(" ");
-                        row.innerHTML = `
-                            <th>${loc}</th>
-                            <td>${rowData[0]}</td>
-                            <td>${rowData[1]} ${rowData[2]} ${rowData[3]}</td>
-                            <td>${rowData.slice(4, 64).join(" ")}</td>
+                        const data = sessionStorage.getItem(loc).split(" ");
+                        const cell = document.createElement('span');
+                        cell.innerText = loc;
+                        // apply a class if the cell is in use
+                        if (data[0] === "1") {
+                            cell.classList.add("allocated");
+                        }
+                        const dataCard = document.createElement('div');
+                        dataCard.className = "data-card";
+                        dataCard.innerHTML = `
+                            <div class="data-card-header">
+                                <span class="data-card-title">${loc}</span>
+                            </div>
+                            <div class="data-card-body">
+                                <div class="data-card-row">
+                                    <span class="data-card-label">Next:</span>
+                                    <span class="data-card-value">${data[1]}:${data[2]}:${data[3]}</span>
+                                </div>
+                                <div class="data-card-row">
+                                    <span class="data-card-label">Data:</span>
+                                    <span class="data-card-value">${data.slice(4).join(" ")}</span>
+                                </div>
+                            </div>
                         `;
-                        diskRows.push(row);
+                        cell.appendChild(dataCard);
+                        row.appendChild(cell);
                     }
+                    diskRows.push(row);
                 }
             }
             diskTableBody.replaceChildren(...diskRows);
@@ -247,6 +266,10 @@ var TSOS;
         }
         static hostBtnSingleStepOnce_click(btn) {
             _shouldStep = true;
+        }
+        static hostBtnToggleDisk_click(btn) {
+            const diskContainer = document.getElementById("diskContainer");
+            diskContainer.classList.toggle("open");
         }
     }
     TSOS.Control = Control;
