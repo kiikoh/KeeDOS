@@ -22,10 +22,12 @@ var TSOS;
                 return 1;
             if (this.isSegmentOpen(2))
                 return 2;
+            if (_krnDiskDriver.isFormatted) {
+                return "Disk";
+            }
             return false;
         }
         load(data) {
-            var _a;
             const segment = this.getFirstOpenSegment();
             //can't use simple negation because segment can be 0
             if (segment === false) {
@@ -35,8 +37,16 @@ var TSOS;
             pcb.state = "Resident";
             _Scheduler.residentList.set(pcb.PID, pcb);
             TSOS.Control.updatePCBs();
-            for (let i = 0; i < 0x100; i++) {
-                _MemoryAccessor.write(i, (_a = data[i]) !== null && _a !== void 0 ? _a : 0, pcb.PID);
+            while (data.length < 0x100) {
+                data.push(0);
+            }
+            if (segment === "Disk") {
+                _krnDiskDriver.create("!" + pcb.PID);
+                _krnDiskDriver.write("!" + pcb.PID, data.map((d) => d.toString(16).padStart(2, "0")).join(""));
+                return pcb;
+            }
+            for (let i = 0; i < data.length; i++) {
+                _MemoryAccessor.write(i, data[i], pcb.PID);
             }
             return pcb;
         }

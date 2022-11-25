@@ -16,7 +16,11 @@ module TSOS {
 
         constructor(segment: Segment) {
             this.segment = segment;
-            this.bounds = [this.segment * 0x100, (this.segment + 1) * 0x100 - 1]
+            if(segment === "Disk") {
+                this.bounds = [768, 768];
+            } else {
+                this.bounds = [+this.segment * 0x100, (+this.segment + 1) * 0x100 - 1]
+            }
             TSOS.Control.updatePCBs();
         }
 

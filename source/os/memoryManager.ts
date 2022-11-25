@@ -28,6 +28,9 @@ module TSOS {
                 return 1;
             if (this.isSegmentOpen(2))
                 return 2;
+            if(_krnDiskDriver.isFormatted) {
+                return "Disk";
+            }
             return false;
         }
 
@@ -46,8 +49,18 @@ module TSOS {
             _Scheduler.residentList.set(pcb.PID, pcb)
             Control.updatePCBs();
 
-            for (let i = 0; i < 0x100; i++) {
-                _MemoryAccessor.write(i, data[i] ?? 0, pcb.PID);
+            while(data.length < 0x100) {
+                data.push(0)
+            }
+
+            if (segment === "Disk") {
+                _krnDiskDriver.create("!" + pcb.PID)
+                _krnDiskDriver.write("!" + pcb.PID, data.map((d) => d.toString(16).padStart(2, "0")).join(""));
+                return pcb;
+            }
+
+            for (let i = 0; i < data.length; i++) {
+                _MemoryAccessor.write(i, data[i], pcb.PID);
             }
 
             return pcb;
@@ -55,5 +68,5 @@ module TSOS {
 
     }
 
-    export type Segment = 0 | 1 | 2;
+    export type Segment = 0 | 1 | 2 | "Disk";
 }

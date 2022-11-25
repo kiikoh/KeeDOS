@@ -13,7 +13,12 @@ var TSOS;
             this.bounds = [0, 0];
             this.quantumRemaining = _Scheduler.quantum;
             this.segment = segment;
-            this.bounds = [this.segment * 0x100, (this.segment + 1) * 0x100 - 1];
+            if (segment === "Disk") {
+                this.bounds = [768, 768];
+            }
+            else {
+                this.bounds = [+this.segment * 0x100, (+this.segment + 1) * 0x100 - 1];
+            }
             TSOS.Control.updatePCBs();
         }
         update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
