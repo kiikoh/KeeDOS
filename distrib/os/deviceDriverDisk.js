@@ -78,9 +78,15 @@ var TSOS;
             let dataBlockData = sessionStorage.getItem(dataBlockHead).split(" ");
             //write out the data
             let i = 0;
-            while (data[i]) {
-                const charCode = data.charCodeAt(i);
-                dataBlockData[4 + (i % 60)] = charCode.toString(16);
+            while (typeof data[i] === "number" || data[i]) {
+                if (typeof data !== "string") {
+                    console.log(data[i].toString(16).padStart(2, "0"));
+                    dataBlockData[4 + (i % 60)] = data[i].toString(16).padStart(2, "0");
+                }
+                else {
+                    const charCode = data.charCodeAt(i);
+                    dataBlockData[4 + (i % 60)] = charCode.toString(16);
+                }
                 i++;
                 // if we are at the end of the block
                 if (i % 60 === 0 && i !== 0) {

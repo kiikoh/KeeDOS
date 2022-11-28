@@ -42,7 +42,7 @@ var TSOS;
             }
             if (segment === "Disk") {
                 _krnDiskDriver.create("!" + pcb.PID);
-                _krnDiskDriver.write("!" + pcb.PID, data.map((d) => d.toString(16).padStart(2, "0")).join(""));
+                _krnDiskDriver.write("!" + pcb.PID, data);
                 return pcb;
             }
             for (let i = 0; i < data.length; i++) {
