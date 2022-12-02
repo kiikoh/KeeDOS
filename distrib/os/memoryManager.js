@@ -1,8 +1,7 @@
 var TSOS;
 (function (TSOS) {
     class MemoryManager {
-        constructor() {
-        }
+        constructor() { }
         isSegmentOpen(segment) {
             return Array.from(_Scheduler.residentList).every(([_, pcb]) => {
                 //Return true if the pcb is not in conflict with the segment

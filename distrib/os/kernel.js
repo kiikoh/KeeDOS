@@ -13,6 +13,7 @@ var TSOS;
         // OS Startup and Shutdown Routines
         //
         krnBootstrap() {
+            // Page 8. {
             TSOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
@@ -58,7 +59,7 @@ var TSOS;
             this.krnTrace("Disabling the interrupts.");
             this.krnDisableInterrupts();
             _CPU.isExecuting = false;
-            Array.from(_Scheduler.residentList).forEach(([_, pcb]) => pcb.state = "Terminated");
+            Array.from(_Scheduler.residentList).forEach(([_, pcb]) => (pcb.state = "Terminated"));
             TSOS.Control.updatePCBs();
             //
             // Unload the Device Drivers?
@@ -68,10 +69,10 @@ var TSOS;
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.
-               This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
-               This, on the other hand, is the clock pulse from the hardware / VM / host that tells the kernel
-               that it has to look for interrupts and process them if it finds any.
-            */
+                     This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
+                     This, on the other hand, is the clock pulse from the hardware / VM / host that tells the kernel
+                     that it has to look for interrupts and process them if it finds any.
+                  */
             // Check for an interrupt, if there are any. Page 560
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
@@ -79,14 +80,16 @@ var TSOS;
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
-            else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
-                // if single step is disabled, then run, if its enabled, it must also be allowed to take the next step 
+            else if (_CPU.isExecuting) {
+                // If there are no interrupts then run one CPU cycle if there is anything being processed.
+                // if single step is disabled, then run, if its enabled, it must also be allowed to take the next step
                 if (!_singleStepEnabled || _shouldStep) {
                     _shouldStep = false;
                     _CPU.cycle();
                 }
             }
-            else { // If there are no interrupts and there is nothing being executed then just be idle.
+            else {
+                // If there are no interrupts and there is nothing being executed then just be idle.
                 this.krnTrace("Idle");
             }
         }
@@ -170,8 +173,8 @@ var TSOS;
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // Just hide the diplay and taskbar, and instead show the pc screen, normally behind the canvas
             // Image for BSOD was generated from DALL-E AI Image generator
-            document.getElementById('display').style.display = 'none';
-            document.getElementById('taskbar').style.display = 'none';
+            document.getElementById("display").style.display = "none";
+            document.getElementById("taskbar").style.display = "none";
             this.krnShutdown();
         }
     }

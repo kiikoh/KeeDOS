@@ -31,7 +31,7 @@ var TSOS;
             this.isExecuting = false;
         }
         cycle() {
-            _Kernel.krnTrace('CPU cycle');
+            _Kernel.krnTrace("CPU cycle");
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             // get the instruction and run it
@@ -56,7 +56,7 @@ var TSOS;
                     PC: this.PC,
                     Xreg: this.Xreg,
                     Yreg: this.Yreg,
-                    Zflag: this.Zflag
+                    Zflag: this.Zflag,
                 });
             }
         }

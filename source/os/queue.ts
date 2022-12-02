@@ -9,36 +9,35 @@
    ------------ */
 
 module TSOS {
-    export class Queue<T> {
-        constructor(public q = new Array<T>()) {
-        }
+  export class Queue<T> {
+    constructor(public q = new Array<T>()) {}
 
-        public getSize() {
-            return this.q.length;
-        }
-
-        public isEmpty(): boolean {
-            return (this.q.length == 0);
-        }
-
-        public enqueue(element: T) {
-            this.q.push(element);
-        }
-
-        public dequeue(): T {
-            var retVal = null;
-            if (this.q.length > 0) {
-                retVal = this.q.shift();
-            }
-            return retVal;
-        }
-
-        public toString() {
-            var retVal = "";
-            for (var i in this.q) {
-                retVal += "[" + this.q[i] + "] ";
-            }
-            return retVal;
-        }
+    public getSize() {
+      return this.q.length;
     }
+
+    public isEmpty(): boolean {
+      return this.q.length == 0;
+    }
+
+    public enqueue(element: T) {
+      this.q.push(element);
+    }
+
+    public dequeue(): T {
+      var retVal = null;
+      if (this.q.length > 0) {
+        retVal = this.q.shift();
+      }
+      return retVal;
+    }
+
+    public toString() {
+      var retVal = "";
+      for (var i in this.q) {
+        retVal += "[" + this.q[i] + "] ";
+      }
+      return retVal;
+    }
+  }
 }

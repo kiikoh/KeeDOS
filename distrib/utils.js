@@ -10,22 +10,23 @@ var TSOS;
             // Use a regular expression to remove leading and trailing spaces.
             return str.replace(/^\s+ | \s+$/g, "");
             /*
-            Huh? WTF? Okay... take a breath. Here we go:
-            - The "|" separates this into two expressions, as in A or B.
-            - "^\s+" matches a sequence of one or more whitespace characters at the beginning of a string.
-            - "\s+$" is the same thing, but at the end of the string.
-            - "g" makes is global, so we get all the whitespace.
-            - "" is nothing, which is what we replace the whitespace with.
-            */
+                  Huh? WTF? Okay... take a breath. Here we go:
+                  - The "|" separates this into two expressions, as in A or B.
+                  - "^\s+" matches a sequence of one or more whitespace characters at the beginning of a string.
+                  - "\s+$" is the same thing, but at the end of the string.
+                  - "g" makes is global, so we get all the whitespace.
+                  - "" is nothing, which is what we replace the whitespace with.
+                  */
         }
         static rot13(str) {
             /*
-               This is an easy-to understand implementation of the famous and common Rot13 obfuscator.
-               You can do this in three lines with a complex regular expression, but I'd have
-               trouble explaining it in the future.  There's a lot to be said for obvious code.
-            */
+                     This is an easy-to understand implementation of the famous and common Rot13 obfuscator.
+                     You can do this in three lines with a complex regular expression, but I'd have
+                     trouble explaining it in the future.  There's a lot to be said for obvious code.
+                  */
             var retVal = "";
-            for (var i in str) { // We need to cast the string to any for use in the for...in construct.
+            for (var i in str) {
+                // We need to cast the string to any for use in the for...in construct.
                 var ch = str[i];
                 var code = 0;
                 if ("abcedfghijklmABCDEFGHIJKLM".indexOf(ch) >= 0) {
@@ -49,9 +50,9 @@ var TSOS;
             const parsed = input
                 .toUpperCase() // make all upper
                 .trim() // remove trailing whitespace
-                .replace(/\s+/g, '') //remove all whitespace
-                .split('');
-            if (!parsed.every(chr => validChars.includes(chr)))
+                .replace(/\s+/g, "") //remove all whitespace
+                .split("");
+            if (!parsed.every((chr) => validChars.includes(chr)))
                 return false;
             const pairs = [];
             for (let i = 0; i < parsed.length; i += 2) {
@@ -76,7 +77,6 @@ var TSOS;
         static getCompliment(num) {
             return num < 128 ? num : -(256 - num);
         }
-        ;
         static compAddition(num1, num2) {
             const result = this.getCompliment(num1) + this.getCompliment(num2);
             if (result >= 256)

@@ -20,7 +20,7 @@ var TSOS;
         }
         init() {
             // Load the command list.
-            // I refactored this because I felt that it didn't make much sense to have the manual entries 
+            // I refactored this because I felt that it didn't make much sense to have the manual entries
             // and the rest of the commands in different places, I modified the ShellCommand class to handle this
             // Further improvements would be to use a map for command lookups
             // ver
@@ -31,7 +31,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.", "Starve me of energy"));
             // cls
             this.commandList.push(new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.", "Erase the screen"));
-            // man <topic> 
+            // man <topic>
             this.commandList.push(new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.", "It's short for 'manual' do you want to read one?"));
             // trace <on | off>
             this.commandList.push(new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off.", "Enable/disable the trace feature"));
@@ -56,11 +56,11 @@ var TSOS;
             // ps  - list the running processes and their IDs
             this.commandList.push(new TSOS.ShellCommand(this.shellPs, "ps", "- List the running processes and their IDs", "Lists the running processes and their IDs"));
             this.commandList.push(new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all programs in memory", "Runs all programs in memory"));
-            // killall 
+            // killall
             this.commandList.push(new TSOS.ShellCommand(this.shellKillAll, "killall", "- Kills all running processes", "Kills all running processes"));
             // kill <id> - kills the specified process id.
             this.commandList.push(new TSOS.ShellCommand(this.shellKill, "kill", "<number> - Kills the process with the given pid", "Kills the process with the given pid"));
-            // quantum 
+            // quantum
             this.commandList.push(new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number> - Sets the quantum for round robin scheduling", "Sets the quantum for round robin scheduling"));
             // clearmem
             this.commandList.push(new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions", "Clears all memory partitions"));
@@ -69,7 +69,7 @@ var TSOS;
             // create
             this.commandList.push(new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - Creates a file", "Creates a file"));
             // write
-            this.commandList.push(new TSOS.ShellCommand(this.shellWrite, "write", "<filename> \"data\" - Writes data to a file", "Writes data to a file"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellWrite, "write", '<filename> "data" - Writes data to a file', "Writes data to a file"));
             // read
             this.commandList.push(new TSOS.ShellCommand(this.shellRead, "read", "<filename> - Reads data from a file", "Reads data from a file"));
             // ls
@@ -100,7 +100,7 @@ var TSOS;
             // Determine the command and execute it.
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
-            // command list in attempt to find a match. 
+            // command list in attempt to find a match.
             // TODO: Is there a better way? Probably. Someone work it out and tell me in class. Hey, I got the better solution here!
             // var index: number = 0;
             // var found: boolean = false;
@@ -120,13 +120,16 @@ var TSOS;
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
-                if (this.curses.indexOf("[" + TSOS.Utils.rot13(cmd) + "]") >= 0) { // Check for curses.
+                if (this.curses.indexOf("[" + TSOS.Utils.rot13(cmd) + "]") >= 0) {
+                    // Check for curses.
                     this.execute(this.shellCurse);
                 }
-                else if (this.apologies.indexOf("[" + cmd + "]") >= 0) { // Check for apologies.
+                else if (this.apologies.indexOf("[" + cmd + "]") >= 0) {
+                    // Check for apologies.
                     this.execute(this.shellApology);
                 }
-                else { // It's just a bad command. {
+                else {
+                    // It's just a bad command. {
                     this.execute(this.shellInvalidCommand);
                 }
             }
@@ -151,7 +154,7 @@ var TSOS;
             // lowercase and remove leading and trailing whitespace
             cmd = cmd.toLowerCase().trim();
             // trim each of the args in the list
-            args = args.map(arg => arg.trim());
+            args = args.map((arg) => arg.trim());
             return new TSOS.UserCommand(cmd, args);
         }
         //
@@ -186,7 +189,7 @@ var TSOS;
                 _StdOut.putText("For what?");
             }
         }
-        // Although args is unused in some of these functions, it is always provided in the 
+        // Although args is unused in some of these functions, it is always provided in the
         // actual parameter list when this function is called, so I feel like we need it.
         shellVer(args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
@@ -195,7 +198,10 @@ var TSOS;
             _StdOut.putText("Commands:");
             for (var i in _OsShell.commandList) {
                 _StdOut.advanceLine();
-                _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+                _StdOut.putText("  " +
+                    _OsShell.commandList[i].command +
+                    " " +
+                    _OsShell.commandList[i].description);
             }
         }
         shellShutdown(args) {
@@ -213,7 +219,8 @@ var TSOS;
             if (args.length > 0) {
                 const topic = args[0].toLowerCase();
                 // Get the manual entry, or if not found, say no manual entry
-                const manual = ((_a = _OsShell.commandList.find(cmd => cmd.command === topic)) === null || _a === void 0 ? void 0 : _a.manual) || "No manual entry for " + args[0] + ".";
+                const manual = ((_a = _OsShell.commandList.find((cmd) => cmd.command === topic)) === null || _a === void 0 ? void 0 : _a.manual) ||
+                    "No manual entry for " + args[0] + ".";
                 _StdOut.putText(manual);
             }
             else {
@@ -248,7 +255,7 @@ var TSOS;
         shellRot13(args) {
             if (args.length > 0) {
                 // Requires Utils.ts for rot13() function.
-                _StdOut.putText(args.join(' ') + " = '" + TSOS.Utils.rot13(args.join(' ')) + "'");
+                _StdOut.putText(args.join(" ") + " = '" + TSOS.Utils.rot13(args.join(" ")) + "'");
             }
             else {
                 _StdOut.putText("Usage: rot13 <string>  Please supply a string.");
@@ -267,7 +274,13 @@ var TSOS;
             _StdOut.putText("It is " + now.toDateString());
         }
         shellWhereAmI() {
-            const places = ["the beach", "the mall", "your house", "the park", "the library"];
+            const places = [
+                "the beach",
+                "the mall",
+                "your house",
+                "the park",
+                "the library",
+            ];
             const i = Math.floor(places.length * Math.random());
             _StdOut.putText("You are at " + places[i]);
         }
@@ -282,7 +295,7 @@ var TSOS;
         }
         shellStatus(args) {
             if (args.length > 0) {
-                document.getElementById('status').innerText = `Status: ${args.join(" ")}`;
+                document.getElementById("status").innerText = `Status: ${args.join(" ")}`;
             }
             else {
                 _StdOut.putText("Usage: status <string> Please supply a string.");
@@ -293,18 +306,21 @@ var TSOS;
             _Kernel.krnTrapError((_a = args === null || args === void 0 ? void 0 : args[0]) !== null && _a !== void 0 ? _a : "Successfully Failed");
         }
         shellLoad() {
-            const inputElm = document.getElementById("taProgramInput");
+            const inputElm = (document.getElementById("taProgramInput"));
             const userInput = inputElm.value;
             const result = TSOS.Utils.validateHexString(userInput);
             if (result) {
                 inputElm.value = result;
-                const pcb = _MemoryManager.load(result.split(" ").map(pair => parseInt(pair, 16)));
+                const pcb = _MemoryManager.load(result.split(" ").map((pair) => parseInt(pair, 16)));
                 // Check if any processes are ready or running on segment 0
                 if (!pcb) {
                     _StdOut.putText("There is no room in memory for this process");
                     return;
                 }
-                _StdOut.putText("Process ID " + pcb.PID + " loaded successfully to segment " + pcb.segment);
+                _StdOut.putText("Process ID " +
+                    pcb.PID +
+                    " loaded successfully to segment " +
+                    pcb.segment);
             }
             else {
                 _StdOut.putText("Program is not valid");
@@ -335,14 +351,13 @@ var TSOS;
         shellPs() {
             Array.from(_Scheduler.residentList)
                 .map(([pid, pcb]) => `PID: ${pid}        State: ${pcb.state}`)
-                .forEach(line => {
+                .forEach((line) => {
                 _StdOut.putText(line);
                 _StdOut.advanceLine();
             });
         }
         shellRunAll() {
-            Array.from(_Scheduler.residentList)
-                .forEach(([pid, pcb]) => {
+            Array.from(_Scheduler.residentList).forEach(([pid, pcb]) => {
                 if (pcb.state === "Resident") {
                     pcb.state = "Ready";
                     _Scheduler.readyQueue.enqueue(pid);
@@ -371,8 +386,7 @@ var TSOS;
             }
         }
         shellKillAll() {
-            Array.from(_Scheduler.residentList)
-                .forEach(([pid, pcb]) => {
+            Array.from(_Scheduler.residentList).forEach(([pid, pcb]) => {
                 if (pcb.state !== "Terminated") {
                     _Scheduler.killProcess(pid);
                 }
@@ -462,8 +476,10 @@ var TSOS;
                 return;
             }
             // check if a filename and data was provided in quotes
-            if (args.length !== 2 || args[1][0] !== "\"" || args[1][args[1].length - 1] !== "\"") {
-                _StdOut.putText("Usage: write <filename> \"data\"");
+            if (args.length !== 2 ||
+                args[1][0] !== '"' ||
+                args[1][args[1].length - 1] !== '"') {
+                _StdOut.putText('Usage: write <filename> "data"');
                 return;
             }
             // try to write to file

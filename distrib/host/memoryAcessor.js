@@ -1,10 +1,8 @@
 var TSOS;
 (function (TSOS) {
     class MemoryAccessor {
-        constructor() {
-        }
-        init() {
-        }
+        constructor() { }
+        init() { }
         read(address, pid = _Scheduler.runningProcess) {
             const [base, limit] = _Scheduler.residentList.get(pid).bounds;
             const physicalAddress = address + base;

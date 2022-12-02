@@ -23,7 +23,7 @@ var TSOS;
         static hostInit() {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
-            _Canvas = document.getElementById('display');
+            _Canvas = document.getElementById("display");
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d", { willReadFrequently: true });
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
@@ -41,14 +41,14 @@ var TSOS;
             _MemoryAccessor = new TSOS.MemoryAccessor();
             this.updateCPU();
             // --------------------- MEMORY UI -------------------------
-            const memoryTable = document.getElementById('memoryDisplay');
-            for (let i = 0x000; i <= 0x2F8; i += 8) {
-                const row = document.createElement('tr');
-                const address = document.createElement('th');
+            const memoryTable = document.getElementById("memoryDisplay");
+            for (let i = 0x000; i <= 0x2f8; i += 8) {
+                const row = document.createElement("tr");
+                const address = document.createElement("th");
                 address.innerText = "0x" + TSOS.Utils.toHexString(i, 3);
                 row.appendChild(address);
                 for (let j = 0; j < 8; j++) {
-                    const cell = document.createElement('td');
+                    const cell = document.createElement("td");
                     cell.innerText = "00";
                     row.appendChild(cell);
                 }
@@ -64,34 +64,34 @@ var TSOS;
                 _GLaDOS.init();
             }
             // set up a mouse listener for the tooltip functionality in the disk
-            document.addEventListener('mousemove', (e) => {
-                const tooltips = Array.from(document.querySelectorAll('.data-card'));
+            document.addEventListener("mousemove", (e) => {
+                const tooltips = (Array.from(document.querySelectorAll(".data-card")));
                 for (let tooltip of tooltips) {
-                    tooltip.style.left = e.pageX + 10 + 'px';
-                    tooltip.style.top = e.pageY + 10 + 'px';
+                    tooltip.style.left = e.pageX + 10 + "px";
+                    tooltip.style.top = e.pageY + 10 + "px";
                 }
             });
         }
         static updateMemory(address, value) {
-            const col = address % 8 + 2;
+            const col = (address % 8) + 2;
             const row = Math.floor(address / 8) + 1;
-            document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`).innerText = TSOS.Utils.toHexString(value, 2);
+            (document.querySelector(`#memoryDisplay > tr:nth-child(${row}) > td:nth-child(${col})`)).innerText = TSOS.Utils.toHexString(value, 2);
         }
         static updatePCBs() {
-            const pcbTableBody = document.querySelector("#taskManager > tbody");
-            const removeTerminated = document.querySelector("#terminatedToggle > input").checked;
+            const pcbTableBody = (document.querySelector("#taskManager > tbody"));
+            const removeTerminated = (document.querySelector("#terminatedToggle > input")).checked;
             const colors = {
-                "Resident": { fg: "black", bg: "#689ded" },
-                "Ready": { fg: "white", bg: "#0d5419" },
-                "Running": { fg: "black", bg: "#f07d30" },
-                "Terminated": { fg: "black", bg: "#b6c0cf" }
+                Resident: { fg: "black", bg: "#689ded" },
+                Ready: { fg: "white", bg: "#0d5419" },
+                Running: { fg: "black", bg: "#f07d30" },
+                Terminated: { fg: "black", bg: "#b6c0cf" },
             };
             let pcbRows = [];
             for (let pcb of _Scheduler.residentList.values()) {
                 // dont show the terminated processes if the toggle is off
                 if (removeTerminated && pcb.state === "Terminated")
                     continue;
-                const row = document.createElement('tr');
+                const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${pcb.PID}</td>
                     <td>${pcb.state}</td>
@@ -113,8 +113,8 @@ var TSOS;
             pcbTableBody.replaceChildren(...pcbRows);
         }
         static updateCPU() {
-            const cpuTableBody = document.querySelector("#cpuDisplay > tbody");
-            const row = document.createElement('tr');
+            const cpuTableBody = (document.querySelector("#cpuDisplay > tbody"));
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${TSOS.Utils.toHexString(_CPU.PC, 2)}</td>
                 <td>${TSOS.Utils.toHexString(_CPU.IR, 2)}</td>
@@ -128,21 +128,21 @@ var TSOS;
         static updateDisk() {
             if (!_krnDiskDriver.isFormatted)
                 return;
-            const diskTableBody = document.querySelector("#diskDisplay");
+            const diskTableBody = (document.querySelector("#diskDisplay"));
             let diskRows = [];
             for (let j = 0; j < _krnDiskDriver.sectors; j++) {
                 for (let k = 0; k < _krnDiskDriver.blocks; k++) {
-                    const row = document.createElement('div');
+                    const row = document.createElement("div");
                     for (let i = 0; i < _krnDiskDriver.tracks; i++) {
                         const loc = _krnDiskDriver.tsb(i, j, k);
                         const data = sessionStorage.getItem(loc).split(" ");
-                        const cell = document.createElement('span');
+                        const cell = document.createElement("span");
                         cell.innerText = loc;
                         // apply a class if the cell is in use
                         if (data[0] === "1") {
                             cell.classList.add("allocated");
                         }
-                        const dataCard = document.createElement('div');
+                        const dataCard = document.createElement("div");
                         dataCard.className = "data-card";
                         dataCard.innerHTML = `
                             <div class="data-card-header">
@@ -155,7 +155,9 @@ var TSOS;
                                 </div>
                                 <div class="data-card-row">
                                     <span class="data-card-label">Data:</span>
-                                    <span class="data-card-value">${data.slice(4).join(" ")}</span>
+                                    <span class="data-card-value">${data
+                            .slice(4)
+                            .join(" ")}</span>
                                 </div>
                             </div>
                         `;
@@ -173,7 +175,16 @@ var TSOS;
             // Note the REAL clock in milliseconds since January 1, 1970.
             var now = new Date().getTime();
             // Build the log string.
-            var str = "({ clock:" + clock + ", source:" + source + ", msg:" + msg + ", now:" + now + " })" + "\n";
+            var str = "({ clock:" +
+                clock +
+                ", source:" +
+                source +
+                ", msg:" +
+                msg +
+                ", now:" +
+                now +
+                " })" +
+                "\n";
             // Update the log console.
             var taLog = document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
@@ -182,13 +193,13 @@ var TSOS;
         static async loadingAnimation(millis) {
             const loading = document.getElementById("loading");
             const frog = document.getElementById("loading_frog");
-            const progressBar = document.getElementById("loading_bar");
-            const text = document.getElementById("loading_text");
+            const progressBar = (document.getElementById("loading_bar"));
+            const text = (document.getElementById("loading_text"));
             loading.style.display = "block";
             const timePerFrame = millis / 100;
             const frames = [];
             for (let i = 0; i < 100; i++) {
-                frames.push(new Promise(resolve => {
+                frames.push(new Promise((resolve) => {
                     setTimeout(() => {
                         progressBar.value = i;
                         // change the amount of dots after loading
@@ -221,9 +232,10 @@ var TSOS;
             // Disable the (passed-in) start button...
             btn.disabled = true;
             // .. enable the Halt, Reset, and SingleStep buttons ...
-            document.getElementById("btnHaltOS").disabled = false;
+            document.getElementById("btnHaltOS").disabled =
+                false;
             document.getElementById("btnReset").disabled = false;
-            document.getElementById("btnSingleStepToggle").disabled = false;
+            (document.getElementById("btnSingleStepToggle")).disabled = false;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             // Display the loading screen
@@ -236,9 +248,10 @@ var TSOS;
             // Add a automatically updating time
             _taskbarTimeID = setInterval(() => {
                 const now = new Date();
-                document.getElementById('time').innerText = `Time: ${now.toLocaleTimeString()}`;
+                document.getElementById("time").innerText = `Time: ${now.toLocaleTimeString()}`;
             }, 1000);
-            document.getElementById('date').innerText = "Date: " + new Date().toLocaleDateString();
+            document.getElementById("date").innerText =
+                "Date: " + new Date().toLocaleDateString();
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
@@ -261,7 +274,7 @@ var TSOS;
             // page from its cache, which is not what we want.
         }
         static hostBtnSingleStepEnable_click(btn) {
-            const singleStepOnceBtn = document.getElementById('btnSingleStepOnce');
+            const singleStepOnceBtn = (document.getElementById("btnSingleStepOnce"));
             _singleStepEnabled = !_singleStepEnabled;
             if (_singleStepEnabled) {
                 btn.className = "normal_button on";
@@ -276,7 +289,7 @@ var TSOS;
             _shouldStep = true;
         }
         static hostBtnToggleDisk_click(btn) {
-            const diskContainer = document.getElementById("diskContainer");
+            const diskContainer = (document.getElementById("diskContainer"));
             diskContainer.classList.toggle("open");
         }
     }

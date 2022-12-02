@@ -24,7 +24,8 @@ var TSOS;
         }
         resetXY() {
             this.currentXPosition = 0;
-            this.currentYPosition = this.currentYPosition = _Canvas.height - this.currentFontSize;
+            this.currentYPosition = this.currentYPosition =
+                _Canvas.height - this.currentFontSize;
         }
         handleInput() {
             var _a, _b;
@@ -32,7 +33,8 @@ var TSOS;
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
-                if (chr === "Enter" || chr === 13) { // the Enter key
+                if (chr === "Enter" || chr === 13) {
+                    // the Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
@@ -44,15 +46,17 @@ var TSOS;
                     const removed = this.buffer.charAt(this.buffer.length - 1);
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                     const charWidth = _DrawingContext.measureText(this.currentFont, this.currentFontSize, removed);
-                    const charHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + 1;
+                    const charHeight = this.currentFontSize +
+                        _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                        1;
                     _DrawingContext.clearRect(this.currentXPosition - charWidth, this.currentYPosition - this.currentFontSize, charWidth, charHeight);
                     this.currentXPosition -= charWidth;
                 }
                 else if (chr === "Tab") {
                     // command completion
                     const recs = _OsShell.commandList
-                        .filter(cmd => cmd.command.startsWith(this.buffer)) // get all the options where the command matches the beginning
-                        .map(cmd => cmd.command); // take only the command field
+                        .filter((cmd) => cmd.command.startsWith(this.buffer)) // get all the options where the command matches the beginning
+                        .map((cmd) => cmd.command); // take only the command field
                     // if there is only one option use it, otherwise find the largest subset of it
                     // roulette, rot13... r -> ro
                     // load, loadimage... lo -> load.... loadi -> loadimage
@@ -100,7 +104,8 @@ var TSOS;
         setBuffer(text) {
             //get the x position of the prompt
             const promptOffset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, _OsShell.promptStr);
-            const lineHeight = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
+            const lineHeight = this.currentFontSize +
+                _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
             // clear the line of existing text
             _DrawingContext.clearRect(promptOffset, this.currentYPosition - this.currentFontSize, //only count the ascent
             _Canvas.width, lineHeight + 1 // for some reason need to overshoot still
@@ -112,12 +117,12 @@ var TSOS;
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
-                Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
-                between the two. (Although TypeScript would. But we're compiling to JavaScipt anyway.)
-                So rather than be like PHP and write two (or more) functions that
-                do the same thing, thereby encouraging confusion and decreasing readability, I
-                decided to write one function and use the term "text" to connote string or char.
-            */
+                      Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
+                      between the two. (Although TypeScript would. But we're compiling to JavaScipt anyway.)
+                      So rather than be like PHP and write two (or more) functions that
+                      do the same thing, thereby encouraging confusion and decreasing readability, I
+                      decided to write one function and use the term "text" to connote string or char.
+                  */
             if (text !== "") {
                 // Get how big the text is to draw
                 let offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
@@ -126,7 +131,9 @@ var TSOS;
                     const words = text.split(" ");
                     let numWords = 0;
                     // loop while the words dont overflow the line
-                    while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, words.slice(0, numWords).join(" ")) + this.currentXPosition < _Canvas.width) {
+                    while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, words.slice(0, numWords).join(" ")) +
+                        this.currentXPosition <
+                        _Canvas.width) {
                         numWords++;
                     }
                     numWords--;
@@ -135,7 +142,9 @@ var TSOS;
                         const letters = words[0].split("");
                         let numLetters = 0;
                         // loop while the words dont overflow the line
-                        while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, letters.slice(0, numLetters).join("")) + this.currentXPosition < _Canvas.width) {
+                        while (TSOS.CanvasTextFunctions.measure(this.currentFont, this.currentFontSize, letters.slice(0, numLetters).join("")) +
+                            this.currentXPosition <
+                            _Canvas.width) {
                             numLetters++;
                         }
                         numLetters--;
@@ -166,8 +175,9 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             this.currentYPosition += dY;
-            if (this.currentYPosition > _Canvas.height) { // we need to scroll
-                const hist = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height); //pick up the data 
+            if (this.currentYPosition > _Canvas.height) {
+                // we need to scroll
+                const hist = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height); //pick up the data
                 this.clearScreen();
                 _DrawingContext.putImageData(hist, 0, -dY); // and move it somewhere else
                 this.currentYPosition = _Canvas.height - this.currentFontSize; // the cursor should be at the bottom now

@@ -36,10 +36,14 @@ var TSOS;
             // Listen for key press (keydown, actually) events in the Document
             // and call the simulation processor, which will in turn call the
             // OS interrupt handler.
-            document.getElementById('display').addEventListener("keydown", Devices.hostOnKeypress, false);
+            document
+                .getElementById("display")
+                .addEventListener("keydown", Devices.hostOnKeypress, false);
         }
         static hostDisableKeyboardInterrupt() {
-            document.getElementById('display').removeEventListener("keydown", Devices.hostOnKeypress, false);
+            document
+                .getElementById("display")
+                .removeEventListener("keydown", Devices.hostOnKeypress, false);
         }
         static hostOnKeypress(event) {
             // The canvas element CAN receive focus if you give it a tab index, which we have.
