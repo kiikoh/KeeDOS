@@ -57,7 +57,9 @@ var TSOS;
             // maybe delete old data first TODO
             const fatEntryData = sessionStorage.getItem(fatEntry).split(" ");
             // the file hasn't been written to yet
-            if (fatEntryData[1] === "0" && fatEntryData[2] === "0" && fatEntryData[3] === "0") {
+            if (fatEntryData[1] === "0" &&
+                fatEntryData[2] === "0" &&
+                fatEntryData[3] === "0") {
                 // find a location to a new data block
                 const freeBlock = this.findNextDataBlock();
                 if (freeBlock) {
@@ -80,7 +82,6 @@ var TSOS;
             let i = 0;
             while (typeof data[i] === "number" || data[i]) {
                 if (typeof data !== "string") {
-                    console.log(data[i].toString(16).padStart(2, "0"));
                     dataBlockData[4 + (i % 60)] = data[i].toString(16).padStart(2, "0");
                 }
                 else {
@@ -144,6 +145,30 @@ var TSOS;
                     const dataBlock = this.tsb(fileData[1], fileData[2], fileData[3]);
                     const data = this.decodeData(sessionStorage.getItem(dataBlock).split(" "));
                     return data;
+                }
+            }
+            return null;
+        }
+        readBytes(fileName) {
+            if (this.isFormatted) {
+                const fatEntry = this.findFATEntry(fileName);
+                if (fatEntry) {
+                    const fileData = sessionStorage.getItem(fatEntry).split(" ");
+                    const dataBlock = this.tsb(fileData[1], fileData[2], fileData[3]);
+                    let data = sessionStorage.getItem(dataBlock).split(" ");
+                    let index = 4;
+                    let readBytes = [];
+                    while (data[index] !== "0") {
+                        const charCode = parseInt(data[index], 16);
+                        readBytes.push(charCode);
+                        index++;
+                        if (index === 64) {
+                            const nextBlock = this.tsb(data[1], data[2], data[3]);
+                            data = sessionStorage.getItem(nextBlock).split(" ");
+                            index = 4;
+                        }
+                    }
+                    return readBytes;
                 }
             }
             return null;

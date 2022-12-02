@@ -21,7 +21,7 @@ var TSOS;
             }
             TSOS.Control.updatePCBs();
         }
-        update({ PC, IR, Acc, Xreg, Yreg, Zflag }) {
+        update({ PC, IR, Acc, Xreg, Yreg, Zflag, }) {
             this.PC = PC;
             this.IR = IR;
             this.Acc = Acc;
