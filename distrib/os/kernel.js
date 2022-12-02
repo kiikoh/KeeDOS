@@ -47,10 +47,31 @@ var TSOS;
             this.krnTrace("Creating and Launching the shell.");
             _OsShell = new TSOS.Shell();
             _OsShell.init();
+            _sleepTimerID = setTimeout(this.krnSleep, SLEEP_TIMEOUT);
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();
             }
+        }
+        krnWake() {
+            console.log("Wake event");
+            if (_sleeping) {
+                _DrawingContext.setTransform(1, 0, 0, 1, 0, 0);
+                _DrawingContext.putImageData(_sleepImageCanvas, 0, 0);
+            }
+            _sleeping = false;
+            clearTimeout(_sleepTimerID);
+            _sleepTimerID = setTimeout(this.krnSleep, SLEEP_TIMEOUT);
+            clearInterval(_screensaverIntervalID);
+        }
+        krnSleep() {
+            console.log("Entering Sleep");
+            if (!_sleeping) {
+                _sleepImageCanvas = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+                _Console.clearScreen();
+                _screensaverIntervalID = setInterval(_Console.screensaver, 10);
+            }
+            _sleeping = true;
         }
         krnShutdown() {
             this.krnTrace("begin shutdown OS");
@@ -82,6 +103,7 @@ var TSOS;
             }
             else if (_CPU.isExecuting) {
                 // If there are no interrupts then run one CPU cycle if there is anything being processed.
+                this.krnWake();
                 // if single step is disabled, then run, if its enabled, it must also be allowed to take the next step
                 if (!_singleStepEnabled || _shouldStep) {
                     _shouldStep = false;
@@ -110,6 +132,7 @@ var TSOS;
             // This is the Interrupt Handler Routine.  See pages 8 and 560.
             // Trace our entrance here so we can compute Interrupt Latency by analyzing the log file later on. Page 766.
             this.krnTrace("Handling IRQ~" + irq);
+            this.krnWake();
             // Invoke the requested Interrupt Service Routine via Switch/Case rather than an Interrupt Vector.
             // TODO: Consider using an Interrupt Vector in the future.
             // Note: There is no need to "dismiss" or acknowledge the interrupts in our design here.

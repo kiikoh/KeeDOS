@@ -12,7 +12,7 @@
 //
 const APP_NAME = "KeeDOS"; // 'cause Bob and I were at a loss for a better name.
 const APP_VERSION = "1.0"; // What did you expect?
-const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
+const CPU_CLOCK_INTERVAL = 50; // This is in ms (milliseconds) so 1000 = 1 second.
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
@@ -57,6 +57,12 @@ var _krnKeyboardDriver;
 let _krnDiskDriver;
 var _hardwareClockID;
 var _taskbarTimeID;
+const SLEEP_TIMEOUT = 120 * 1000; // millis to sleep after
+let _sleepTimerID;
+let _sleepImageCanvas;
+let _sleeping = false;
+let _screensaverState = { x: 30, y: 210, vx: 2, vy: 3, hue: 0 };
+let _screensaverIntervalID;
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados-ip*.js http://alanclasses.github.io/TSOS/test/ .
 var _GLaDOS = null; // If the above is linked in, this is the instantiated instance of Glados.
