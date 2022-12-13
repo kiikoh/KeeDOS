@@ -513,13 +513,13 @@ var TSOS;
                 _StdOut.putText("File not found");
             }
         }
-        shellLs() {
+        shellLs(args) {
             // check if disk is formatted
             if (!_krnDiskDriver.isFormatted) {
                 _StdOut.putText("Disk is not formatted");
                 return;
             }
-            const filenames = _krnDiskDriver.ls();
+            const filenames = _krnDiskDriver.ls(args[0] === "-a");
             if (filenames.length > 0) {
                 _StdOut.putText(filenames.join("   "));
             }

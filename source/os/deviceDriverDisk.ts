@@ -266,7 +266,7 @@ module TSOS {
       return false;
     }
 
-    public ls(): string[] {
+    public ls(showHidden = true): string[] {
       const files = [];
       for (let s = 0; s < this.sectors; s++) {
         for (let b = 0; b < this.blocks; b++) {
@@ -275,7 +275,10 @@ module TSOS {
 
           const block = sessionStorage.getItem(this.tsb(0, s, b)).split(" ");
           if (block[0] === "1") {
-            files.push(this.decodeData(block));
+            const blockData = this.decodeData(block);
+            if (blockData.startsWith("!")) continue;
+            if (blockData.startsWith(".") && !showHidden) continue;
+            files.push(blockData);
           }
         }
       }

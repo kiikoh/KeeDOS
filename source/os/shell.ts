@@ -827,15 +827,14 @@ module TSOS {
       }
     }
 
-    public shellLs(): void {
+    public shellLs(args: string[]): void {
       // check if disk is formatted
       if (!_krnDiskDriver.isFormatted) {
         _StdOut.putText("Disk is not formatted");
         return;
       }
 
-      const filenames = _krnDiskDriver.ls();
-
+      const filenames = _krnDiskDriver.ls(args[0] === "-a");
       if (filenames.length > 0) {
         _StdOut.putText(filenames.join("   "));
       } else {
