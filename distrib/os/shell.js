@@ -77,6 +77,7 @@ var TSOS;
             this.commandList.push(new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes a file", "Deletes a file"));
             this.commandList.push(new TSOS.ShellCommand(this.shellRename, "rename", "<filename> <newfilename> - Renames a file", "Renames a file"));
             this.commandList.push(new TSOS.ShellCommand(this.shellCopy, "copy", "<filename> <newfilename> - Copies a file", "Copies a file"));
+            this.commandList.push(new TSOS.ShellCommand(this.shellSleep, "sleep", "Sleeps the computer", "Sleeps the computer"));
             // Display the initial prompt.
             this.putPrompt();
             this.shellStatus(["Content"]);
@@ -605,6 +606,13 @@ var TSOS;
             else {
                 _StdOut.putText("Error copying file");
             }
+        }
+        shellSleep() {
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot sleep while a process is running");
+                return;
+            }
+            setTimeout(_Kernel.krnSleep, 100);
         }
     }
     TSOS.Shell = Shell;

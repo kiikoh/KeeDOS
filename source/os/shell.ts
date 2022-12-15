@@ -314,6 +314,15 @@ module TSOS {
         )
       );
 
+      this.commandList.push(
+        new ShellCommand(
+          this.shellSleep,
+          "sleep",
+          "Sleeps the computer",
+          "Sleeps the computer"
+        )
+      );
+
       // Display the initial prompt.
       this.putPrompt();
       this.shellStatus(["Content"]);
@@ -935,6 +944,15 @@ module TSOS {
       } else {
         _StdOut.putText("Error copying file");
       }
+    }
+
+    public shellSleep(): void {
+      if (_CPU.isExecuting) {
+        _StdOut.putText("Cannot sleep while a process is running");
+        return;
+      }
+
+      setTimeout(_Kernel.krnSleep, 100);
     }
   }
 }
